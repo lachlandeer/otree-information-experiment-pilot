@@ -1,6 +1,10 @@
 from os import environ
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=0)
-SESSION_CONFIGS = [dict(name='my_session', num_demo_participants=3, app_sequence=['GroupPreferenceElicitation', 'asset_live_game'])]
+SESSION_CONFIGS = [dict(name='my_session', 
+                        num_demo_participants=3, 
+                        app_sequence=['asset_indiv_no_game', 'GroupPreferenceElicitation', 'asset_live_game', 'CollectivismSurvey']
+                       )
+                  ]
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
