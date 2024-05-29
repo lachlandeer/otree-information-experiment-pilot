@@ -1,0 +1,36 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Next Round{{ endblock }}
+
+{{ block content }}
+
+
+{{ if player.round_number != C.NUM_ROUNDS }}
+
+<p>
+Click next to start the next decision task.    
+</p>
+
+{{ endif }}
+
+{{ if player.round_number == C.NUM_ROUNDS }}
+<p>
+   You have completed the {{C.NUM_ROUNDS}} decision task. 
+</p>
+
+<br>
+
+<p>
+    Your earnings from the task were {{player.payoff}}.
+</p>
+
+<br>
+
+<p>
+    Click Next to continue.
+</p>
+{{ endif }}
+
+
+{{ next_button }}
+
+{{ endblock }}

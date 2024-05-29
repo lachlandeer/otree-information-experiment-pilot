@@ -1,0 +1,20 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Results{{ endblock }}
+
+{{ block content }}
+
+
+
+<p>Your guess was {{ player.guess|to2 }}.</p>
+
+<p>The asset value was {{ player.asset_value}}</p>
+
+<p>The target price was {{ player.target_value|to2 }}</p>
+
+<p>Your profit is {{ player.earnings|to2 }}.</p>
+
+
+{{ next_button }}
+
+
+{{ endblock }}

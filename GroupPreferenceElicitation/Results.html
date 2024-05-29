@@ -1,0 +1,72 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Group Culture Results{{ endblock }}
+
+{{ block content }}
+
+<h4>
+    Summary of your choices:
+</h4>
+
+<br>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-wdau{border-color:#ffffff;color:#000000;font-size:18px;text-align:left;vertical-align:top}
+.tg .tg-fa7u{border-color:#ffffff;font-size:18px;text-align:left;vertical-align:top}
+</style>
+
+{{ if player.Individualism == "Individualist" }}
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/person.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</td>
+  </tr></thead>
+</table>
+
+{{ endif }}
+
+{{ if player.Individualism == "Collectivist" }}
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/people.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</td>
+  </tr></thead>
+</table>
+
+{{ endif }}
+
+<br>
+
+{{ if player.Uncertainty == "Avoider" }}
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/tower.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that prioritizes careful planning and risk management to achieve our group’s goals.</td>
+  </tr></thead>
+</table>
+
+{{ endif }}
+
+{{ if player.Uncertainty == "Seeker" }}
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/dice.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that values taking risks and embracing the unknown to achieve our group’s goals.</td>
+  </tr></thead>
+</table>
+
+{{ endif }}
+
+
+<br>
+{{ next_button }}
+
+{{ endblock }}

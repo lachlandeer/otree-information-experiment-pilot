@@ -1,0 +1,57 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Your Preferences{{ endblock }}
+
+{{ block content }}
+
+<p>Choose a statement below that resonates more with you to have a higher chance of working with group members that resonate with your choice.
+</p>
+
+<br>
+
+<p style="font-size:18px; ">
+<b>Statement A:</b>
+</p>
+
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-wdau{border-color:#ffffff;color:#000000;font-size:18px;text-align:left;vertical-align:top}
+.tg .tg-fa7u{border-color:#ffffff;font-size:18px;text-align:left;vertical-align:top}
+</style>
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/person.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</td>
+  </tr></thead>
+</table>
+
+<br>
+
+<p style="font-size:18px; ">
+<b>Statement B:</b>
+</p>
+
+<table class="tg"><thead>
+  <tr>
+    <td class="tg-wdau"> <img src="{{ static 'data/people.png' }}" width="32" height="32" /> </td>
+    <td class="tg-fa7u"> I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</td>
+  </tr></thead>
+</table>
+
+<br>
+
+<p style="font-size:18px; "><b>Your decision:</b>
+</p>
+
+{{ formfield 'Individualism' }}
+
+<br>
+
+{{ next_button }}
+
+{{ endblock }}

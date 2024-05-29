@@ -1,0 +1,47 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Survey{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Please read each statement carefully and select how much you agree with each statement.
+</p>
+
+<br>
+
+<table class="table">
+    <tr>
+        <td></td>
+        <td style='text-align:center; vertical-align: middle' width="75px">Strongly Disagree</td>
+        <td style='text-align:center; vertical-align: middle' width="75px"></td>
+        <td style='text-align:center; vertical-align: middle' width="75px"></td>
+        <td style='text-align:center; vertical-align: middle' width="75px">Indifferent</td>
+        <td style='text-align:center; vertical-align: middle' width="75px"> </td>
+        <td style='text-align:center; vertical-align: middle' width="75px"></td>
+        <td style='text-align:center' width="100px">Strongly Agree</td>
+    </tr>  
+    <tr>
+        <td></td>
+        <td style='text-align:center; vertical-align: middle' width="75px">1</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">2</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">3</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">4</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">5</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">6</td>
+        <td style='text-align:center; vertical-align: middle' width="75px">7</td>
+    </tr>  
+    {{ for field in form }}
+        <tr>
+            <th>{{ field.label }}</th>
+            {{ for choice in field }}
+                <td style='text-align:center; vertical-align: middle' width="75px">{{ choice }}</td>
+            {{ endfor }}
+        </tr>
+    {{ endfor }}
+</table>
+
+<br>
+
+{{ next_button }}
+
+{{ endblock }}

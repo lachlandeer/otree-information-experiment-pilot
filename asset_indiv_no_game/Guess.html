@@ -1,0 +1,135 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Guess the Target Value{{ endblock }}
+
+{{ block content }}
+
+
+This is round <b>{{player.round_number}}</b> of <b>{{C.NUM_ROUNDS}}</b>.
+
+<br>
+<br>
+
+<h4>
+    Your Tokens
+</h4>
+
+You need to allocate <b>{{C.ENDOWMENT}}</b> tokens to the information.
+
+<br>
+
+You have allocated <span id="summed-inputs">0</span> tokens so far.
+
+<br>
+
+You have <span id="remaining-inputs">100</span> left to allocate.
+
+<br>
+<br>
+
+<h4>
+    Token Allocation
+</h4>
+
+<br>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-baqh{text-align:center;vertical-align:top}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+</style>
+
+<table class="tg" style="font-size:18px; "><thead>
+  <tr>
+    <th class="tg-c3ow"></th>
+      <th class="tg-c3ow"><b>{{signal_1.player}}</b></th>
+      <th class="tg-c3ow"><b>{{signal_2.player}}</b></th>
+      <th class="tg-c3ow"><b>{{signal_3.player}}</b></th>
+      <th class="tg-baqh"><b>Mean Value</b></th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td class="tg-c3ow">Information</td>
+    <td class="tg-c3ow"> {{signal_1.value}} </td>
+    <td class="tg-c3ow"> {{signal_2.value}} </td>
+    <td class="tg-c3ow"> {{signal_3.value}} </td>
+    <td class="tg-baqh"> {{ C.MEAN_ASSET_VALUE }} </td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">Allocation of Tokens</td>
+    <td class="tg-c3ow">{{ formfield 'weight_signal_1' }}</td>
+    <td class="tg-c3ow">{{ formfield 'weight_signal_2' }}</td>
+    <td class="tg-c3ow">{{ formfield 'weight_signal_3' }}</td>
+    <td class="tg-c3ow">{{ formfield 'weight_signal_4' }}</td>
+  </tr>
+</tbody>
+</table>
+
+<br>
+
+<h4>
+    Target Price
+</h4>
+
+<p>
+    Your guess of the target price is <b><span id="target-price">0</span></b>
+</p>
+
+<p id="next-question">Do you wish to submit this guess?</p>
+<p id="next-button"><button id="next_button">Submit Target Price</button></p> 
+    
+
+
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+setTimeout(
+    function () {
+        alert("Please make your decision.");
+    },
+    60*1000 // 60 seconds
+);
+
+// do live calculations on inputs
+document.getElementById('next-button').style.visibility = "hidden";
+document.getElementById('next-question').style.visibility = "hidden";
+
+function allocatedWeights() {
+    let sum = parseFloat(forminputs.weight_signal_1.value) + parseFloat(forminputs.weight_signal_2.value) + parseFloat(forminputs.weight_signal_3.value) + parseFloat(forminputs.weight_signal_4.value);
+    document.getElementById('summed-inputs').innerHTML = sum.toFixed(2)
+    document.getElementById('remaining-inputs').innerHTML = (parseInt('100') - sum).toFixed(2)
+  
+  if (sum == 100) {
+          document.getElementById('summed-inputs').style.color = "green";
+          document.getElementById('next-button').style.visibility = "visible";
+    	  document.getElementById('next-question').style.visibility = "visible";
+        } else {
+          document.getElementById('summed-inputs').style.color = "red";
+          document.getElementById('next-button').style.visibility = "hidden";
+          document.getElementById('next-question').style.visibility = "hidden";
+        }
+}
+
+function calulateTargetPrice() {
+  let targetPrice = (1 / parseFloat('100') * (parseFloat(js_vars.signal1) * parseFloat(forminputs.weight_signal_1.value) + parseFloat(js_vars.signal2) * parseFloat(forminputs.weight_signal_2.value) + parseFloat(js_vars.signal3) * parseFloat(forminputs.weight_signal_3.value) + parseFloat(js_vars.signal4) * parseFloat(forminputs.weight_signal_4.value) )).toFixed(2)
+  document.getElementById('target-price').innerHTML = targetPrice
+}
+
+function updateValues(){
+  allocatedWeights()
+  calulateTargetPrice()
+}
+
+// set an event handler (for oninput/onchange/etc)
+forminputs.weight_signal_1.oninput = updateValues;
+forminputs.weight_signal_2.oninput = updateValues;
+forminputs.weight_signal_3.oninput = updateValues;
+forminputs.weight_signal_4.oninput = updateValues;
+
+</script>
+{{ endblock }}
