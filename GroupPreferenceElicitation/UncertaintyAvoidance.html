@@ -3,8 +3,7 @@
 
 {{ block content }}
 
-<p>Choose a statement below that resonates more with you to have a higher chance of working with group members that resonate with your choice.
-</p>
+<p>Choose a statement below that resonates more with you to have a higher chance of working with group members that resonate with your choice.</p>
 
 <br>
 
@@ -20,10 +19,20 @@
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-wdau{border-color:#ffffff;color:#000000;font-size:18px;text-align:left;vertical-align:top}
 .tg .tg-fa7u{border-color:#ffffff;font-size:18px;text-align:left;vertical-align:top}
+.radio-inline {
+    display: flex;
+    align-items: center;
+}
+.radio-inline input {
+    margin-right: 10px;
+}
 </style>
 
 <table class="tg"><thead>
   <tr>
+    <td class="tg-wdau">
+      <input type="radio" name="Uncertainty" value="Avoider">
+    </td>
     <td class="tg-wdau"> <img src="{{ static 'data/tower.png' }}" width="32" height="32" /> </td>
     <td class="tg-fa7u"> I prefer a group culture that prioritizes careful planning and risk management to achieve our group’s goals.</td>
   </tr></thead>
@@ -37,17 +46,13 @@
 
 <table class="tg"><thead>
   <tr>
+    <td class="tg-wdau">
+      <input type="radio" name="Uncertainty" value="Seeker">
+    </td>
     <td class="tg-wdau"> <img src="{{ static 'data/dice.png' }}" width="32" height="32" /> </td>
     <td class="tg-fa7u"> I prefer a group culture that values taking risks and embracing the unknown to achieve our group’s goals.</td>
   </tr></thead>
 </table>
-
-<br>
-
-<p style="font-size:18px; "><b>Your decision:</b>
-</p>
-
-{{ formfield 'Uncertainty' }}
 
 <br>
 

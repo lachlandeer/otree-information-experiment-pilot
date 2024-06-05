@@ -3,15 +3,13 @@
 
 {{ block content }}
 
-<p>Choose a statement below that resonates more with you to have a higher chance of working with group members that resonate with your choice.
-</p>
+<p>Choose a statement below that resonates more with you to have a higher chance of working with group members that resonate with your choice.</p>
 
 <br>
 
 <p style="font-size:18px; ">
 <b>Statement A:</b>
 </p>
-
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -21,34 +19,40 @@
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-wdau{border-color:#ffffff;color:#000000;font-size:18px;text-align:left;vertical-align:top}
 .tg .tg-fa7u{border-color:#ffffff;font-size:18px;text-align:left;vertical-align:top}
+.radio-inline {
+    display: flex;
+    align-items: center;
+}
+.radio-inline input {
+    margin-right: 10px;
+}
 </style>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau"> <img src="{{ static 'data/person.png' }}" width="32" height="32" /> </td>
-    <td class="tg-fa7u"> I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</td>
+    <td class="tg-wdau">
+      <input type="radio" name="Individualism" value="Individualist">
+    </td>
+    <td class="tg-wdau"><img src="{{ static 'data/person.png' }}" width="32" height="32" /></td>
+    <td class="tg-fa7u">I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</td>
   </tr></thead>
 </table>
 
 <br>
 
-<p style="font-size:18px; ">
+<p style="font-size:18px;">
 <b>Statement B:</b>
 </p>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau"> <img src="{{ static 'data/people.png' }}" width="32" height="32" /> </td>
-    <td class="tg-fa7u"> I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</td>
+    <td class="tg-wdau">
+      <input type="radio" name="Individualism" value="Collectivist">
+    </td>
+    <td class="tg-wdau"><img src="{{ static 'data/people.png' }}" width="32" height="32" /></td>
+    <td class="tg-fa7u">I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</td>
   </tr></thead>
 </table>
-
-<br>
-
-<p style="font-size:18px; "><b>Your decision:</b>
-</p>
-
-{{ formfield 'Individualism' }}
 
 <br>
 
