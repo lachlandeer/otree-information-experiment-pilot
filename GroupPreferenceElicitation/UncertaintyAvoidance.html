@@ -7,9 +7,12 @@
 
 <br>
 
-<p style="font-size:18px; ">
-<b>Statement A:</b>
-</p>
+<div class="statement-container">
+  <label class="radio-inline">
+    <input type="radio" name="Uncertainty" value="Avoider">
+    <span style="font-size:18px;"><b>Statement A:</b></span>
+  </label>
+</div>
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -22,35 +25,38 @@
 .radio-inline {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 .radio-inline input {
     margin-right: 10px;
+}
+.statement-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 </style>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau">
-      <input type="radio" name="Uncertainty" value="Avoider">
-    </td>
-    <td class="tg-wdau"> <img src="{{ static 'data/tower.png' }}" width="32" height="32" /> </td>
-    <td class="tg-fa7u"> I prefer a group culture that prioritizes careful planning and risk management to achieve our group’s goals.</td>
+    <td class="tg-wdau"><img src="{{ static 'data/tower.png' }}" width="32" height="32" /></td>
+    <td class="tg-fa7u">I prefer a group culture that prioritizes careful planning and risk management to achieve our group’s goals.</td>
   </tr></thead>
 </table>
 
 <br>
 
-<p style="font-size:18px; ">
-<b>Statement B:</b>
-</p>
+<div class="statement-container">
+  <label class="radio-inline">
+    <input type="radio" name="Uncertainty" value="Seeker">
+    <span style="font-size:18px;"><b>Statement B:</b></span>
+  </label>
+</div>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau">
-      <input type="radio" name="Uncertainty" value="Seeker">
-    </td>
-    <td class="tg-wdau"> <img src="{{ static 'data/dice.png' }}" width="32" height="32" /> </td>
-    <td class="tg-fa7u"> I prefer a group culture that values taking risks and embracing the unknown to achieve our group’s goals.</td>
+    <td class="tg-wdau"><img src="{{ static 'data/dice.png' }}" width="32" height="32" /></td>
+    <td class="tg-fa7u">I prefer a group culture that values taking risks and embracing the unknown to achieve our group’s goals.</td>
   </tr></thead>
 </table>
 

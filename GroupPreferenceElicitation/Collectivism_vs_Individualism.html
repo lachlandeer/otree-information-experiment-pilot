@@ -7,9 +7,12 @@
 
 <br>
 
-<p style="font-size:18px; ">
-<b>Statement A:</b>
-</p>
+<div class="statement-container">
+  <label class="radio-inline">
+    <input type="radio" name="Individualism" value="Individualist">
+    <span style="font-size:18px;"><b>Statement A:</b></span>
+  </label>
+</div>
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -22,17 +25,20 @@
 .radio-inline {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 .radio-inline input {
     margin-right: 10px;
+}
+.statement-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 </style>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau">
-      <input type="radio" name="Individualism" value="Individualist">
-    </td>
     <td class="tg-wdau"><img src="{{ static 'data/person.png' }}" width="32" height="32" /></td>
     <td class="tg-fa7u">I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</td>
   </tr></thead>
@@ -40,15 +46,15 @@
 
 <br>
 
-<p style="font-size:18px;">
-<b>Statement B:</b>
-</p>
+<div class="statement-container">
+  <label class="radio-inline">
+    <input type="radio" name="Individualism" value="Collectivist">
+    <span style="font-size:18px;"><b>Statement B:</b></span>
+  </label>
+</div>
 
 <table class="tg"><thead>
   <tr>
-    <td class="tg-wdau">
-      <input type="radio" name="Individualism" value="Collectivist">
-    </td>
     <td class="tg-wdau"><img src="{{ static 'data/people.png' }}" width="32" height="32" /></td>
     <td class="tg-fa7u">I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</td>
   </tr></thead>
