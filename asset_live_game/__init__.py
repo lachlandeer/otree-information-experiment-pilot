@@ -201,12 +201,6 @@ class Guess(Page):
         }
         
         print(task_ordered)
-        
-        player.signal_1 = group.signal_1
-        player.signal_2 = group.signal_2
-        player.signal_3 = group.signal_3
-        player.signal_4 = C.MEAN_ASSET_VALUE
-        player.asset_value = group.asset_value
 
         all_players_data = []
         for p in group.get_players():
@@ -222,6 +216,13 @@ class Guess(Page):
                 signal_value = group.signal_3
                 signal_owner = "signal_3"
 
+            if p.id_in_group == 1:
+                player.signal_1 = signal_value
+            elif p.id_in_group == 2:
+                player.signal_2 = signal_value
+            elif p.id_in_group == 3:
+                player.signal_3 = signal_value
+
             all_players_data.append({
                 'id': p.id_in_group,
                 'individualism': p.participant.vars['Individualism'],
@@ -231,9 +232,12 @@ class Guess(Page):
                 'signal_owner': signal_owner
             })
         
+        player.signal_4 = C.MEAN_ASSET_VALUE
+        player.asset_value = group.asset_value
+        
         print(f'Signal 1 owner: {group.signal_1_owner}')
         print(f'Signal 2 owner: {group.signal_2_owner}')
-        print(f'Signal 2 owner: {group.signal_3_owner}')
+        print(f'Signal 3 owner: {group.signal_3_owner}')
 
         return {
             'task_ordered': task_ordered,
