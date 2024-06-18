@@ -3,7 +3,6 @@
 
 {{ block content }}
 
-
 This is round <b>{{player.round_number}}</b> of <b>{{C.NUM_ROUNDS}}</b>.
 
 <br>
@@ -33,7 +32,7 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 <br>
 
 <p>
-    You are <b>Player {{player.id_in_group}} </b>
+    You are <b>Member {{player.id_in_group}} </b>
 </p>
 
 <br>
@@ -51,17 +50,27 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 <table class="tg" style="font-size:18px; "><thead>
   <tr>
     <th class="tg-c3ow"></th>
-      <th class="tg-c3ow"><b>{{group.signal_1_owner}}</b></th>
-      <th class="tg-c3ow"><b>{{group.signal_2_owner}}</b></th>
-      <th class="tg-c3ow"><b>{{group.signal_3_owner}}</b></th>
+      {% for player_data in all_players_data %}
+        <th class="tg-c3ow">
+          <b>Member {{ player_data.id }}{% if player_data.is_me %} (me){% endif %}</b>
+          <br>
+          {% if show_icons %}
+              {% if player_data.individualism == 'Individualist' %}
+                <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
+              {% else %}
+                <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
+              {% endif %}
+            {% endif %}
+        </th>
+      {% endfor %}
       <th class="tg-baqh"><b>Mean Value</b></th>
   </tr></thead>
 <tbody>
   <tr>
     <td class="tg-c3ow">Information</td>
-    <td class="tg-c3ow"> {{player.signal_1}} </td>
-    <td class="tg-c3ow"> {{player.signal_2}} </td>
-    <td class="tg-c3ow"> {{player.signal_3}} </td>
+      {% for player_data in all_players_data %}
+        <td class="tg-c3ow">{{ player_data.signal_value }}</td>
+      {% endfor %}
     <td class="tg-baqh"> {{ C.MEAN_ASSET_VALUE }} </td>
   </tr>
   <tr>
@@ -87,8 +96,6 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 <p id="next-question">Do you wish to submit this guess?</p>
 <p id="next-button"><button id="next_button">Submit Target Price</button></p> 
     
-
-
 
 {{ endblock }}
 

@@ -14,8 +14,10 @@ class C(BaseConstants):
     TASKS = (1, 2)
     N_TASKS = 2
     INSTRUCTIONS_TEMPLATE = 'asset_live_game/instructions.html'
+
 class Subsession(BaseSubsession):
     pass
+
 class Group(BaseGroup):
     sum_guess = models.FloatField()
     signal_1 = models.FloatField()
@@ -43,8 +45,7 @@ def creating_rounds(group: Group):
                 p.participant.vars['task_rounds'] = dict(zip(C.TASKS, round_numbers))
                 print("Matching Rounds to Tasks")
                 print(p.participant.vars['task_rounds'])
-    
-    
+
 def set_earnings(group: Group):
     players = group.get_players()
     guesses = [p.guess for p in players]
@@ -124,6 +125,7 @@ def get_values(group: Group):
     #print(this_task)
     
     return(this_task)
+
 def order_signals(group: Group):
     import random
     
@@ -154,7 +156,7 @@ def order_signals(group: Group):
     group.signal_3_owner = task_ordered['signal_3']['player']
     #group.signal_4 = C.MEAN_ASSET_VALUE
     group.asset_value    = task['asset_value']
-    
+
 class Player(BasePlayer):
     weight_signal_1 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     weight_signal_2 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
@@ -169,13 +171,17 @@ class Player(BasePlayer):
     asset_value = models.FloatField()
     earnings = models.FloatField()
     peer_price = models.FloatField()
+
 class ChoosingTask(WaitPage):
     after_all_players_arrive = creating_rounds
+
 class SetSignals(WaitPage):
     after_all_players_arrive = order_signals
+
 class Guess(Page):
     form_model = 'player'
     form_fields = ['weight_signal_4', 'weight_signal_1', 'weight_signal_2', 'weight_signal_3']
+
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
@@ -186,18 +192,59 @@ class Guess(Page):
         #task = order_signals(group)
         
         # rename signals for display
-        new_key = ["signal_1", "signal_2", "signal_3"]
-        task_ordered = dict(zip(new_key, list([group.signal_1, group.signal_2, group.signal_3])))
+        # new_key = ["signal_1", "signal_2", "signal_3"]
+        # task_ordered = dict(zip(new_key, list([group.signal_1, group.signal_2, group.signal_3])))
+        task_ordered = {
+            "signal_1": group.signal_1,
+            "signal_2": group.signal_2,
+            "signal_3": group.signal_3
+        }
         
         print(task_ordered)
+
+        all_players_data = []
+        for p in group.get_players():
+            signal_value = None
+            signal_owner = None
+            if group.signal_1_owner == f"Player {p.id_in_group}":
+                signal_value = group.signal_1
+                signal_owner = "signal_1"
+            elif group.signal_2_owner == f"Player {p.id_in_group}":
+                signal_value = group.signal_2
+                signal_owner = "signal_2"
+            elif group.signal_3_owner == f"Player {p.id_in_group}":
+                signal_value = group.signal_3
+                signal_owner = "signal_3"
+
+            if p.id_in_group == 1:
+                player.signal_1 = signal_value
+            elif p.id_in_group == 2:
+                player.signal_2 = signal_value
+            elif p.id_in_group == 3:
+                player.signal_3 = signal_value
+
+            all_players_data.append({
+                'id': p.id_in_group,
+                'individualism': p.participant.vars['Individualism'],
+                'uncertainty': p.participant.vars['Uncertainty'],
+                'is_me': p.id_in_group == player.id_in_group,
+                'signal_value': signal_value,
+                'signal_owner': signal_owner
+            })
         
-        player.signal_1 = group.signal_1
-        player.signal_2 = group.signal_2
-        player.signal_3 = group.signal_3
         player.signal_4 = C.MEAN_ASSET_VALUE
         player.asset_value = group.asset_value
         
-        return task_ordered
+        print(f'Signal 1 owner: {group.signal_1_owner}')
+        print(f'Signal 2 owner: {group.signal_2_owner}')
+        print(f'Signal 3 owner: {group.signal_3_owner}')
+
+        return {
+            'task_ordered': task_ordered,
+            'all_players_data': all_players_data,
+            'show_icons': True # control whether to display the icons
+        }
+
     @staticmethod
     def js_vars(player: Player):
         
@@ -207,6 +254,7 @@ class Guess(Page):
             signal3 = player.signal_3,
             signal4 = 100
         )
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         # compute guess
@@ -227,8 +275,10 @@ class Guess(Page):
         
         if allocated_tokens != 100.0:
             return 'The allocation of tokens to information must add up to 100'
+
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_earnings
+
 class Results(Page):
     form_model = 'player'
     timeout_seconds = 15
@@ -245,6 +295,7 @@ class Results(Page):
             #participant.selected_round = random_round
             player_in_selected_round = player.in_round(random_round)
             player.payoff = player_in_selected_round.earnings
+
 class NextRoundSoon(Page):
     form_model = 'player'
     timeout_seconds = 15
