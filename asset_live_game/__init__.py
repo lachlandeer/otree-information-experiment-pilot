@@ -282,35 +282,21 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     form_model = 'player'
     timeout_seconds = 15
+    
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        import random
-        
-        # if it's the last round -- we have to pay a random round
-        if player.round_number == C.NUM_ROUNDS:
-            random_round = random.randint(1, C.NUM_ROUNDS)
-        
-            participant.vars['selected_round'] = random_round
-            #participant.selected_round = random_round
-            player_in_selected_round = player.in_round(random_round)
-            player.payoff = player_in_selected_round.earnings
+        if participant.vars['selected_app'] == 'asset_live_game':
+            if player.round_number == participant.vars['selected_round']:
+                player.participant.vars['random_payment'] = player.earnings
 
 class NextRoundSoon(Page):
     form_model = 'player'
     timeout_seconds = 15
     timer_text = 'Time until the next task:'
+
     @staticmethod
     def is_displayed(player: Player):
-        
         return True
-    @staticmethod
-    def vars_for_template(player: Player):
-        participant = player.participant
-        
-        if player.round_number == C.NUM_ROUNDS:
-            payment_round = participant.vars['selected_round']
-            return {'payment': payment_round}
-        else:
-            return dict()
+
 page_sequence = [ChoosingTask, SetSignals, Guess, ResultsWaitPage, Results, NextRoundSoon]
