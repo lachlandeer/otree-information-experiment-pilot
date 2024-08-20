@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+
+{% block content %}
+
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+        }
+        .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        }
+    </style>
+
+    <h3>Three signals</h3>
+    <div class="row">
+        <div class="column">
+            <img src="/static/data/three_signals.png" alt="Signal Distribution" style="width: 90%;">
+        </div>
+        <div class="column">
+            <p>After V is selected, three signals about V, ranging from V-50 to V+50, will be randomly selected by the computer.</p>
+            <p>Again, the height of each bar shows the chance of each number being selected as a signal. The shape is exactly the same as the one in the Asset Value figure you have seen in the last screen. The selected value V is the average of all potential signals, and it has the highest chance of being selected as a signal.</p>
+            <p>Values closer to V are more likely to be selected as a signal than those further away from V.</p>
+        </div>
+    </div>
+
+    <button class="otree-btn-next btn btn-primary">Proceed to Decision Problems</button>
+
+{% endblock %}

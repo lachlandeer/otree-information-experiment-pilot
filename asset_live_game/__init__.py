@@ -6,243 +6,176 @@ doc = '\nTBA'
 class C(BaseConstants):
     NAME_IN_URL = 'asset_live_game'
     PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 10
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
-    TASKS = (1, 2)
-    N_TASKS = 2
-    INSTRUCTIONS_TEMPLATE = 'asset_live_game/instructions.html'
 
 class Subsession(BaseSubsession):
     pass
 
 class Group(BaseGroup):
+    condition = models.IntegerField()
+    asset_value = models.IntegerField()
+    signal_1 = models.IntegerField()
+    signal_2 = models.IntegerField()
+    signal_3 = models.IntegerField()
+    signal_1_owner = models.IntegerField()
+    signal_2_owner = models.IntegerField()
+    signal_3_owner = models.IntegerField()
+    signal_1_owner_individualism = models.StringField()
+    signal_2_owner_individualism = models.StringField()
+    signal_3_owner_individualism = models.StringField()
     sum_guess = models.FloatField()
-    signal_1 = models.FloatField()
-    signal_2 = models.FloatField()
-    signal_3 = models.FloatField()
-    asset_value = models.FloatField()
-    signal_1_owner = models.StringField()
-    signal_2_owner = models.StringField()
-    signal_3_owner = models.StringField()
-def creating_rounds(group: Group):
-    session = group.session
-    subsession = group.subsession
+
+def set_condition(group: Group):
+    # condition = 1 if SSS - signals with no ownership
+    # condition = 2 if SSS - effect of ownership
+    # condition = 3 if people see the cultural background of other players
     import random
-    
-    #player = group.player
-    
-    #randomize the task order
-    if subsession.round_number == 1:
-        for g in subsession.get_groups():
-            round_numbers = list(range(1, C.N_TASKS+1))
-            random.shuffle(round_numbers)
-    
-            # do the full assignment, but will only play the first round        
-            for p in group.get_players():
-                p.participant.vars['task_rounds'] = dict(zip(C.TASKS, round_numbers))
-                print("Matching Rounds to Tasks")
-                print(p.participant.vars['task_rounds'])
+    group.condition = random.randint(1, 3)
+    for player in group.get_players():
+        player.participant.vars['condition'] = group.condition
+
+def sample_value(mean_value=100, std_dev=10):
+    import random
+    import numpy as np
+    from scipy.stats import norm
+    value_range = np.linspace(mean_value - 50, mean_value + 50, 101)
+    pdf_values = norm.pdf(value_range, mean_value, std_dev)
+    random_number = random.choices(value_range, pdf_values)[0]
+    return random_number
+
+def get_values(group: Group):
+    import random
+    group.asset_value = int(sample_value())
+    signals = [int(sample_value(mean_value=group.asset_value)) for _ in range(3)]
+    player_id_list = list(range(1, 4))
+    random.shuffle(player_id_list)
+    group.signal_1 = signals[0]
+    group.signal_2 = signals[1]
+    group.signal_3 = signals[2]
+    for signal_id, player_id in enumerate(player_id_list):
+        player = group.get_player_by_id(player_id)
+        player.signal = signals[signal_id]
+        if signal_id == 0:
+            group.signal_1_owner = player_id
+            group.signal_1_owner_individualism = player.participant.vars['Individualism']
+        elif signal_id == 1:
+            group.signal_2_owner = player_id
+            group.signal_2_owner_individualism = player.participant.vars['Individualism']
+        elif signal_id == 2:
+            group.signal_3_owner = player_id
+            group.signal_3_owner_individualism = player.participant.vars['Individualism']
+        player.asset_value = group.asset_value
+        player.signal_1 = signals[0]
+        player.signal_2 = signals[1]
+        player.signal_3 = signals[2]
+        player.signal_4 = 100
+
+def creating_rounds(group: Group):
+    get_values(group)
 
 def set_earnings(group: Group):
     players = group.get_players()
     guesses = [p.guess for p in players]
-    
-    #print(guesses)
-    
     group.sum_guess = sum(guesses)
-    #group.avg_guess = group.sum_guess / C.PLAYERS_PER_GROUP
-    #print(group.avg_guess)
-    
-    # not correct, but here for simplicity for the moment
-    # are we sure its the average of OTHERS actions?
-    # means each player has a different target value
-    #group.target_value = 0.5*group.asset_value + 0.5*group.avg_guess
-    
-    #print(group.target_value)
-    
+    sum_signal_1_weights = sum([p.weight_signal_1 for p in players])
+    sum_signal_2_weights = sum([p.weight_signal_2 for p in players])
+    sum_signal_3_weights = sum([p.weight_signal_3 for p in players])
+    sum_signal_4_weights = sum([p.weight_signal_4 for p in players])
     for p in players:
         p.peer_price = (group.sum_guess - p.guess) / (C.PLAYERS_PER_GROUP - 1)
-        p.target_value = 0.5*group.asset_value + 0.5*p.peer_price
-    
+        p.target_value = 0.5 * group.asset_value + 0.5 * p.peer_price
         p.earnings = C.PAYOFF_SCALER - (p.guess - p.target_value)**2
-    
         p.earnings = round(p.earnings, 2)
-        #player.target_value = target_value
-    
-def get_values(group: Group):
-    player = group.get_player_by_id(1)
-    
-    # tasks
-    # Nested dictionary having same keys
-    tasks = { 
-               1: {'task': 1, 
-                           'asset_value': 102,
-                           'signal_1': {
-                               'player': "Player 1",
-                               'value': 111
-                           },
-                           'signal_2': {
-                               'player': "Player 2",
-                               'value': 125
-                           },
-    
-                           'signal_3': {
-                               'player': "Player 3",
-                               'value': 121
-                           }
-                          },
-               2: {'task': 2, 
-                           'asset_value': 97,
-                           'signal_1': {
-                               'player': "Player 1",
-                               'value': 114
-                           },
-                           'signal_2': {
-                               'player': "Player 2",
-                               'value': 98
-                           },
-    
-                           'signal_3': {
-                               'player': "Player 3",
-                               'value': 118
-                           }
-                          }
-              }
-    
-    # get the task for this round -- after randomizing
-    print("The round is:")
-    print(group.round_number)
-    
-    #print("We will play the following task:")
-    #player.participant.vars['task_rounds'][player.round_number]
-    task_index = player.participant.vars['task_rounds'][group.round_number]
-    #print(task_index)
-    #this_task = tasks[group.round_number]
-    this_task = tasks[task_index]
-    #print(this_task)
-    
-    return(this_task)
-
-def order_signals(group: Group):
-    import random
-    
-    task = get_values(group)
-    
-    signals = {k: v for k, v in task.items() if k.startswith('signal')}
-    
-    # random signal order
-    keys_to_reorder = list(signals.items())
-    random.shuffle(keys_to_reorder)
-    signals_shuffled = dict(keys_to_reorder)
-    
-    # rename signals for display
-    new_key = ["signal_1", "signal_2", "signal_3"]
-    task_ordered = dict(zip(new_key, list(signals_shuffled.values())))
-    
-    # add the asset value back in with the shuffled signals
-    task_ordered['asset_value'] = task['asset_value']
-    
-    #print("This is the signal order")
-    #print(task_ordered)
-    
-    group.signal_1       = task_ordered['signal_1']['value']
-    group.signal_1_owner = task_ordered['signal_1']['player']
-    group.signal_2       = task_ordered['signal_2']['value']
-    group.signal_2_owner = task_ordered['signal_2']['player']
-    group.signal_3       = task_ordered['signal_3']['value']
-    group.signal_3_owner = task_ordered['signal_3']['player']
-    #group.signal_4 = C.MEAN_ASSET_VALUE
-    group.asset_value    = task['asset_value']
+        # save record
+        task = {
+            'round_num': group.round_number,
+            'condition': p.participant.vars['condition'],
+            'player_id': p.id_in_group,
+            'signal': p.signal,
+            'signal_1': group.signal_1,
+            'signal_1_owner': group.signal_1_owner,
+            'signal_1_owner_individualism': group.signal_1_owner_individualism,
+            'signal_1_weight': p.weight_signal_1,
+            'signal_1_avg_peer_weight': (sum_signal_1_weights - p.weight_signal_1) / 2,
+            'signal_2': group.signal_2,
+            'signal_2_owner': group.signal_2_owner,
+            'signal_2_owner_individualism': group.signal_2_owner_individualism,
+            'signal_2_weight': p.weight_signal_2,
+            'signal_2_avg_peer_weight': (sum_signal_2_weights - p.weight_signal_2) / 2,
+            'signal_3': group.signal_3,
+            'signal_3_owner': group.signal_3_owner,
+            'signal_3_owner_individualism': group.signal_3_owner_individualism,
+            'signal_3_weight': p.weight_signal_3,
+            'signal_3_avg_peer_weight': (sum_signal_3_weights - p.weight_signal_3) / 2,
+            'signal_4_avg_peer_weight': (sum_signal_4_weights - p.weight_signal_4) / 2
+        }
+        task_idx = 'task_' + str(group.round_number)
+        p.participant.vars[task_idx] = task
+        # print(task_idx + ':')
+        # print(task)
 
 class Player(BasePlayer):
+    signal = models.IntegerField()
     weight_signal_1 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     weight_signal_2 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     weight_signal_3 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     weight_signal_4 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     guess = models.FloatField()
-    signal_1 = models.FloatField()
-    signal_2 = models.FloatField()
-    signal_3 = models.FloatField()
-    signal_4 = models.FloatField()
+    signal_1 = models.IntegerField()
+    signal_2 = models.IntegerField()
+    signal_3 = models.IntegerField()
+    signal_4 = models.IntegerField()
     target_value = models.FloatField()
     asset_value = models.FloatField()
     earnings = models.FloatField()
     peer_price = models.FloatField()
 
+class ConditionSetPage(WaitPage):
+    after_all_players_arrive = set_condition
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class Instructions(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class AssetValueIllustration(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class ThreeSignalsIllustration(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class Example(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
 class ChoosingTask(WaitPage):
     after_all_players_arrive = creating_rounds
-
-class SetSignals(WaitPage):
-    after_all_players_arrive = order_signals
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return True
 
 class Guess(Page):
     form_model = 'player'
-    form_fields = ['weight_signal_4', 'weight_signal_1', 'weight_signal_2', 'weight_signal_3']
+    form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
 
     @staticmethod
     def vars_for_template(player: Player):
-        group = player.group
-        
-        #task = get_values(group)
-        
-        #signals = {k: v for k, v in task.items() if k.startswith('signal')}
-        #task = order_signals(group)
-        
-        # rename signals for display
-        # new_key = ["signal_1", "signal_2", "signal_3"]
-        # task_ordered = dict(zip(new_key, list([group.signal_1, group.signal_2, group.signal_3])))
-        task_ordered = {
-            "signal_1": group.signal_1,
-            "signal_2": group.signal_2,
-            "signal_3": group.signal_3
-        }
-        
-        print(task_ordered)
-
-        all_players_data = []
-        for p in group.get_players():
-            signal_value = None
-            signal_owner = None
-            if group.signal_1_owner == f"Player {p.id_in_group}":
-                signal_value = group.signal_1
-                signal_owner = "signal_1"
-            elif group.signal_2_owner == f"Player {p.id_in_group}":
-                signal_value = group.signal_2
-                signal_owner = "signal_2"
-            elif group.signal_3_owner == f"Player {p.id_in_group}":
-                signal_value = group.signal_3
-                signal_owner = "signal_3"
-
-            if p.id_in_group == 1:
-                player.signal_1 = signal_value
-            elif p.id_in_group == 2:
-                player.signal_2 = signal_value
-            elif p.id_in_group == 3:
-                player.signal_3 = signal_value
-
-            all_players_data.append({
-                'id': p.id_in_group,
-                'individualism': p.participant.vars['Individualism'],
-                'uncertainty': p.participant.vars['Uncertainty'],
-                'is_me': p.id_in_group == player.id_in_group,
-                'signal_value': signal_value,
-                'signal_owner': signal_owner
-            })
-        
-        player.signal_4 = C.MEAN_ASSET_VALUE
-        player.asset_value = group.asset_value
-        
-        print(f'Signal 1 owner: {group.signal_1_owner}')
-        print(f'Signal 2 owner: {group.signal_2_owner}')
-        print(f'Signal 3 owner: {group.signal_3_owner}')
-
         return {
-            'task_ordered': task_ordered,
-            'all_players_data': all_players_data,
-            'show_icons': True # control whether to display the icons
+            'condition': player.participant.vars['condition']
         }
 
     @staticmethod
@@ -258,12 +191,7 @@ class Guess(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         # compute guess
-        
-        guess = 1/100 *(player.signal_4 * player.weight_signal_4 + player.signal_1 * player.weight_signal_1 + player.signal_2 * player.weight_signal_2 + player.signal_3 * player.weight_signal_3)
-        
-        print("Guess is")
-        print(guess)
-        
+        guess = 1/100 * (player.signal_4 * player.weight_signal_4 + player.signal_1 * player.weight_signal_1 + player.signal_2 * player.weight_signal_2 + player.signal_3 * player.weight_signal_3)
         player.guess = guess
         
     @staticmethod
@@ -275,42 +203,41 @@ class Guess(Page):
         
         if allocated_tokens != 100.0:
             return 'The allocation of tokens to information must add up to 100'
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return True
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_earnings
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return True
 
 class Results(Page):
     form_model = 'player'
     timeout_seconds = 15
+    
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        # check random payment
         participant = player.participant
-        import random
-        
-        # if it's the last round -- we have to pay a random round
-        if player.round_number == C.NUM_ROUNDS:
-            random_round = random.randint(1, C.NUM_ROUNDS)
-        
-            participant.vars['selected_round'] = random_round
-            #participant.selected_round = random_round
-            player_in_selected_round = player.in_round(random_round)
-            player.payoff = player_in_selected_round.earnings
+        if participant.vars['selected_app'] == 'asset_live_game':
+            if player.round_number == participant.vars['selected_round']:
+                player.participant.vars['random_payment'] = player.earnings
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return True
 
 class NextRoundSoon(Page):
     form_model = 'player'
     timeout_seconds = 15
     timer_text = 'Time until the next task:'
+
     @staticmethod
     def is_displayed(player: Player):
-        
         return True
-    @staticmethod
-    def vars_for_template(player: Player):
-        participant = player.participant
-        
-        if player.round_number == C.NUM_ROUNDS:
-            payment_round = participant.vars['selected_round']
-            return {'payment': payment_round}
-        else:
-            return dict()
-page_sequence = [ChoosingTask, SetSignals, Guess, ResultsWaitPage, Results, NextRoundSoon]
+
+page_sequence = [ConditionSetPage, Instructions, AssetValueIllustration, ThreeSignalsIllustration, Example, ChoosingTask, Guess, ResultsWaitPage, Results, NextRoundSoon]

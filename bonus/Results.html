@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Guess the Target Value{{ endblock }}
+{{ block title }}Results{{ endblock }}
 
 {{ block content }}
 
@@ -13,39 +13,9 @@
   .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
 </style>
 
-This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}</b>.
-
-<br>
-<br>
-
-<h4>
-    Your Tokens
-</h4>
-
-You need to allocate <b>{{ C.ENDOWMENT }}</b> tokens to the information.
-
-<br>
-
-You have allocated <span id="summed-inputs">0</span> tokens so far.
-
-<br>
-
-You have <span id="remaining-inputs">100</span> left to allocate.
-
-<br>
-<br>
-
-<h4>
-    Token Allocation
-</h4>
-
-<br>
+<p>Your bonus is {{ player.bonus }}.</p>
 
 {% if condition > 1 %}
-
-<p>
-    You are <b>Member {% if group.signal_1_owner == player.id_in_group %}1{% elif group.signal_2_owner == player.id_in_group %}2{% elif group.signal_3_owner == player.id_in_group %}3{% endif %} </b>
-</p>
 
 <br>
 
@@ -55,10 +25,10 @@ You have <span id="remaining-inputs">100</span> left to allocate.
   <tr>
     <th class="tg-c3ow"></th>
         <th class="tg-c3ow">
-          <b>{% if condition > 1 %}Member 1{% if group.signal_1_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 1{% endif %}</b>
+          <b>{% if condition > 1 %}Member 1{% if signal_1_owner == player_id %} (me){% endif %}{% else %}Signal 1{% endif %}</b>
           {% if condition == 3 %}
             <br>
-            {% if group.signal_1_owner_individualism == 'Individualist' %}
+            {% if signal_1_owner_individualism == 'Individualist' %}
               <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
             {% else %}
               <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
@@ -66,10 +36,10 @@ You have <span id="remaining-inputs">100</span> left to allocate.
           {% endif %}
         </th>
         <th class="tg-c3ow">
-          <b>{% if condition > 1 %}Member 2{% if group.signal_2_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 2{% endif %}</b>
+          <b>{% if condition > 1 %}Member 2{% if signal_2_owner == player_id %} (me){% endif %}{% else %}Signal 2{% endif %}</b>
           {% if condition == 3 %}
             <br>
-            {% if group.signal_2_owner_individualism == 'Individualist' %}
+            {% if signal_2_owner_individualism == 'Individualist' %}
               <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
             {% else %}
               <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
@@ -77,10 +47,10 @@ You have <span id="remaining-inputs">100</span> left to allocate.
           {% endif %}
         </th>
         <th class="tg-c3ow">
-          <b>{% if condition > 1 %}Member 3{% if group.signal_3_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 3{% endif %}</b>
+          <b>{% if condition > 1 %}Member 3{% if signal_3_owner == player_id %} (me){% endif %}{% else %}Signal 3{% endif %}</b>
           {% if condition == 3 %}
             <br>
-            {% if group.signal_3_owner_individualism == 'Individualist' %}
+            {% if signal_3_owner_individualism == 'Individualist' %}
               <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
             {% else %}
               <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
@@ -92,34 +62,31 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 <tbody>
   <tr>
     <td class="tg-c3ow">Information</td>
-      <td class="tg-c3ow">{{ player.signal_1 }}</td>
-      <td class="tg-c3ow">{{ player.signal_2 }}</td>
-      <td class="tg-c3ow">{{ player.signal_3 }}</td>
-    <td class="tg-baqh"> {{ C.MEAN_ASSET_VALUE }} </td>
+    <td class="tg-c3ow">{{ signal_1 }}</td>
+    <td class="tg-c3ow">{{ signal_2 }}</td>
+    <td class="tg-c3ow">{{ signal_3 }}</td>
+    <td class="tg-baqh">{{ C.MEAN_ASSET_VALUE }}</td>
   </tr>
   <tr>
-    <td class="tg-c3ow">Allocation of Tokens</td>
-    <td class="tg-c3ow">{{ formfield 'weight_signal_1' }}</td>
-    <td class="tg-c3ow">{{ formfield 'weight_signal_2' }}</td>
-    <td class="tg-c3ow">{{ formfield 'weight_signal_3' }}</td>
-    <td class="tg-c3ow">{{ formfield 'weight_signal_4' }}</td>
+    <td class="tg-c3ow">Actual average tokens allocated by others</td>
+    <td class="tg-c3ow">{{ signal_1_avg_peer_weight }}</td>
+    <td class="tg-c3ow">{{ signal_2_avg_peer_weight }}</td>
+    <td class="tg-c3ow">{{ signal_3_avg_peer_weight }}</td>
+    <td class="tg-baqh">{{ signal_4_avg_peer_weight }}</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">Your guess</td>
+    <td class="tg-c3ow">{{ player.weight_signal_1 }}</td>
+    <td class="tg-c3ow">{{ player.weight_signal_2 }}</td>
+    <td class="tg-c3ow">{{ player.weight_signal_3 }}</td>
+    <td class="tg-c3ow">{{ player.weight_signal_4 }}</td>
   </tr>
 </tbody>
 </table>
 
-<br>
+<br><br>
 
-<h4>
-    Target Price
-</h4>
-
-<p>
-    Your guess of the target price is <b><span id="target-price">0</span></b>
-</p>
-
-<p id="next-question">Do you wish to submit this guess?</p>
-<p id="next-button"><button id="next_button">Submit Target Price</button></p> 
-    
+{{ next_button }}
 
 {{ endblock }}
 
@@ -152,14 +119,8 @@ function allocatedWeights() {
         }
 }
 
-function calulateTargetPrice() {
-  let targetPrice = (1 / parseFloat('100') * (parseFloat(js_vars.signal1) * parseFloat(forminputs.weight_signal_1.value) + parseFloat(js_vars.signal2) * parseFloat(forminputs.weight_signal_2.value) + parseFloat(js_vars.signal3) * parseFloat(forminputs.weight_signal_3.value) + parseFloat(js_vars.signal4) * parseFloat(forminputs.weight_signal_4.value) )).toFixed(2)
-  document.getElementById('target-price').innerHTML = targetPrice
-}
-
 function updateValues(){
   allocatedWeights()
-  calulateTargetPrice()
 }
 
 // set an event handler (for oninput/onchange/etc)
