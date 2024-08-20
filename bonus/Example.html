@@ -1,0 +1,229 @@
+{% extends "global/Page.html" %}
+
+{% block content %}
+
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-baqh{text-align:center;vertical-align:top}
+        .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+    </style>
+
+    {% if condition == 1 %}
+
+    <h3>Example</h3>
+    <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value).</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Signal 1</b></th>
+            <th class="tg-c3ow"><b>Signal 2</b></th>
+            <th class="tg-c3ow"><b>Signal 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Average tokens allocated by others</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, your guess is that your two group members allocated 35 tokens to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value.</p>
+    <p>In this example, suppose the actual average tokens allocated by others are 0 tokens to 98, 50 tokens to 103, 50 tokens to 99, and 0 tokens to the mean value. Your bonus will be: 1000 - [(0 - 35)<sup>2</sup> + (50 - 10)<sup>2</sup> + (50 - 35)<sup>2</sup> + (0 - 20)<sup>2</sup>] / 4 = 137.5 points.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Signal 1</b></th>
+            <th class="tg-c3ow"><b>Signal 2</b></th>
+            <th class="tg-c3ow"><b>Signal 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Actual average tokens allocated by others</td>
+                <td class="tg-c3ow">0</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">0</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Your guess</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    {% if condition == 2 %}
+
+    <h3>Example</h3>
+    <p>Below is an example of the decision screen. In each decision problem, each signals belongs to a group member with a hidden preference for group culture indicated below. Members share the same information, and your member number will also be randomized across decision problems.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b></th>
+            <th class="tg-c3ow"><b>Member 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Allocation of Tokens</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, your guess is that your two group members allocated 35 tokens to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value.</p>
+    <p>In this example, suppose the actual average tokens allocated by others are 0 tokens to 98, 50 tokens to 103, 50 tokens to 99, and 0 tokens to the mean value. Your bonus will be: 1000 - [(0 - 35)<sup>2</sup> + (50 - 10)<sup>2</sup> + (50 - 35)<sup>2</sup> + (0 - 20)<sup>2</sup>] / 4 = 137.5 points.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b></th>
+            <th class="tg-c3ow"><b>Member 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Actual average tokens allocated by others</td>
+                <td class="tg-c3ow">0</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">0</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Your guess</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    {% if condition == 3 %}
+
+    <h3>Example</h3>
+    <p>Below is an example of the decision screen. In each decision problem, each signals belongs to a group member with a specified preference for group culture indicated below. Members share the same information, and your member number will also be randomized across decision problems.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b><br><img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 3</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Allocation of Tokens</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, your guess is that your two group members allocated 35 tokens to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value.</p>
+    <p>In this example, suppose the actual average tokens allocated by others are 0 tokens to 98, 50 tokens to 103, 50 tokens to 99, and 0 tokens to the mean value. Your bonus will be: 1000 - [(0 - 35)<sup>2</sup> + (50 - 10)<sup>2</sup> + (50 - 35)<sup>2</sup> + (0 - 20)<sup>2</sup>] / 4 = 137.5 points.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b><br><img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 3</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Actual average tokens allocated by others</td>
+                <td class="tg-c3ow">0</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">50</td>
+                <td class="tg-c3ow">0</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Your guess</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">10</td>
+                <td class="tg-c3ow">35</td>
+                <td class="tg-c3ow">20</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    <button class="otree-btn-next btn btn-primary">Next</button>
+
+    {% if condition > 1 %}
+
+    <br><br><p style="font-size: small;">Note:<br><br>The value (V) of the asset is randomly selected and may vary for each decision problem. The "peer price" is calculated as the average of your two group members' guesses of their own target values. </p>
+
+    {% endif %}
+
+    {% if condition == 3 %}
+
+    <br>
+    <p style="font-size: small;">Note:<br><br><img src="{{ static 'data/person.png' }}" width="20" height="20" /> I prefer a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</p>
+    <p style="font-size: small;"><img src="{{ static 'data/people.png' }}" width="20" height="20" /> I prefer a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</p>
+
+    {% endif %}
+
+{% endblock %}
