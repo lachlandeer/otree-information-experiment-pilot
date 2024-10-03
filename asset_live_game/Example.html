@@ -15,7 +15,37 @@
     {% if group.condition == 1 %}
 
     <h3>Example</h3>
-    <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value).</p>
+    <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value). The two other group members have access to the same information as you.</p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Signal 1</b></th>
+            <th class="tg-c3ow"><b>Signal 2</b></th>
+            <th class="tg-c3ow"><b>Signal 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Allocation of Tokens</td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, the three signals show 98, 103 and 99. Each group member will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is when estimating the target value:</p>
+    <p style="font-weight: bold; text-align: center;">Target Value = 50% of the Value of the Asset (V) + 50% of the Peer Estimate</p>
+    <p>To form an estimate of the target value, you need to input your allocated tokens into their respective boxes.</p>
+
+
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -41,25 +71,70 @@
             </tr>
         </tbody>
     </table>
-    <p>In this example, your three signals show 98, 103 and 99. You will be given 100 tokens to allocate toward the information.</p>
-    <p>The more tokens you assign to a certain piece of information, the more important you consider it is when predicting the target value:</p>
-    <p style="font-weight: bold; text-align: center;">Target value = the Value of the Asset (V)</p>
-    <p>To take a guess, you need to input your allocated tokens into their respective boxes.</p>
+    <h4>Estimated Target Value</h4>
+    <p>Your estimate of the target value is 99.25 </p>
+
     <p>In this example, you have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value. Your guess of the target value is calculated by adding up the weighted values of each allocation. The formula used is: (35% × 98) + (10% × 103) + (35% × 99) + (20% × 100) = 99.25.</p>
-    <p>You can adjust your allocation of the tokens until you are satisfied with your guess. Once you have optimized your allocation, click the "Next" button to complete the pricing task.</p>
-    <p>The closer your guess is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated accordingly to the formula below:</p>
-    <p style="font-weight: bold; text-align: center;">500 – (Your Assigned Price – Target Value)<sup>2</sup></p>
-    <p><span style="font-weight: bold;">You can expect to earn more by assigning a price that is closer to the Target Value</span> because the deduction is smaller the closer your assigned price is to the Target Value (V).</p>
-    <p>At the end of the study, one decision problem will be randomly selected for calculating your earnings in this study. Each decision problem is equally likely to be selected. The feedback screen will show (your allocation of tokens,) your guess of the Target Value, the value of the asset (V), the peer price and your target value in that decision problem.</p>
-    <p>In this example, suppose V is 105.</p>
-    <p style="text-align: center;">Your earnings are 500 – (99.25– 105)<sup>2</sup> = 466.9375 points</p>
+
+    <p>You can adjust your allocation of the tokens until you have optimized your allocation and are satisfied with your estimate.</p>
+    
+    <h3>Your earnings</h3>
+    <p>The closer your estimate is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
+    <p style="font-weight: bold; text-align: center;">500 – (Your Estimate – Target Value)<sup>2</sup></p>
+    <p><span style="font-weight: bold;">You can expect to earn more by forming an estimate that is closer to the Target Value</span> because the deduction is smaller the closer your estimate is to the Target Value (50% V + 50% Peer Estimate).</p>
+    <p>The feedback screen will show (your allocation of tokens,) your estimate of the Target Value, the value of the asset (V), the peer estimate and your target value in that decision problem.</p>
+    <p>In this example, suppose V is 105 and the Peer Estimate is 103. Then the feedback screen will be:</p>
+
+    <p>Your estimate was 99.25.</p>
+
+    <p>The asset value was 105</p>
+    
+    <p>The target value was 104</p>
+    
+    <p>Your profit is 477.44 points.</p>
+    
+    <p style="text-align: center;">Your earnings are 500 – (99.25– 104)<sup>2</sup> = 477.44 points</p>
 
     {% endif %}
 
     {% if group.condition == 2 %}
 
     <h3>Example</h3>
-    <p>Below is an example of the decision screen. In each decision problem, each signals belongs to a group member with a hidden preference for group culture indicated below. Members share the same information, and your member number will also be randomized across decision problems.</p>
+    <p>Below is an example of the decision screen. In each decision problem, you will see three signals that each belong a group member with a hidden preference for group culture and the mean of all potential asset values (Mean Value). The two other group members have access to the same information as you. Your member number will be randomly assigned for each decision problem.</p>
+
+    <p>
+        You are <b>Member 2</b>.
+    </p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b></th>
+            <th class="tg-c3ow"><b>Member 3</b></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Allocation of Tokens</td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, your signal is 103 and the signals of your group members are 98 and 99. Each group member will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is when estimating the target value:</p>
+    <p style="font-weight: bold; text-align: center;">Target Value = 50% of the Value of the Asset (V) + 50% of the Peer Estimate</p>
+    <p>To form an estimate of the target value, you need to input your allocated tokens into their respective boxes.</p>
+
+
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -85,25 +160,69 @@
             </tr>
         </tbody>
     </table>
-    <p>In this example, your signal shows 103, the signals of your two group members show 98 and 99. Each group member will be given will be given 100 tokens to allocate toward the information.</p>
-    <p>The more tokens you assign to a certain piece of information, the more important you consider it is when predicting the target value.</p>
-    <p style="text-align: center; font-weight: bold;">Target value = 50% of the Value of the Asset (V) + 50% of the Peer Price</p>
-    <p>To take a guess, you need to input your allocated tokens into their respective boxes.</p>
+    <h4>Estimated Target Value</h4>
+    <p>Your estimate of the target value is 99.25 </p>
+
     <p>In this example, you have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value. Your guess of the target value is calculated by adding up the weighted values of each allocation. The formula used is: (35% × 98) + (10% × 103) + (35% × 99) + (20% × 100) = 99.25.</p>
-    <p>You can adjust your allocation of the tokens until you are satisfied with your guess. Once you have optimized your allocation, click the "Next" button to complete the pricing task.</p>
-    <p>The closer your guess is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated accordingly to the formula below:</p>
-    <p style="font-weight: bold; text-align: center;">500 – (Your Assigned Price – Target Value)<sup>2</sup></p>
-    <p><span style="font-weight: bold;">You can expect to earn more by assigning a price that is closer to the Target Value</span> because the deduction is smaller the closer your assigned price is to the Target Value (50% V + 50% Peer Price).</p>
-    <p>At the end of the study, one decision problem will be randomly selected for calculating your earnings in this study. Each decision problem is equally likely to be selected. The feedback screen will show (your allocation of tokens,) your guess of the Target Value, the value of the asset (V), the peer price and your target value in that decision problem.</p>
-    <p>In this example, suppose V is 105.</p>
-    <p style="text-align: center;">Your earnings are 500 – (99.25– 105)<sup>2</sup> = 466.9375 points</p>
+
+    <p>You can adjust your allocation of the tokens until you have optimized your allocation and are satisfied with your estimate.</p>
+    
+    <h3>Your earnings</h3>
+    <p>The closer your estimate is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
+    <p style="font-weight: bold; text-align: center;">500 – (Your Estimate – Target Value)<sup>2</sup></p>
+    <p><span style="font-weight: bold;">You can expect to earn more by forming an estimate that is closer to the Target Value</span> because the deduction is smaller the closer your estimate is to the Target Value (50% V + 50% Peer Estimate).</p>
+    <p>The feedback screen will show (your allocation of tokens,) your estimate of the Target Value, the value of the asset (V), the peer estimate and your target value in that decision problem.</p>
+    <p>In this example, suppose V is 105 and the Peer Estimate is 103. Then the feedback screen will be:</p>
+
+    <p>Your estimate was 99.25.</p>
+
+    <p>The asset value was 105</p>
+    
+    <p>The target value was 104</p>
+    
+    <p>Your profit is 477.44 points.</p>
+    
+    <p style="text-align: center;">Your earnings are 500 – (99.25– 104)<sup>2</sup> = 477.44 points</p>
 
     {% endif %}
 
     {% if group.condition == 3 %}
 
     <h3>Example</h3>
-    <p>Below is an example of the decision screen. In each decision problem, each signals belongs to a group member with a specified preference for group culture indicated below. Members share the same information, and your member number will also be randomized across decision problems.</p>
+    <p>Below is an example of the decision screen. In each decision problem, you will see three signals that each belong a group member with a specified preference for group culture and the mean of all potential asset values (Mean Value). The two other group members have access to the same information as you. Your member number will be randomly assigned for each decision problem.</p>
+
+    <p>
+        You are <b>Member 2</b>.
+    </p>
+    <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+            <th class="tg-c3ow"><b>Member 1</b><br><img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 2 (me)</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-c3ow"><b>Member 3</b><br><img src="{{ static 'data/people.png' }}" alt="Individualist" width="20" height="20"></th>
+            <th class="tg-baqh"><b>Mean Value</b></th>
+        <tbody>
+            <tr>
+                <td class="tg-c3ow">Information</td>
+                <td class="tg-c3ow">98</td>
+                <td class="tg-c3ow">103</td>
+                <td class="tg-c3ow">99</td>
+                <td class="tg-baqh">100</td>
+            </tr>
+            <tr>
+                <td class="tg-c3ow">Allocation of Tokens</td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+                <td class="tg-c3ow"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In this example, your signal is 103 and the signals of your group members are 98 and 99. You prefer a group culture that values individual talent and autonomy, as does one of your group members, while the other group member prefers a group culture that prioritizes community and collective responsibility. Each group member will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is when estimating the target value:</p>
+    <p style="font-weight: bold; text-align: center;">Target Value = 50% of the Value of the Asset (V) + 50% of the Peer Estimate</p>
+    <p>To form an estimate of the target value, you need to input your allocated tokens into their respective boxes.</p>
+
+
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -129,27 +248,39 @@
             </tr>
         </tbody>
     </table>
-    <p>In this example, your signal shows 103, the signals of your two group members show 98 and 99, and the other group members prefer a group culture that values community and collective responsibility. Each group member will be given will be given 100 tokens to allocate toward the information.</p>
-    <p>The more tokens you assign to a certain piece of information, the more important you consider it is when predicting the target value.</p>
-    <p style="text-align: center; font-weight: bold;">Target value = 50% of the Value of the Asset (V) + 50% of the Peer Price</p>
-    <p>To take a guess, you need to input your allocated tokens into their respective boxes.</p>
+    <h4>Estimated Target Value</h4>
+    <p>Your estimate of the target value is 99.25 </p>
+
     <p>In this example, you have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value. Your guess of the target value is calculated by adding up the weighted values of each allocation. The formula used is: (35% × 98) + (10% × 103) + (35% × 99) + (20% × 100) = 99.25.</p>
-    <p>You can adjust your allocation of the tokens until you are satisfied with your guess. Once you have optimized your allocation, click the "Next" button to complete the pricing task.</p>
-    <p>The closer your guess is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated accordingly to the formula below:</p>
-    <p style="font-weight: bold; text-align: center;">500 – (Your Assigned Price – Target Value)<sup>2</sup></p>
-    <p><span style="font-weight: bold;">You can expect to earn more by assigning a price that is closer to the Target Value</span> because the deduction is smaller the closer your assigned price is to the Target Value (50% V + 50% Peer Price).</p>
-    <p>At the end of the study, one decision problem will be randomly selected for calculating your earnings in this study. Each decision problem is equally likely to be selected. The feedback screen will show (your allocation of tokens,) your guess of the Target Value, the value of the asset (V), the peer price and your target value in that decision problem.</p>
-    <p>In this example, suppose V is 105.</p>
-    <p style="text-align: center;">Your earnings are 500 – (99.25– 105)<sup>2</sup> = 466.9375 points</p>
+
+    <p>You can adjust your allocation of the tokens until you have optimized your allocation and are satisfied with your estimate.</p>
+    
+    <h3>Your earnings</h3>
+    <p>The closer your estimate is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
+    <p style="font-weight: bold; text-align: center;">500 – (Your Estimate – Target Value)<sup>2</sup></p>
+    <p><span style="font-weight: bold;">You can expect to earn more by forming an estimate that is closer to the Target Value</span> because the deduction is smaller the closer your estimate is to the Target Value (50% V + 50% Peer Estimate).</p>
+    <p>The feedback screen will show (your allocation of tokens,) your estimate of the Target Value, the value of the asset (V), the peer estimate and your target value in that decision problem.</p>
+    <p>In this example, suppose V is 105 and the Peer Estimate is 103. Then the feedback screen will be:</p>
+
+    <p>Your estimate was 99.25.</p>
+
+    <p>The asset value was 105</p>
+    
+    <p>The target value was 104</p>
+    
+    <p>Your profit is 477.44 points.</p>
+    
+    <p style="text-align: center;">Your earnings are 500 – (99.25– 104)<sup>2</sup> = 477.44 points</p>
+
 
     {% endif %}
 
     <button class="otree-btn-next btn btn-primary">Next</button>
 
-    {% if group.condition > 1 %}
+    <!-- {% if group.condition > 1 %} -->
 
-    <br><br><p style="font-size: small;">Note: The value (V) of the asset is randomly selected and may vary for each decision problem. The "peer price" is calculated as the average of your two group members' guesses of their own target values. </p>
+    <br><br><p style="font-size: small;">Note: The value (V) of the asset is randomly selected and may vary for each decision problem. The "peer estimate" is calculated as the average of your two group members' estimates of their own target values. </p>
 
-    {% endif %}
+    <!-- {% endif %} -->
 
 {% endblock %}
