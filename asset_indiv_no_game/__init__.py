@@ -20,8 +20,11 @@ class Group(BaseGroup):
 
 def select_random_payment(num_rounds_indiv: int, num_rounds_live: int):
     import random
-    selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game'])
-    selected_round = random.randint(1, num_rounds_indiv if selected_app == 'asset_indiv_no_game' else num_rounds_live)
+    selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game', 'bonus'])
+    selected_round = random.randint(1, 
+                                    # since bonus and no_game are both five rounds this works 
+                                    # though a bit hacky 
+                                    num_rounds_indiv if selected_app == 'asset_indiv_no_game' else num_rounds_live)
     return selected_app, selected_round
 
 def creating_round_order(group: Group):
@@ -165,4 +168,13 @@ class NextRoundSoon(Page):
     def is_displayed(player: Player):
         return True
 
-page_sequence = [Instructions, AssetValueIllustration, ThreeSignalsIllustration, Example, CreateTaskOrder, Guess, Results, NextRoundSoon]
+page_sequence = [Instructions, 
+                 AssetValueIllustration, 
+                 ThreeSignalsIllustration, 
+                 Example, 
+                 # this line below selects payment for the whole experiment
+                 CreateTaskOrder,
+                 Guess, 
+                 Results, 
+                 NextRoundSoon
+                 ]

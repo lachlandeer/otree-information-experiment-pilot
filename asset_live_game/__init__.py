@@ -29,6 +29,27 @@ class Group(BaseGroup):
     signal_3_owner_individualism = models.StringField()
     sum_guess = models.FloatField()
 
+def select_random_payment(num_rounds_bonus: int, num_rounds_live: int):
+    import random
+    selected_app = random.choice(['bonus', 
+                                  'asset_live_game'
+                                  ]
+                                )
+    selected_round = random.randint(1, 
+                                    num_rounds_bonus if selected_app == 'bonus' else 
+                                    num_rounds_live
+                                    )
+    return selected_app, selected_round
+
+def creating_round_order(group: Group):
+    subsession = group.subsession
+    if subsession.round_number == 1:
+        for p in subsession.get_players():
+            selected_app, selected_round = select_random_payment(num_rounds_bonus=5, num_rounds_live=C.NUM_ROUNDS)
+            p.participant.vars['selected_app'] = selected_app
+            p.participant.vars['selected_round'] = selected_round
+            print(f'Random payment: selected app = {selected_app}; selected round = {selected_round}.')
+
 def set_condition(group: Group):
     # condition = 1 if SSS - signals with no ownership
     # condition = 2 if SSS - effect of ownership
@@ -39,6 +60,7 @@ def set_condition(group: Group):
         player.participant.vars['condition'] = group.condition
 
 def sample_value(mean_value=100, std_dev=10):
+    # this draws a asset value from a distribution
     import random
     import numpy as np
     from scipy.stats import norm
@@ -48,6 +70,7 @@ def sample_value(mean_value=100, std_dev=10):
     return random_number
 
 def get_values(group: Group):
+    # this draws signals given the asset value
     import random
     group.asset_value = int(sample_value())
     signals = [int(sample_value(mean_value=group.asset_value)) for _ in range(3)]
@@ -161,6 +184,13 @@ class Example(Page):
     def is_displayed(player: Player):
         return player.round_number == 1
 
+class CreatePaymentSelector(WaitPage):
+    after_all_players_arrive = creating_round_order
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return True
+
 class ChoosingTask(WaitPage):
     after_all_players_arrive = creating_rounds
     
@@ -240,4 +270,18 @@ class NextRoundSoon(Page):
     def is_displayed(player: Player):
         return True
 
-page_sequence = [ConditionSetPage, Instructions, AssetValueIllustration, ThreeSignalsIllustration, Example, ChoosingTask, Guess, ResultsWaitPage, Results, NextRoundSoon]
+page_sequence = [ConditionSetPage, 
+                 Instructions, 
+                 AssetValueIllustration, 
+                 ThreeSignalsIllustration, 
+                 Example, 
+                 # this line below selects payment for the whole experiment if we don't use the 'no_live'
+                 # which i have done for testing
+                 # comment the line below out when we play the all games in sequence
+                 CreatePaymentSelector,
+                 ChoosingTask, 
+                 Guess, 
+                 ResultsWaitPage, 
+                 Results, 
+                 NextRoundSoon
+                 ]
