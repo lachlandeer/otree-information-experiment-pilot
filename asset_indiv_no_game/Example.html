@@ -12,7 +12,7 @@
         .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
     </style>
 
-    <h3>Example</h3>
+    <h3>Example Decision Problem</h3>
     <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value).</p>
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
@@ -39,9 +39,9 @@
             </tr>
         </tbody>
     </table>
-    <p><span style="color: grey;">In this example, your three signals show 98, 103 and 99.</span> You will be given 100 tokens to allocate toward the information. The more tokens you assign to a certain piece of information, the more important you consider it is when predicting the target value:</p>
-    <p style="font-weight: bold; text-align: center;">Target value = the Value of the Asset (V)</p>
-    <p>To take a guess, you need to input your allocated tokens into their respective boxes.</p>
+    <p>In this example, your three signals show 98, 103 and 99. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is when estimating the target value:</p>
+    <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
+    <p>To form an estimate to the target value, you need to input your allocated tokens into their respective boxes.</p>
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -67,14 +67,29 @@
             </tr>
         </tbody>
     </table>
+
+    <h4>Estimated Target Value</h4>
+    <p>Your estimate of the target value is 99.25 </p>
+
     <p>In this example, you have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value. Your guess of the target value is calculated by adding up the weighted values of each allocation. The formula used is: (35% × 98) + (10% × 103) + (35% × 99) + (20% × 100) = 99.25.</p>
-    <p>You can adjust your allocation of the tokens until you are satisfied with your guess. Once you have optimized your allocation, click the "Next" button to complete the pricing task.</p>
-    <p>The closer your guess is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated accordingly to the formula below:</p>
+    <p>You can adjust your allocation of the tokens until you have optimized your allocation and are satisfied with your estimate.</p>
+
+    <h3>Your earnings</h3>
+    <p>The closer your estimate is to the Target Value, the higher your payoff from this decision problem will be. The payoff will be calculated accordingly to the formula below:</p>
     <p style="font-weight: bold; text-align: center;">500 – (Your Assigned Price – Target Value)<sup>2</sup></p>
-    <p><span style="font-weight: bold;">You can expect to earn more by assigning a price that is closer to the Target Value</span> because the deduction is smaller the closer your assigned price is to the Target Value (V).</p>
-    <p>At the end of the study, one decision problem will be randomly selected for calculating your earnings in this study. Each decision problem is equally likely to be selected. The feedback screen will show (your allocation of tokens,) your guess of the Target Value, the value of the asset (V), the peer price and your target value in that decision problem.</p>
-    <p>In this example, suppose V is 105.</p>
-    <p style="text-align: center;">Your earnings are 500 – (99.25– 105)<sup>2</sup> = 466.9375 points</p>
+    <p><span style="font-weight: bold;">You can expect to earn more by forming an estimate that is closer to the Target Value</span> because the deduction is smaller the closer your estimate is to the Target Value (V).</p>
+    <p>The feedback screen will show (your allocation of tokens,) your estimate of the Target Value, the target value and your earnings in that decision problem.</p>
+    <p>In this example, suppose V is 105. Then the feedback screen will be:</p>
+
+    <p>The target value was 105.</p>
+
+    <p>Your estimate was 99.25.</p>
+    
+    <p>Your profit is 466.94.</p>
+
+    <p style="text-align: center;">Your earnings are 500 – (99.25– 105)<sup>2</sup> = 466.93 points</p>
+
+    <p>At the end of the study, one decision problem will be randomly selected for calculating your earnings. Each decision problem is equally likely to be selected. </p>
 
     <button class="otree-btn-next btn btn-primary">Next</button>
 
