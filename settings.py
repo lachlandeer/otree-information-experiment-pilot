@@ -4,11 +4,12 @@ SESSION_CONFIGS = [dict(name='my_session',
                         num_demo_participants=3, 
                         app_sequence=['Introduction', 
                          #'asset_indiv_no_game', 
-                         'GroupPreferenceElicitation', 
-                         'asset_live_game', 
-                         'bonus', 
-                         'CollectivismSurvey', 
-                         'RandomPaymentResults'
+                         #'GroupPreferenceElicitation', 
+                         #'asset_live_game', 
+                         #'bonus', 
+                         #'CollectivismSurvey', 
+                         'DemographicsSurvey'
+                         #'RandomPaymentResults'
                          ]
                        )
                   ]
@@ -27,6 +28,8 @@ ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 SECRET_KEY = 'blahblah'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree']
+INSTALLED_APPS = ['otree',
+                  'django-countries'
+                  ]
 
 
