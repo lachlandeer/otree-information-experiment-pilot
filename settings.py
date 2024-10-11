@@ -7,8 +7,8 @@ SESSION_CONFIGS = [dict(name='my_session',
                          #'GroupPreferenceElicitation', 
                          #'asset_live_game', 
                          #'bonus', 
-                         #'CollectivismSurvey', 
-                         'DemographicsSurvey'
+                         'CollectivismSurvey', 
+                         #'DemographicsSurvey'
                          #'RandomPaymentResults'
                          ]
                        )
