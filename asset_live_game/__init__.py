@@ -248,6 +248,12 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     form_model = 'player'
     timeout_seconds = 15
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'condition': player.participant.vars['condition']
+        }
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
