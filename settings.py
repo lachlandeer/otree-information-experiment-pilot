@@ -3,11 +3,11 @@ SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fe
 SESSION_CONFIGS = [dict(name='my_session', 
                         num_demo_participants=3, 
                         app_sequence=['Introduction', 
-                         #'asset_indiv_no_game', 
+                         'asset_indiv_no_game', 
                          #'GroupPreferenceElicitation', 
                          #'asset_live_game', 
                          #'bonus', 
-                         'CollectivismSurvey', 
+                         #'CollectivismSurvey', 
                          #'DemographicsSurvey'
                          #'RandomPaymentResults'
                          ]

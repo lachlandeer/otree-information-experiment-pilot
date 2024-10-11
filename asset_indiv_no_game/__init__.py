@@ -6,7 +6,7 @@ doc = '\nTBA'
 class C(BaseConstants):
     NAME_IN_URL = 'asset_indiv_no_game'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 2
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
