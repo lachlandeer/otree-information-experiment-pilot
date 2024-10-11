@@ -3,6 +3,77 @@
 
 {{ block content }}
 
+<h4> Your Choices </h4> 
+
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-baqh{text-align:center;vertical-align:top}
+    .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+    </style>
+    
+    <table class="tg" style="font-size:18px; "><thead>
+        <tr>
+            <th class="tg-c3ow"></th>
+                <th class="tg-c3ow">
+                  <b>{% if condition > 1 %}Member 1{% if group.signal_1_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 1{% endif %}</b>
+                  {% if condition == 3 %}
+                    <br>
+                    {% if group.signal_1_owner_individualism == 'Individualist' %}
+                      <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
+                    {% else %}
+                      <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
+                    {% endif %}
+                  {% endif %}
+                </th>
+                <th class="tg-c3ow">
+                  <b>{% if condition > 1 %}Member 2{% if group.signal_2_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 2{% endif %}</b>
+                  {% if condition == 3 %}
+                    <br>
+                    {% if group.signal_2_owner_individualism == 'Individualist' %}
+                      <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
+                    {% else %}
+                      <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
+                    {% endif %}
+                  {% endif %}
+                </th>
+                <th class="tg-c3ow">
+                  <b>{% if condition > 1 %}Member 3{% if group.signal_3_owner == player.id_in_group %} (me){% endif %}{% else %}Signal 3{% endif %}</b>
+                  {% if condition == 3 %}
+                    <br>
+                    {% if group.signal_3_owner_individualism == 'Individualist' %}
+                      <img src="{{ static 'data/person.png' }}" alt="Individualist" width="20" height="20">
+                    {% else %}
+                      <img src="{{ static 'data/people.png' }}" alt="Collectivist" width="20" height="20">
+                    {% endif %}
+                  {% endif %}
+                </th>
+              <th class="tg-baqh"><b>Mean Value</b></th>
+          </tr></thead>
+    <tbody>
+      <tr>
+        <td class="tg-c3ow">Information</td>
+        <td class="tg-c3ow">{{ player.signal_1 }}</td>
+        <td class="tg-c3ow">{{ player.signal_2 }}</td>
+        <td class="tg-c3ow">{{ player.signal_3 }}</td>
+        <td class="tg-baqh">{{ C.MEAN_ASSET_VALUE }}</td>
+      </tr>
+      <tr>
+        <td class="tg-c3ow">Allocation of Tokens</td>
+        <td class="tg-c3ow">{{ player.weight_signal_1 }}</td>
+        <td class="tg-c3ow">{{ player.weight_signal_2 }}</td>
+        <td class="tg-c3ow">{{ player.weight_signal_3 }}</td>
+        <td class="tg-c3ow">{{ player.weight_signal_4 }}</td>
+      </tr>
+    </tbody>
+    </table>
+    
+    <br>
+
+<h4>  Your Earnings Information </h4>
 
 
 <p>Your estimate was {{ player.guess|to2 }}.</p>
