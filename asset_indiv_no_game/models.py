@@ -11,8 +11,8 @@ class Constants(BaseConstants):
 
     # Correct answers for the attention check questions
     CORRECT_ANSWERS = {
-        'question_1': '80',  
-        'question_2': '101',  
+        'question_2': '80',  
+        'question_1': '101',  
         'question_3': '78',
     }
 
@@ -24,13 +24,13 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     # Attention check questions
-    question_1 = models.StringField(
+    question_2 = models.StringField(
         label="Suppose that V is determined by the computer to be 80. Which estimate of the Target Value will give you the highest earning?",
         choices=['80', '85', '90', '95'],
         widget=widgets.RadioSelect
     )
     
-    question_2 = models.StringField(
+    question_1 = models.StringField(
         label="Which of the following four numbers is most likely to be selected as V?",
         choices=['85', '90', '101', '110'],
         widget=widgets.RadioSelect
