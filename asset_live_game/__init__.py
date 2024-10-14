@@ -12,6 +12,12 @@ class C(BaseConstants):
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
 
+    # Correct answers for the attention check questions
+    CORRECT_ANSWERS = {
+        'question_2': 'Equally Informative',  
+        'question_1': '90',  
+    }
+
 class Subsession(BaseSubsession):
     pass
 
@@ -142,6 +148,19 @@ def set_earnings(group: Group):
         # print(task)
 
 class Player(BasePlayer):
+    # Attention check questions
+    question_2 = models.StringField(
+        label="How informative is your signal about V compared to that of other participants'?",
+        choices=['Less Informative', 'Equally Informative', 'More Informative'],
+        widget=widgets.RadioSelect
+    )
+    
+    question_1 = models.StringField(
+        label="Suppose that V is determined by the computer to be 80 and the average peer estimate is 100. Which estimate of the Target Value will give you the highest earning?",
+        choices=['80', '85', '90', '95'],
+        widget=widgets.RadioSelect
+    )
+    # decision task relevant info
     signal = models.IntegerField()
     weight_signal_1 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
     weight_signal_2 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
@@ -183,6 +202,79 @@ class Example(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
+
+class AttentionCheck1(Page):
+    form_model = 'player'
+    form_fields = ['question_1', 'question_2']
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        correct_answers = 0
+        if player.question_1 == C.CORRECT_ANSWERS['question_1']:
+            correct_answers += 1
+        if player.question_2 == C.CORRECT_ANSWERS['question_2']:
+            correct_answers += 1
+
+        # If they get any question wrong, flag them for AttentionCheck2
+        if correct_answers < 2:
+            player.participant.vars['failed_attention_check_2'] = True
+        else:
+            # If they pass, clear any failure flag
+            player.participant.vars['failed_attention_check_2'] = False
+
+    @staticmethod
+    def is_displayed(player):
+        # Show AttentionCheck1 only in round 1
+        return player.round_number == 1
+
+
+class AttentionCheck2(Page):
+    form_model = 'player'
+    form_fields = ['question_1', 'question_2']
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        correct_answers = 0
+        if player.question_1 == C.CORRECT_ANSWERS['question_1']:
+            correct_answers += 1
+        if player.question_2 == C.CORRECT_ANSWERS['question_2']:
+            correct_answers += 1
+
+        # If participant fails AttentionCheck2, disqualify them
+        if correct_answers < 2:
+            player.participant.vars['disqualified_task_2'] = True
+        else:
+            # If they pass, clear any failure flag
+            player.participant.vars['disqualified_task_2'] = False
+
+    @staticmethod
+    def is_displayed(player):
+        # Show AttentionCheck2 only if participant failed AttentionCheck1
+        return player.round_number == 1 and player.participant.vars.get('failed_attention_check_2', False)
+
+
+class Disqualification(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1 and player.participant.vars.get('disqualified_task_2', False)
+
+    @staticmethod
+    def vars_for_template(player):
+        return {
+            'disqualification_message': "You did not pass the attention check and cannot proceed."
+        }
+
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        print('upcoming_apps is', upcoming_apps)
+        if player.participant.vars.get('disqualified_task_2', True):
+            return "CollectivismSurvey"
+
+
+class ContinueStudy(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1 and not player.participant.vars.get('disqualified_task_2', False)
 
 class CreatePaymentSelector(WaitPage):
     after_all_players_arrive = creating_round_order
@@ -281,6 +373,10 @@ page_sequence = [ConditionSetPage,
                  AssetValueIllustration, 
                  ThreeSignalsIllustration, 
                  Example, 
+                 AttentionCheck1,
+                 AttentionCheck2,
+                 Disqualification,
+                 ContinueStudy,
                  # this line below selects payment for the whole experiment if we don't use the 'no_live'
                  # which i have done for testing
                  # comment the line below out when we play the all games in sequence
