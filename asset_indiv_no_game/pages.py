@@ -78,6 +78,11 @@ class Disqualification(Page):
             'disqualification_message': "You did not pass the attention check and cannot proceed."
         }
 
+    def app_after_this_page(player, upcoming_apps):
+        print('upcoming_apps is', upcoming_apps)
+        if player.participant.vars.get('disqualified_task_1', True):
+            return "CollectivismSurvey"
+
 class ContinueStudy(Page):
     def is_displayed(self):
         return self.player.round_number == 1 and not self.player.participant.vars.get('disqualified_task_1', False)
