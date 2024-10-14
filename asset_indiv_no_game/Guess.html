@@ -4,7 +4,7 @@
 {{ block content }}
 
 
-This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}</b>.
+This is round <b>{{ player.round_number }}</b> of <b>{{ Constants.num_rounds }}</b>.
 
 <br>
 <br>
@@ -13,7 +13,7 @@ This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}</b>.
     Your Tokens
 </h4>
 
-You need to allocate <b>{{ C.ENDOWMENT }}</b> tokens to the information.
+You need to allocate <b>{{ Constants.ENDOWMENT }}</b> tokens to the information.
 
 <br>
 
@@ -56,7 +56,7 @@ You have <span id="remaining-inputs">100</span> left to allocate.
     <td class="tg-c3ow">{{ signal_1 }}</td>
     <td class="tg-c3ow">{{ signal_2 }}</td>
     <td class="tg-c3ow">{{ signal_3 }}</td>
-    <td class="tg-baqh">{{ C.MEAN_ASSET_VALUE }}</td>
+    <td class="tg-baqh">{{ Constants.MEAN_ASSET_VALUE }}</td>
   </tr>
   <tr>
     <td class="tg-c3ow">Allocation of Tokens</td>

@@ -1,0 +1,15 @@
+{% extends "global/Page.html" %}
+{% block content %}
+    <h3>Check Your Understanding</h3>
+
+    <p>Answer the following questions to check your understanding of the game.
+    <b>You need to answer these questions correctly to proceed to the decision tasks</b>.</p>
+
+    <p>You have <b>2</b> attempts to answer correctly. This is your first attempt.</b>
+
+    {{ formfield player.question_1 }}
+    {{ formfield player.question_2 }}
+    {{ formfield player.question_3 }}
+
+    <button type="submit">Submit</button>
+{% endblock %}
