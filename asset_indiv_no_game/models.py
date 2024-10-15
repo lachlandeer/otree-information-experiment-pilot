@@ -17,7 +17,35 @@ class Constants(BaseConstants):
     }
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(self):
+        import random
+        # Load the CSV values once for the entire session
+        csv_values = load_values_from_csv()
+
+        for p in self.get_players():
+            # Shuffle once for the player at the start of the session
+            player_values = csv_values.copy()
+            random.shuffle(player_values)
+
+            # Store shuffled values for all rounds in participant vars
+            p.participant.vars['shuffled_values'] = player_values
+
+def load_values_from_csv():
+    import csv
+    file_path = '_static/data/asset_indiv_no_game.csv'  # Adjust the path as needed
+    with open(file_path, mode='r') as file:
+        csv_reader = csv.DictReader(file)
+        values = []
+        for row in csv_reader:
+            values.append({
+                'round': int(row['task']),
+                'asset_value': float(row['value']),
+                'signal_1': float(row['signal_1']),
+                'signal_2': float(row['signal_2']),
+                'signal_3': float(row['signal_3'])
+                #'signal_4': float(row['signal_4']),
+            })
+    return values
 
 class Group(BaseGroup):
     pass
@@ -58,34 +86,49 @@ class Player(BasePlayer):
     is_payment_round = models.BooleanField(initial=False)
 
 # Utility functions
-def sample_value(mean_value=100, std_dev=10):
-    import random
-    import numpy as np
-    from scipy.stats import norm
-    value_range = np.linspace(mean_value - 50, mean_value + 50, 101)
-    pdf_values = norm.pdf(value_range, mean_value, std_dev)
-    random_number = random.choices(value_range, pdf_values)[0]
-    return random_number
+# def sample_value(mean_value=100, std_dev=10):
+#     import random
+#     import numpy as np
+#     from scipy.stats import norm
+#     value_range = np.linspace(mean_value - 50, mean_value + 50, 101)
+#     pdf_values = norm.pdf(value_range, mean_value, std_dev)
+#     random_number = random.choices(value_range, pdf_values)[0]
+#     return random_number
 
-def get_values():
-    asset_value = int(sample_value())
-    signals = [int(sample_value(mean_value=asset_value)) for _ in range(3)]
-    task = {
-        'asset_value': asset_value,
-        'signal_1': signals[0],
-        'signal_2': signals[1],
-        'signal_3': signals[2]
-    }
-    return task
+# def get_values():
+#     asset_value = int(sample_value())
+#     signals = [int(sample_value(mean_value=asset_value)) for _ in range(3)]
+#     task = {
+#         'asset_value': asset_value,
+#         'signal_1': signals[0],
+#         'signal_2': signals[1],
+#         'signal_3': signals[2]
+#     }
+#     return task
 
-def creating_round_order(group: Group):
-    subsession = group.subsession
+def creating_round_order(player: Player):
+    subsession = player.subsession
+
+    # Ensure this only runs in the first round
     if subsession.round_number == 1:
-        for p in subsession.get_players():
-            selected_app, selected_round = select_random_payment(num_rounds_indiv=Constants.num_rounds, num_rounds_live=10)
-            p.participant.vars['selected_app'] = selected_app
-            p.participant.vars['selected_round'] = selected_round
-            print(f'Random payment: selected app = {selected_app}; selected round = {selected_round}.')
+        # Select a random payment app and round for this player
+        selected_app, selected_round = select_random_payment(num_rounds_indiv=Constants.num_rounds, num_rounds_live=10)
+        
+        # Store the selected app and round in the player's participant variables
+        player.participant.vars['selected_app'] = selected_app
+        player.participant.vars['selected_round'] = selected_round
+
+        # Optional: Debugging output to track selected app and round
+        print(f'Player {player.id_in_subsession}: selected app = {selected_app}; selected round = {selected_round}.')
+
+# def creating_round_order(group: Group):
+#     subsession = group.subsession
+#     if subsession.round_number == 1:
+#         for p in subsession.get_players():
+#             selected_app, selected_round = select_random_payment(num_rounds_indiv=Constants.num_rounds, num_rounds_live=10)
+#             p.participant.vars['selected_app'] = selected_app
+#             p.participant.vars['selected_round'] = selected_round
+#             print(f'Random payment: selected app = {selected_app}; selected round = {selected_round}.')
 
 def select_random_payment(num_rounds_indiv: int, num_rounds_live: int):
     import random
