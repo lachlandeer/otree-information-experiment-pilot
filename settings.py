@@ -4,9 +4,9 @@ SESSION_CONFIGS = [dict(name='my_session',
                         num_demo_participants=3, 
                         app_sequence=[
                           #'Introduction', 
-                         'asset_indiv_no_game', 
-                         #'GroupPreferenceElicitation', 
-                         #'asset_live_game', 
+                         #'asset_indiv_no_game', 
+                         'GroupPreferenceElicitation', 
+                         'asset_live_game', 
                          #'bonus', 
                          'CollectivismSurvey', 
                          'DemographicsSurvey'
