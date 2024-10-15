@@ -88,7 +88,11 @@ class ContinueStudy(Page):
         return self.player.round_number == 1 and not self.player.participant.vars.get('disqualified_task_1', False)
 
 class CreateTaskOrder(WaitPage):
-    after_all_players_arrive = creating_round_order
+    def after_all_players_arrive(self):
+        # Loop through all players and call creating_round_order for each
+        for player in self.group.get_players():
+            creating_round_order(player)
+    # after_all_players_arrive = creating_round_order
 
     def is_displayed(self):
         return True
@@ -98,13 +102,33 @@ class Guess(Page):
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
 
     def vars_for_template(self):
-        task = get_values()
-        self.player.signal_1 = task['signal_1']
-        self.player.signal_2 = task['signal_2']
-        self.player.signal_3 = task['signal_3']
-        self.player.signal_4 = Constants.MEAN_ASSET_VALUE
-        self.player.asset_value = task['asset_value']
-        return task
+        # Retrieve shuffled values for the current round
+        shuffled_values = self.player.participant.vars['shuffled_values']
+        current_round_values = shuffled_values[self.round_number - 1]
+
+        # Assign shuffled values to the player for the current round
+        self.player.signal_1 = current_round_values['signal_1']
+        self.player.signal_2 = current_round_values['signal_2']
+        self.player.signal_3 = current_round_values['signal_3']
+        self.player.signal_4 = 100  # Always set signal_4 to 100
+        self.player.asset_value = current_round_values['asset_value']
+
+        # Return the values to the template (optional, if needed for display)
+        return {
+            'signal_1': self.player.signal_1,
+            'signal_2': self.player.signal_2,
+            'signal_3': self.player.signal_3,
+            'signal_4': self.player.signal_4,  # Always 100
+            'asset_value': self.player.asset_value
+        }
+    # def vars_for_template(self):
+    #     task = get_values()
+    #     self.player.signal_1 = task['signal_1']
+    #     self.player.signal_2 = task['signal_2']
+    #     self.player.signal_3 = task['signal_3']
+    #     self.player.signal_4 = Constants.MEAN_ASSET_VALUE
+    #     self.player.asset_value = task['asset_value']
+    #     return task
     
     def js_vars(self):
         return dict(
@@ -148,14 +172,14 @@ class NextRoundSoon(Page):
         return True
 
 page_sequence = [
-    Instructions,
-    AssetValueIllustration, 
-    ThreeSignalsIllustration, 
-    Example, 
-    AttentionCheck1,
-    AttentionCheck2,
-    Disqualification,
-    ContinueStudy,
+    #Instructions,
+    #AssetValueIllustration, 
+    #ThreeSignalsIllustration, 
+    #Example, 
+    #AttentionCheck1,
+    #AttentionCheck2,
+    #Disqualification,
+    #ContinueStudy,
     CreateTaskOrder,
     Guess,
     Results,

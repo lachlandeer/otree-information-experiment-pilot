@@ -1,5 +1,7 @@
 
 from otree.api import *
+import csv
+import random
 c = cu
 
 doc = '\nTBA'
@@ -65,29 +67,59 @@ def set_condition(group: Group):
     for player in group.get_players():
         player.participant.vars['condition'] = group.condition
 
-def sample_value(mean_value=100, std_dev=10):
-    # this draws a asset value from a distribution
-    import random
-    import numpy as np
-    from scipy.stats import norm
-    value_range = np.linspace(mean_value - 50, mean_value + 50, 101)
-    pdf_values = norm.pdf(value_range, mean_value, std_dev)
-    random_number = random.choices(value_range, pdf_values)[0]
-    return random_number
+# def sample_value(mean_value=100, std_dev=10):
+#     # this draws a asset value from a distribution
+#     import random
+#     import numpy as np
+#     from scipy.stats import norm
+#     value_range = np.linspace(mean_value - 50, mean_value + 50, 101)
+#     pdf_values = norm.pdf(value_range, mean_value, std_dev)
+#     random_number = random.choices(value_range, pdf_values)[0]
+#     return random_number
+def load_values_from_csv():
+    # Adjust this path to where your CSV file is located
+    file_path = '_static/data/asset_live_game.csv'
+    
+    with open(file_path, mode='r') as file:
+        csv_reader = csv.DictReader(file)
+        values = []
+        for row in csv_reader:
+            values.append({
+                'round': int(row['task']),
+                'asset_value': int(row['value']),
+                'signal_1': int(row['signal_1']),
+                'signal_2': int(row['signal_2']),
+                'signal_3': int(row['signal_3']),
+            })
+    return values
 
 def get_values(group: Group):
-    # this draws signals given the asset value
     import random
-    group.asset_value = int(sample_value())
-    signals = [int(sample_value(mean_value=group.asset_value)) for _ in range(3)]
-    player_id_list = list(range(1, 4))
+    import csv
+    # Load CSV values and shuffle them at the group level
+    csv_values = load_values_from_csv()
+
+    # Shuffle the values for the group (every group gets a unique shuffled sequence)
+    random.shuffle(csv_values)
+    
+    # Select the values for the current round based on the round number
+    current_round_values = csv_values[group.round_number - 1]
+
+    # Assign values to the group
+    group.asset_value = current_round_values['asset_value']
+    group.signal_1 = current_round_values['signal_1']
+    group.signal_2 = current_round_values['signal_2']
+    group.signal_3 = current_round_values['signal_3']
+    
+    # Shuffle player IDs for signal ownership
+    player_id_list = list(range(1, 4))  # Assuming 3 players in the group
     random.shuffle(player_id_list)
-    group.signal_1 = signals[0]
-    group.signal_2 = signals[1]
-    group.signal_3 = signals[2]
+    
+    # Assign signals and ownership to players
     for signal_id, player_id in enumerate(player_id_list):
         player = group.get_player_by_id(player_id)
-        player.signal = signals[signal_id]
+        player.signal = [group.signal_1, group.signal_2, group.signal_3][signal_id]
+        
         if signal_id == 0:
             group.signal_1_owner = player_id
             group.signal_1_owner_individualism = player.participant.vars['Individualism']
@@ -97,11 +129,42 @@ def get_values(group: Group):
         elif signal_id == 2:
             group.signal_3_owner = player_id
             group.signal_3_owner_individualism = player.participant.vars['Individualism']
+        
+        # Assign asset and signal values to players
         player.asset_value = group.asset_value
-        player.signal_1 = signals[0]
-        player.signal_2 = signals[1]
-        player.signal_3 = signals[2]
-        player.signal_4 = 100
+        player.signal_1 = group.signal_1
+        player.signal_2 = group.signal_2
+        player.signal_3 = group.signal_3
+        player.signal_4 = 100  # Signal 4 is always 100
+
+
+# def get_values(group: Group):
+#     # this draws signals given the asset value
+#     import random
+#     group.asset_value = int(sample_value())
+#     signals = [int(sample_value(mean_value=group.asset_value)) for _ in range(3)]
+#     player_id_list = list(range(1, 4))
+#     random.shuffle(player_id_list)
+#     group.signal_1 = signals[0]
+#     group.signal_2 = signals[1]
+#     group.signal_3 = signals[2]
+#     for signal_id, player_id in enumerate(player_id_list):
+#         player = group.get_player_by_id(player_id)
+#         player.signal = signals[signal_id]
+#         if signal_id == 0:
+#             group.signal_1_owner = player_id
+#             group.signal_1_owner_individualism = player.participant.vars['Individualism']
+#         elif signal_id == 1:
+#             group.signal_2_owner = player_id
+#             group.signal_2_owner_individualism = player.participant.vars['Individualism']
+#         elif signal_id == 2:
+#             group.signal_3_owner = player_id
+#             group.signal_3_owner_individualism = player.participant.vars['Individualism']
+#         player.asset_value = group.asset_value
+#         player.signal_1 = signals[0]
+#         player.signal_2 = signals[1]
+#         player.signal_3 = signals[2]
+#         player.signal_4 = 100
 
 def creating_rounds(group: Group):
     get_values(group)
@@ -368,15 +431,16 @@ class NextRoundSoon(Page):
     def is_displayed(player: Player):
         return True
 
-page_sequence = [ConditionSetPage, 
-                 Instructions, 
-                 AssetValueIllustration, 
-                 ThreeSignalsIllustration, 
-                 Example, 
-                 AttentionCheck1,
-                 AttentionCheck2,
-                 Disqualification,
-                 ContinueStudy,
+page_sequence = [
+                 ConditionSetPage, 
+                 #Instructions, 
+                 #AssetValueIllustration, 
+                 #ThreeSignalsIllustration, 
+                 #Example, 
+                 #AttentionCheck1,
+                 #AttentionCheck2,
+                 #Disqualification,
+                 #ContinueStudy,
                  # this line below selects payment for the whole experiment if we don't use the 'no_live'
                  # which i have done for testing
                  # comment the line below out when we play the all games in sequence
