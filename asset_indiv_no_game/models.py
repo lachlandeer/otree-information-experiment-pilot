@@ -133,6 +133,7 @@ def creating_round_order(player: Player):
 
 def select_random_payment(num_rounds_indiv: int, num_rounds_live: int):
     import random
-    selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game', 'bonus'])
+    selected_app = 'asset_indiv_no_game'
+    #selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game', 'bonus'])
     selected_round = random.randint(1, num_rounds_indiv if selected_app == 'asset_indiv_no_game' else num_rounds_live)
     return selected_app, selected_round
