@@ -57,7 +57,10 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-
+    
+    prolific_id = models.StringField(label='<b>Please enter your Prolific ID:</b>')
+    comments = models.LongStringField(label='Please leave any comments you would like to share with us in the box below.', blank=True)
+    
     gender = models.IntegerField(
         choices=[[2, 'Female'],
                  [1, 'Male'],
@@ -123,7 +126,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
 
-    residence = models.StringField(label="What is your country of residence?")
+    residence = models.StringField(label="In which country/region do you currently reside?")
     # residence = CountryField(
     #     blank_label='(select country)',
     # )
@@ -132,7 +135,7 @@ class Player(BasePlayer):
     #     min=1,
     #     max=100,
     # )
-    nationality = models.StringField(label="What is your nationality?")
+    nationality = models.StringField(label="In which country/region were you born?")
     # hometown = CountryField(
     #     blank_label='(select country)',
     # )

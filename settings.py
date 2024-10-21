@@ -5,10 +5,10 @@ SESSION_CONFIGS = [dict(name='my_session',
                         app_sequence=[
                           #'Introduction', 
                          #'asset_indiv_no_game', 
-                         'GroupPreferenceElicitation', 
-                         'asset_live_game', 
+                         #'GroupPreferenceElicitation', 
+                         #'asset_live_game', 
                          #'bonus', 
-                         'CollectivismSurvey', 
+                         #'CollectivismSurvey', 
                          'DemographicsSurvey'
                          #'RandomPaymentResults'
                          ]

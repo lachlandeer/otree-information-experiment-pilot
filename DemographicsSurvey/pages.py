@@ -14,7 +14,8 @@ class Survey(Page):
                     'ethnicity_other', 
                     'education', 
                     'residence',
-                    'nationality' #, 
+                    'nationality',
+                    'prolific_id' 
                     # 'ideology', 
                     # 'individualism_1', 
                     # 'individualism_2',
@@ -59,5 +60,9 @@ class Survey(Page):
     #         self.player.ideology = 3
     #         self.player.prolific_id = '123456'
 
+class Comments(Page):
+    form_model = 'player'
 
-page_sequence = [Survey]
+    form_fields = [ 'comments']
+
+page_sequence = [Survey, Comments]
