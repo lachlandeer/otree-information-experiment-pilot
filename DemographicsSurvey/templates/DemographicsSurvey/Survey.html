@@ -19,7 +19,7 @@
     {% formfield player.education %}
 
     <p>
-    <b>What is your country of residence?</b>
+    <b>In which country/region do you currently reside?</b>
     </p> 
         
         <!-- Country Dropdown -->
@@ -30,12 +30,15 @@
     
     <p> 
         <br>
-    <b>What is your nationality?</b>
+    <b>In which country/region were you born?</b>
     </p>
         
     <select id="country-select-2" name="nationality" required>
         <option value="">Select the country</option>
     </select>
+
+    <br><br>
+    {% formfield player.prolific_id %}
 
     <br><br>
 

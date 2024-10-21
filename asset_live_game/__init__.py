@@ -13,6 +13,7 @@ class C(BaseConstants):
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
+    FAILED_PAYMENT = 200
 
     # Correct answers for the attention check questions
     CORRECT_ANSWERS = {
@@ -306,6 +307,7 @@ class AttentionCheck2(Page):
         # If participant fails AttentionCheck2, disqualify them
         if correct_answers < 2:
             player.participant.vars['disqualified_task_2'] = True
+            player.participant.vars['random_payment'] = Constants.FAILED_PAYMENT
         else:
             # If they pass, clear any failure flag
             player.participant.vars['disqualified_task_2'] = False
