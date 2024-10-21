@@ -60,6 +60,7 @@ class AttentionCheck2(Page):
         # If participant fails AttentionCheck2, disqualify them
         if correct_answers < 3:
             self.player.participant.vars['disqualified_task_1'] = True
+            self.player.participant.vars['random_payment'] = Constants.FAILED_PAYMENT
         else:
             # If they pass, clear any failure flag
             self.player.participant.vars['disqualified_task_1'] = False
@@ -176,10 +177,10 @@ page_sequence = [
     #AssetValueIllustration, 
     #ThreeSignalsIllustration, 
     #Example, 
-    #AttentionCheck1,
-    #AttentionCheck2,
-    #Disqualification,
-    #ContinueStudy,
+    AttentionCheck1,
+    AttentionCheck2,
+    Disqualification,
+    ContinueStudy,
     CreateTaskOrder,
     Guess,
     Results,
