@@ -27,42 +27,61 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 <br>
 
 <style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-baqh{text-align:center;vertical-align:top}
-.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-</style>
-
-<table class="tg" style="font-size:18px;">
-    <thead>
-        <tr>
-            <th class="tg-c3ow"></th>
-            <th class="tg-c3ow"><b>Signal 1</b></th>
-            <th class="tg-c3ow"><b>Signal 2</b></th>
-            <th class="tg-c3ow"><b>Signal 3</b></th>
-            <th class="tg-baqh"><b>Mean Value</b></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="tg-c3ow">Information</td>
-            <td class="tg-c3ow">{{ signal_1 }}</td>
-            <td class="tg-c3ow">{{ signal_2 }}</td>
-            <td class="tg-c3ow">{{ signal_3 }}</td>
-            <td class="tg-baqh">{{ Constants.MEAN_ASSET_VALUE }}</td>
-        </tr>
-        <tr>
-            <td class="tg-c3ow">Allocation of Tokens</td>
-            <td class="tg-c3ow">{{ formfield 'weight_signal_1' }}</td>
-            <td class="tg-c3ow">{{ formfield 'weight_signal_2' }}</td>
-            <td class="tg-c3ow">{{ formfield 'weight_signal_3' }}</td>
-            <td class="tg-c3ow">{{ formfield 'weight_signal_4' }}</td>
-        </tr>
-    </tbody>
-</table>
+    .tg  {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 600px; /* Limit the table's total width */
+        margin: 0 auto; /* Center the table on the page */
+    }
+    .tg td, .tg th {
+        border: 1px solid black;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .tg .tg-header {
+        font-weight: bold;
+    }
+    .tg .tg-first-column {
+        width: 150px; /* Fixed width for the first column */
+        font-weight: bold; /* Bold text */
+        text-align: center; /* Left-align text in the first column */
+    }
+    .tg .tg-field {
+        width: 80px; /* Adjust the width of the signal columns */
+        text-align: center;
+    }
+    </style>
+    
+    <table class="tg" style="font-size:18px;">
+        <thead>
+            <tr>
+                <th class="tg-first-column"></th>
+                <th class="tg-header"><b>Signal 1</b></th>
+                <th class="tg-header"><b>Signal 2</b></th>
+                <th class="tg-header"><b>Signal 3</b></th>
+                <th class="tg-header"><b>Mean Value</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tg-first-column">Information</td>
+                <td>{{ signal_1 }}</td>
+                <td>{{ signal_2 }}</td>
+                <td>{{ signal_3 }}</td>
+                <td>{{ Constants.MEAN_ASSET_VALUE }}</td>
+            </tr>
+            <tr>
+                <td class="tg-first-column">Allocation of Tokens</td>
+                <td class="tg-field">{{ formfield 'weight_signal_1' }}</td>
+                <td class="tg-field">{{ formfield 'weight_signal_2' }}</td>
+                <td class="tg-field">{{ formfield 'weight_signal_3' }}</td>
+                <td class="tg-field">{{ formfield 'weight_signal_4' }}</td>
+            </tr>
+        </tbody>
+    </table>
 
 <br>
 
