@@ -85,20 +85,27 @@ class Disqualification(Page):
             return "CollectivismSurvey"
 
 class ContinueStudy(Page):
+    def before_next_page(self):
+        # Only create the round order in round 1
+        if self.round_number == 1:
+            creating_round_order(self.player)
+    
     def is_displayed(self):
         return self.player.round_number == 1 and not self.player.participant.vars.get('disqualified_task_1', False)
 
-class CreateTaskOrder(WaitPage):
-    def after_all_players_arrive(self):
-        # Loop through all players and call creating_round_order for each
-        for player in self.group.get_players():
-            creating_round_order(player)
-    # after_all_players_arrive = creating_round_order
 
-    def is_displayed(self):
-        return True
+# class CreateTaskOrder(WaitPage):
+#     def after_all_players_arrive(self):
+#         # Loop through all players and call creating_round_order for each
+#         for player in self.group.get_players():
+#             creating_round_order(player)
+#     # after_all_players_arrive = creating_round_order
+
+#     def is_displayed(self):
+#         return True
 
 class Guess(Page):
+    timeout_seconds = 10*60
     form_model = 'player'
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
 
@@ -139,7 +146,7 @@ class Guess(Page):
             signal4=100
         )
 
-    def before_next_page(self, timeout_happened):
+    def before_next_page(self):
         target_value = self.player.asset_value
         guess = 1/100 * (self.player.signal_1 * self.player.weight_signal_1 +
                          self.player.signal_2 * self.player.weight_signal_2 +
@@ -159,7 +166,7 @@ class Guess(Page):
 class Results(Page):
     form_model = 'player'
 
-    def before_next_page(self, timeout_happened):
+    def before_next_page(self):
         if self.player.participant.vars['selected_app'] == 'asset_indiv_no_game':
             if self.player.round_number == self.player.participant.vars['selected_round']:
                 self.player.participant.vars['random_payment'] = self.player.earnings
@@ -173,15 +180,15 @@ class NextRoundSoon(Page):
         return True
 
 page_sequence = [
-    #Instructions,
-    #AssetValueIllustration, 
-    #ThreeSignalsIllustration, 
-    #Example, 
+    Instructions,
+    AssetValueIllustration, 
+    ThreeSignalsIllustration, 
+    Example, 
     AttentionCheck1,
     AttentionCheck2,
     Disqualification,
     ContinueStudy,
-    CreateTaskOrder,
+    #CreateTaskOrder,
     Guess,
     Results,
     NextRoundSoon

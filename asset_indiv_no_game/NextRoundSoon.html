@@ -4,7 +4,7 @@
 {{ block content }}
 
 
-{{ if player.round_number != C.NUM_ROUNDS }}
+{{ if player.round_number != Constants.num_rounds }}
 
 <p>
 Click next to start the next decision task.    
@@ -12,9 +12,9 @@ Click next to start the next decision task.
 
 {{ endif }}
 
-{{ if player.round_number == C.NUM_ROUNDS }}
+{{ if player.round_number == Constants.num_rounds }}
 <p>
-   You have completed the {{C.NUM_ROUNDS}} decision tasks. 
+   You have completed the {{Constants.num_rounds}} decision tasks. 
 </p>
 
 <br>

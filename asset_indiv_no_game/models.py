@@ -72,10 +72,10 @@ class Player(BasePlayer):
     )
 
     # Game-related fields
-    weight_signal_1 = models.FloatField(initial=0, label='', max=Constants.GUESS_MAX, min=0)
-    weight_signal_2 = models.FloatField(initial=0, label='', max=Constants.GUESS_MAX, min=0)
-    weight_signal_3 = models.FloatField(initial=0, label='', max=Constants.GUESS_MAX, min=0)
-    weight_signal_4 = models.FloatField(initial=0, label='', max=Constants.GUESS_MAX, min=0)
+    weight_signal_1 = models.IntegerField(label='', max=Constants.GUESS_MAX, min=0)
+    weight_signal_2 = models.IntegerField(label='', max=Constants.GUESS_MAX, min=0)
+    weight_signal_3 = models.IntegerField(label='', max=Constants.GUESS_MAX, min=0)
+    weight_signal_4 = models.IntegerField(label='', max=Constants.GUESS_MAX, min=0)
     guess = models.FloatField()
     signal_1 = models.FloatField()
     signal_2 = models.FloatField()
