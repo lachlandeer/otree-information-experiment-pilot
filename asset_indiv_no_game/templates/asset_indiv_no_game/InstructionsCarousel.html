@@ -1,0 +1,175 @@
+{% extends "global/Page.html" %}
+{% block content %}
+
+<div id="carousel-container">
+    <div class="carousel-slide" id="slide-1"> 
+        {% include "asset_indiv_no_game/InstructionsIntro.html" %}
+    </div>
+    <div class="carousel-slide" id="slide-2" style="display: none;"> 
+        {% include "asset_indiv_no_game/AssetValueIllustration.html" %}
+    </div>
+    <div class="carousel-slide" id="slide-3" style="display: none;"> 
+        {% include "asset_indiv_no_game/ThreeSignalsIllustration.html" %}
+    </div>
+    <div class="carousel-slide" id="slide-4" style="display: none;"> 
+        {% include "asset_indiv_no_game/Example.html" %}
+    </div>
+</div>
+
+<div class="carousel-controls">
+    <button type="button" id="backButton" class="btn btn-secondary" style="display: none;">Back</button>
+    <div id="next-button-container">
+        <button type="button" id="nextButton" class="btn btn-primary">Next</button>
+        <!-- Wrap the next button in a div with the same styling -->
+        <div id="otree-next-button" style="display: none;">
+            {% next_button %}
+        </div>
+    </div>
+</div>
+
+<style>
+    #carousel-container {
+        margin-bottom: 20px;
+    }
+    .carousel-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    #next-button-container {
+        /* This ensures consistent positioning of both buttons */
+        display: inline-block;
+        position: relative;
+    }
+    #next-button-container > * {
+        /* This ensures both buttons have the same position */
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    /* Style the oTree next button to match our custom button */
+    #otree-next-button .otree-btn-next {
+        font-size: inherit;
+        padding: 0.375rem 0.75rem;
+    }
+    .carousel-slide {
+        transition: opacity 0.3s ease-in-out;
+    }
+    .progress-dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        gap: 5px;
+    }
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ddd;
+        cursor: pointer;
+    }
+    .dot.active {
+        background-color: #007bff;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentSlide = 1;
+        const totalSlides = 4;
+        
+        const backButton = document.getElementById('backButton');
+        const nextButton = document.getElementById('nextButton');
+        const otreeNextButton = document.getElementById('otree-next-button');
+
+        // Add progress dots
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-dots';
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (i === 1) dot.classList.add('active');
+            progressContainer.appendChild(dot);
+        }
+        document.querySelector('.carousel-controls').insertAdjacentElement('beforebegin', progressContainer);
+
+        function updateProgress() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentSlide);
+            });
+        }
+
+        function showSlide(slideNumber) {
+            document.querySelectorAll('.carousel-slide').forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            const currentSlideElement = document.getElementById(`slide-${slideNumber}`);
+            if (currentSlideElement) {
+                currentSlideElement.style.display = 'block';
+            }
+
+            backButton.style.display = slideNumber > 1 ? 'inline-block' : 'none';
+            
+            // Update next button visibility
+            if (slideNumber < totalSlides) {
+                nextButton.style.display = 'block';
+                otreeNextButton.style.display = 'none';
+            } else {
+                nextButton.style.display = 'none';
+                otreeNextButton.style.display = 'block';
+            }
+            
+            updateProgress();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        nextButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            nextSlide();
+        });
+
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            prevSlide();
+        });
+
+        // Allow clicking on dots to navigate
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index + 1;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Initialize first slide
+        showSlide(currentSlide);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (currentSlide < totalSlides) nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (currentSlide > 1) prevSlide();
+            }
+        });
+    });
+</script>
+{% endblock %}
