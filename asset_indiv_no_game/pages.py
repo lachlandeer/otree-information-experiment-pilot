@@ -25,76 +25,92 @@ class AttentionCheck1(Page):
     form_model = 'player'
     form_fields = ['question_1', 'question_2', 'question_3']
 
-    def before_next_page(self):
+    def check_answers(self):
+        """Helper method to check answers and return number correct"""
         correct_answers = 0
-        if self.player.question_1 == Constants.CORRECT_ANSWERS['question_1']:
-            correct_answers += 1
-        if self.player.question_2 == Constants.CORRECT_ANSWERS['question_2']:
-            correct_answers += 1
-        if self.player.question_3 == Constants.CORRECT_ANSWERS['question_3']:
-            correct_answers += 1
+        for q in self.form_fields:
+            if getattr(self.player, q) == Constants.CORRECT_ANSWERS[q]:
+                correct_answers += 1
+        return correct_answers
 
-        # If they get any question wrong, flag them for AttentionCheck2
-        if correct_answers < 3:
-            self.player.participant.vars['failed_attention_check_1'] = True
-        else:
-            # If they pass, clear any failure flag
-            self.player.participant.vars['failed_attention_check_1'] = False
+    def before_next_page(self):
+        correct_answers = self.check_answers()
+        # Store both the pass/fail status and the score
+        self.player.participant.vars['attention_check_1_score'] = correct_answers
+        self.player.participant.vars['failed_attention_check_1'] = correct_answers < 3
 
     def is_displayed(self):
-        # Show AttentionCheck1 only in round 1
-        return self.player.round_number == 1
+        return self.round_number == 1
+
+    def error_message(self, values):
+        # Optional: Add error message if you want to prevent blank answers
+        for field in self.form_fields:
+            if not values[field]:
+                return "Please answer all questions before proceeding."
 
 class AttentionCheck2(Page):
     form_model = 'player'
     form_fields = ['question_1', 'question_2', 'question_3']
 
+    def vars_for_template(self):
+        # Get the first attention check answers and compare with correct answers
+        prev_answers = {
+            'q1_correct': self.player.in_round(1).question_1 == Constants.CORRECT_ANSWERS['question_1'],
+            'q2_correct': self.player.in_round(1).question_2 == Constants.CORRECT_ANSWERS['question_2'],
+            'q3_correct': self.player.in_round(1).question_3 == Constants.CORRECT_ANSWERS['question_3'],
+        }
+        
+        return {
+            'previous_answers': prev_answers
+        }
 
     def before_next_page(self):
         correct_answers = 0
-        if self.player.question_1 == Constants.CORRECT_ANSWERS['question_1']:
-            correct_answers += 1
-        if self.player.question_2 == Constants.CORRECT_ANSWERS['question_2']:
-            correct_answers += 1
-        if self.player.question_3 == Constants.CORRECT_ANSWERS['question_3']:
-            correct_answers += 1
+        for q in self.form_fields:
+            if getattr(self.player, q) == Constants.CORRECT_ANSWERS[q]:
+                correct_answers += 1
 
-        # If participant fails AttentionCheck2, disqualify them
         if correct_answers < 3:
             self.player.participant.vars['disqualified_task_1'] = True
             self.player.participant.vars['random_payment'] = Constants.FAILED_PAYMENT
         else:
-            # If they pass, clear any failure flag
             self.player.participant.vars['disqualified_task_1'] = False
 
     def is_displayed(self):
-        # Show AttentionCheck2 only if participant failed AttentionCheck1
-        return self.player.round_number == 1 and self.player.participant.vars.get('failed_attention_check_1', False)
-
+        return (self.round_number == 1 and 
+                self.player.participant.vars.get('failed_attention_check_1', False))
 
 class Disqualification(Page):
     def is_displayed(self):
-        return self.player.round_number == 1 and self.player.participant.vars.get('disqualified_task_1', False)
+        return (self.round_number == 1 and 
+                self.player.participant.vars.get('disqualified_task_1', False))
 
     def vars_for_template(self):
+        # Enhanced feedback based on performance
+        ac1_score = self.player.participant.vars.get('attention_check_1_score', 0)
+        ac2_score = self.player.participant.vars.get('attention_check_2_score', 0)
+        
         return {
-            'disqualification_message': "You did not pass the attention check and cannot proceed."
+            'disqualification_message': (
+                "You did not pass the attention checks and cannot proceed with this task. "
+                "Please proceed to the next part of the study."
+            ),
+            'first_check_score': ac1_score,
+            'second_check_score': ac2_score,
         }
 
     def app_after_this_page(player, upcoming_apps):
-        print('upcoming_apps is', upcoming_apps)
         if player.participant.vars.get('disqualified_task_1', True):
             return "CollectivismSurvey"
 
 class ContinueStudy(Page):
     def before_next_page(self):
-        # Only create the round order in round 1
         if self.round_number == 1:
             creating_round_order(self.player)
     
     def is_displayed(self):
-        return self.player.round_number == 1 and not self.player.participant.vars.get('disqualified_task_1', False)
-
+        return (self.round_number == 1 and 
+                not self.player.participant.vars.get('disqualified_task_1', False))
 
 # class CreateTaskOrder(WaitPage):
 #     def after_all_players_arrive(self):
