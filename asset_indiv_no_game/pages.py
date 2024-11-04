@@ -1,23 +1,25 @@
 from otree.api import *
 from .models import *
 
-class Instructions(Page):
-    def is_displayed(self):
-        # Use self.player instead of passing player as an argument
-        print(f'Instructions is_displayed called for round {self.player.round_number}')    
-        return self.player.round_number == 1
+class InstructionsCarousel(Page):
+    template_name = 'asset_indiv_no_game/InstructionsCarousel.html'
 
-class AssetValueIllustration(Page):
-    def is_displayed(self):
-        return self.player.round_number == 1
+    # def is_displayed(self):
+    #     # Use self.player instead of passing player as an argument
+    #     print(f'Instructions is_displayed called for round {self.player.round_number}')    
+    #     return self.player.round_number == 1
 
-class ThreeSignalsIllustration(Page):
-    def is_displayed(self):
-        return self.player.round_number == 1
+# class AssetValueIllustration(Page):
+#     def is_displayed(self):
+#         return self.player.round_number == 1
 
-class Example(Page):
-    def is_displayed(self):
-        return self.player.round_number == 1
+# class ThreeSignalsIllustration(Page):
+#     def is_displayed(self):
+#         return self.player.round_number == 1
+
+# class Example(Page):
+#     def is_displayed(self):
+#         return self.player.round_number == 1
 
 class AttentionCheck1(Page):
     form_model = 'player'
@@ -180,10 +182,11 @@ class NextRoundSoon(Page):
         return True
 
 page_sequence = [
-    Instructions,
-    AssetValueIllustration, 
-    ThreeSignalsIllustration, 
-    Example, 
+    # Instructions,
+    # AssetValueIllustration, 
+    # ThreeSignalsIllustration, 
+    # Example, 
+    InstructionsCarousel,
     AttentionCheck1,
     AttentionCheck2,
     Disqualification,
