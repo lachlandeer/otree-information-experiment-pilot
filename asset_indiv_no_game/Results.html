@@ -45,12 +45,11 @@
 
 <h4>  Your Earnings Information </h4>
 
-<p>The target value was {{ player.target_value }}.</p>
+<p>The target value was {{ player.target_value|to2 }}.</p>
 
-<p>Your estimate was {{ player.guess }}.</p>
+<p>Your estimate was {{ player.guess|to2 }}.</p>
 
-<p>Your profit is {{ player.earnings }}.</p>
-
+<p>Your profit is {{ player.earnings|to2 }}.</p>
 
 {{ next_button }}
 
