@@ -1,3 +1,31 @@
+<style>
+  .screenshot-box {
+      border: 2px solid black;
+      padding: 15px;
+      margin: 15px 0;
+  }
+</style>
+
+<style>
+  .disabled-submit {
+      background-color: #e9ecef;
+      color: #6c757d;
+      padding: 6px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: not-allowed;
+      pointer-events: none;
+      user-select: none;
+  }
+  /* Container div for better spacing */
+  .table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    }
+</style>
 
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;}
@@ -11,6 +39,35 @@
 
     <h3>Example Decision Problem</h3>
     <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value).</p>
+    
+    <div class="screenshot-box">  
+      This is round <b>1</b> of <b>10</b>.
+
+      <br>
+      <br>
+
+      <h5>
+          Your Tokens
+      </h5>
+
+      You need to allocate <b>100</b> tokens to the information.
+
+      <br>
+
+      You have allocated 0 tokens so far.
+
+      <br>
+
+      You have 100 left to allocate.
+
+      <br>
+      <br>
+
+      <h5>
+          Token Allocation
+      </h5>
+
+      <br>
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -36,9 +93,40 @@
             </tr>
         </tbody>
     </table>
+  </div>
+
     <p>In this example, the three signals show 98, 103 and 99. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is when estimating the target value:</p>
     <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
-    <p>To form an estimate of the target value, you need to input your allocated tokens into their respective boxes.</p>
+    <p>To form an estimate of the target value, you need to input your allocated tokens into their respective boxes:</p>
+
+    <div class="screenshot-box">  
+      This is round <b>1</b> of <b>10</b>.
+
+      <br>
+      <br>
+
+      <h5>
+          Your Tokens
+      </h5>
+
+      You need to allocate <b>100</b> tokens to the information.
+
+      <br>
+
+      You have allocated 100 tokens so far.
+
+      <br>
+
+      You have 0 left to allocate.
+
+      <br>
+      <br>
+
+      <h5>
+          Token Allocation
+      </h5>
+
+      <br>  
     <table class="tg" style="font-size:18px; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;"><thead>
         <tr>
             <th class="tg-c3ow"></th>
@@ -65,8 +153,13 @@
         </tbody>
     </table>
 
-    <h4>Estimated Target Value</h4>
+    <h5>Estimated Target Value</h5>
     <p>Your estimate of the target value is 99.25 </p>
+
+    <p>Do you wish to submit this estimate?</p>
+    <button class="disabled-submit">Submit Estimate</button>
+
+    </div>
 
     <p>In this example, you have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value. Your guess of the target value is calculated by adding up the weighted values of each allocation. The formula used is: (35% × 98) + (10% × 103) + (35% × 99) + (20% × 100) = 99.25.</p>
     <p>You can adjust your allocation of the tokens until you have optimized your allocation and are satisfied with your estimate.</p>
@@ -78,7 +171,8 @@
     <p>The feedback screen will show (your allocation of tokens,) your estimate of the Target Value, the target value and your earnings in that decision problem.</p>
     <p>In this example, suppose V is 105. Then the <b>feedback screen</b> will show the following information:</p>
 
-    <h4> Your Choices </h4> 
+    <div class="screenshot-box">  
+    <h5> Your Choices </h5> 
 
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;}
@@ -89,7 +183,8 @@
         .tg .tg-baqh{text-align:center;vertical-align:top}
         .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
         </style>
-        
+      
+      <div class="table-container">
         <table class="tg" style="font-size:18px; "><thead>
           <tr>
             <th class="tg-c3ow"></th>
@@ -115,10 +210,10 @@
           </tr>
         </tbody>
         </table>
-        
+      </div>  
         <br>
     
-    <h4>  Your Earnings Information </h4>
+    <h5>  Your Earnings Information </h5>
 
     <p>The target value was 105.</p>
 
@@ -127,6 +222,7 @@
     <p>Your profit is 466.93.</p>
 
     <br>
+    </div>
 
     <p style="text-align: center;">Note that your earnings are calculated as follows: 500 – (99.25– 105)<sup>2</sup> = 466.93 points</p>
 
