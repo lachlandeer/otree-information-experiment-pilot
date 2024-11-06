@@ -4,10 +4,10 @@ from .models import *
 class InstructionsCarousel(Page):
     template_name = 'asset_indiv_no_game/InstructionsCarousel.html'
 
-    # def is_displayed(self):
-    #     # Use self.player instead of passing player as an argument
-    #     print(f'Instructions is_displayed called for round {self.player.round_number}')    
-    #     return self.player.round_number == 1
+    def is_displayed(self):
+        # Use self.player instead of passing player as an argument
+        #print(f'Instructions is_displayed called for round {self.player.round_number}')    
+        return self.player.round_number == 1
 
 # class AssetValueIllustration(Page):
 #     def is_displayed(self):
