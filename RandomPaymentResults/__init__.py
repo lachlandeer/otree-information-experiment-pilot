@@ -21,10 +21,10 @@ class DisqualifiedStage01Results(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         return {
-            # 'disqualified_stage_1': participant.vars['disqualified_task_1'],
-            # 'disqualified_stage_2': participant.vars['disqualified_task_2'],
-            #'selected_app': participant.vars['selected_app'],
-            #'selected_round': participant.vars['selected_round'],
+            'disqualified_stage_1': participant.vars['disqualified_task_1'],
+            'disqualified_stage_2': participant.vars['disqualified_task_2'],
+            'selected_app': participant.vars['selected_app'],
+            'selected_round': participant.vars['selected_round'],
             'random_payment': participant.vars['random_payment']
         }
 
@@ -35,10 +35,10 @@ class DisqualifiedStage02Results(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         return {
-            # 'disqualified_stage_1': participant.vars['disqualified_task_1'],
-            # 'disqualified_stage_2': participant.vars['disqualified_task_2'],
-            #'selected_app': participant.vars['selected_app'],
-            #'selected_round': participant.vars['selected_round'],
+            'disqualified_stage_1': participant.vars['disqualified_task_1'],
+            'disqualified_stage_2': participant.vars['disqualified_task_2'],
+            'selected_app': participant.vars['selected_app'],
+            'selected_round': participant.vars['selected_round'],
             'random_payment': participant.vars['random_payment']
         }
 
@@ -53,6 +53,8 @@ class Results(Page):
             # 'disqualified_stage_2': participant.vars['disqualified_task_2'],
             'selected_app': participant.vars['selected_app'],
             'selected_round': participant.vars['selected_round'],
+            'target_value': participant.vars['target_value'],
+            'guess': participant.vars['guess'],
             'random_payment': participant.vars['random_payment']
         }
     
