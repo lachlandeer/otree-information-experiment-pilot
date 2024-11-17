@@ -209,6 +209,6 @@ page_sequence = [
     ContinueStudy,
     #CreateTaskOrder,
     Guess,
-    Results,
-    NextRoundSoon
+    Results #,
+    #NextRoundSoon
 ]
