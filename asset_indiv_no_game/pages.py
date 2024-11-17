@@ -39,6 +39,9 @@ class AttentionCheck1(Page):
         self.player.participant.vars['attention_check_1_score'] = correct_answers
         self.player.participant.vars['failed_attention_check_1'] = correct_answers < 3
 
+        if correct_answers == 3:
+            self.player.participant.vars['disqualified_task_1'] = False
+
     def is_displayed(self):
         return self.round_number == 1
 
@@ -101,7 +104,7 @@ class Disqualification(Page):
 
     def app_after_this_page(player, upcoming_apps):
         if player.participant.vars.get('disqualified_task_1', True):
-            return "CollectivismSurvey"
+            return "GroupPreferenceElicitation"
 
 class ContinueStudy(Page):
     def before_next_page(self):
