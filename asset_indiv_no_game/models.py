@@ -3,7 +3,7 @@ from otree.api import *
 class Constants(BaseConstants):
     name_in_url = 'asset_indiv_no_game'
     players_per_group = None  # Ensure this is uppercase
-    num_rounds = 10
+    num_rounds = 20
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100

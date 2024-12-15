@@ -126,7 +126,7 @@ class ContinueStudy(Page):
 #         return True
 
 class Guess(Page):
-    timeout_seconds = 10*60
+    timeout_seconds = 5*60
     form_model = 'player'
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
 
