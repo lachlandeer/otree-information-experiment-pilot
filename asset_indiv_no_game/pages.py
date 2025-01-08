@@ -191,6 +191,7 @@ class Results(Page):
         if self.player.participant.vars['selected_app'] == 'asset_indiv_no_game':
             if self.player.round_number == self.player.participant.vars['selected_round']:
                 self.player.participant.vars['random_payment'] = self.player.earnings
+                self.player.payoff = self.player.earnings
                 self.player.participant.vars['guess'] = self.player.guess
                 self.player.participant.vars['target_value'] = self.player.target_value
 
