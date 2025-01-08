@@ -1,5 +1,5 @@
 from os import environ
-SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=0)
+SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=0.005, participation_fee=1)
 SESSION_CONFIGS = [dict(name='my_session', 
                         num_demo_participants=3, 
                         app_sequence=[
@@ -15,7 +15,7 @@ SESSION_CONFIGS = [dict(name='my_session',
                        )
                   ]
 LANGUAGE_CODE = 'en'
-REAL_WORLD_CURRENCY_CODE = 'USD'
+REAL_WORLD_CURRENCY_CODE = 'GBP'
 USE_POINTS = True
 DEMO_PAGE_INTRO_HTML = ''
 PARTICIPANT_FIELDS = ['selected_app', 'selected_round', 'random_payment', 'group_results', 'condition', 
