@@ -2,17 +2,23 @@
 
 {% block content %}
 
-    <h1>Payment</h1>
+    <h3>Results</h3>
 
     <p>You have completed all the tasks.</p>
 
     <p>Your payment is based on Round {% selected_round %}.</p>
 
-    <p>The Target Value was {% target_value %}.</p>
+    <ul>
+        <li>The Target Value was {% target_value %}.</li>
+        <li>Your estimate was {% guess %}.</li>
+        <li>Profit earned from this decision is {% random_payment %}.</li>
+    </ul>
 
-    <p>Your estimate is {% guess %}.</p>
+    <h3>Your Earnings</h3>
 
-    <p>The payment you have earned is <strong>{% random_payment %}</strong>.</p>
+    <p>The payment you have earned is <strong>{% random_payment %}</strong> points. This converts to an additional <strong>{% payoff %}</strong> in earnings on top of your participation fee of {% participation_fee%}.</p>
+
+    <p>Your total earnings are {% total_payment %}. </p>
 
     <p>To prove that you have completed the study, please return to the Prolific window enter the completion code: <strong>CCLHK0J7</strong> </p>
 

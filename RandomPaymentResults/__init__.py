@@ -48,6 +48,7 @@ class DisqualifiedStage01Results(Page):
 class Results(Page):
     def vars_for_template(player: Player):
         participant = player.participant
+        session = player.session
         return {
             # 'disqualified_stage_1': participant.vars['disqualified_task_1'],
             # 'disqualified_stage_2': participant.vars['disqualified_task_2'],
@@ -55,7 +56,11 @@ class Results(Page):
             'selected_round': participant.vars['selected_round'],
             'target_value': participant.vars['target_value'],
             'guess': participant.vars['guess'],
-            'random_payment': participant.vars['random_payment']
+            'random_payment': participant.vars['random_payment'],
+            'random_payment_currency': participant.vars['random_payment']/200,
+            'participation_fee': session.config['participation_fee'],
+            'payoff':  cu(participant.payoff).to_real_world_currency(session),
+            'total_payment': participant.payoff_plus_participation_fee()
         }
     
     def is_displayed(player):
