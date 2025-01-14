@@ -1,0 +1,17 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Your Token Allocation Strategy
+{% endblock %}
+
+{% block content %}
+
+    <p>You are approaching the end of
+        the study.</p>
+
+    {% formfield player.strategy %}
+    
+    {% next_button %}
+    
+    {% endblock %}

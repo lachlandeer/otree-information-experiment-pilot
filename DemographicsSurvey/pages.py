@@ -65,4 +65,9 @@ class Comments(Page):
 
     form_fields = [ 'comments']
 
-page_sequence = [Survey, Comments]
+class Strategy(Page):
+    form_model = 'player'
+
+    form_fields = [ 'strategy']
+
+page_sequence = [Survey, Strategy, Comments]

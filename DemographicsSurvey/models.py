@@ -60,7 +60,8 @@ class Player(BasePlayer):
     
     prolific_id = models.StringField(label='<b>Please enter your Prolific ID:</b>')
     comments = models.LongStringField(label='Please leave any comments you would like to share with us in the box below.', blank=True)
-    
+    strategy = models.LongStringField(label='What influenced your choices when deciding how to allocate the 100 tokens across the four pieces of information?', blank=False)
+
     gender = models.IntegerField(
         choices=[[2, 'Female'],
                  [1, 'Male'],
