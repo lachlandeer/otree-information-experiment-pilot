@@ -4,12 +4,12 @@ SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=0.005, participatio
 SESSION_CONFIGS = [dict(name='my_session', 
                         num_demo_participants=3, 
                         app_sequence=[
-                         'Introduction', 
+                         #'Introduction', 
                          'asset_indiv_no_game', 
-                         'GroupPreferenceElicitation', 
+                         #'GroupPreferenceElicitation', 
                          #'asset_live_game', 
                          #'bonus', 
-                         'CollectivismSurvey', 
+                         #'CollectivismSurvey', 
                          'DemographicsSurvey',
                          'RandomPaymentResults'
                          ]

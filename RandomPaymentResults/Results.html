@@ -11,15 +11,18 @@
     <ul>
         <li>The Target Value was {% target_value %}.</li>
         <li>Your estimate was {% guess %}.</li>
-        <li>Profit earned from this decision is {% random_payment %}.</li>
+        <li>Profit earned from this decision is {% random_payment %} points.</li>
     </ul>
 
     <h3>Your Earnings</h3>
 
-    <p>The payment you have earned is <strong>{% random_payment %}</strong> points. This converts to an additional <strong>{% payoff %}</strong> in earnings on top of your participation fee of {% participation_fee%}.</p>
+    <p>The payment you have earned is <strong>{% random_payment %}</strong> points. This converts to an additional <strong>{% payoff %}</strong> in earnings on top of your participation fee of <strong>£1.</strong></p>
 
-    <p>Your total earnings are {% total_payment %}. </p>
+    <p>Your total earnings are <strong>{% total_payment %}</strong>. </p>
 
     <p>To prove that you have completed the study, please return to the Prolific window enter the completion code: <strong>CCLHK0J7</strong> </p>
+
+    <p>You may close this window after entering the completion code. </p>
+
 
 {% endblock %}

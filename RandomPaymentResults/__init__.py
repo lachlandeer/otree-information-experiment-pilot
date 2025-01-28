@@ -58,8 +58,8 @@ class Results(Page):
             'guess': participant.vars['guess'],
             'random_payment': participant.vars['random_payment'],
             'random_payment_currency': participant.vars['random_payment']/200,
-            'participation_fee': session.config['participation_fee'],
-            'payoff':  cu(participant.payoff).to_real_world_currency(session),
+            # 'participation_fee': session.config['participation_fee'],
+            'payoff':  cu(participant.random_payment).to_real_world_currency(session),
             'total_payment': participant.payoff_plus_participation_fee()
         }
     
