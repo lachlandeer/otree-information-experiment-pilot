@@ -1,4 +1,5 @@
 from os import environ
+
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=0.005, participation_fee=0)
 SESSION_CONFIGS = [dict(name='my_session', 
                         num_demo_participants=3, 
@@ -32,6 +33,8 @@ ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 SECRET_KEY = 'blahblah'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree']
+INSTALLED_APPS = ['otree'
+            ]
+
 
 

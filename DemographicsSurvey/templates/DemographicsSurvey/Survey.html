@@ -18,26 +18,9 @@
     {% formfield player.ethnicity_other label=''%}
     {% formfield player.education %}
 
-    <p>
-    <b>In which country/region do you currently reside?</b>
-    </p> 
-        
-        <!-- Country Dropdown -->
-        <select id="country-select-1" name="residence" required>
-            <option value="">Select the country</option>
-        </select>
-    
-    
-    <p> 
-        <br>
-    <b>In which country/region were you born?</b>
-    </p>
-        
-    <select id="country-select-2" name="nationality" required>
-        <option value="">Select the country</option>
-    </select>
+    {% formfield player.residence %}
+    {% formfield player.nationality %}
 
-    <br><br>
     {% formfield player.prolific_id %}
 
     <br><br>
@@ -59,38 +42,4 @@
             display: flex;
         }
     </style>
-{% endblock %}
-
-{% block scripts %}
-  <!-- Fetch country list, sort it alphabetically, and populate both dropdowns -->
-  <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          fetch('https://restcountries.com/v3.1/all')
-              .then(response => response.json())
-              .then(data => {
-                  // Sort countries alphabetically by their common name
-                  data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-
-                  // Get both dropdown elements
-                  const select1 = document.getElementById('country-select-1');
-                  const select2 = document.getElementById('country-select-2');
-
-                  // Populate both dropdowns with the sorted country data
-                  data.forEach(country => {
-                      const option1 = document.createElement('option');
-                      const option2 = document.createElement('option');
-
-                      option1.value = country.cca2;  // Use country code
-                      option1.text = country.name.common;  // Use country name
-
-                      option2.value = country.cca2;  // Use country code
-                      option2.text = country.name.common;  // Use country name
-
-                      select1.appendChild(option1);  // Add to first dropdown
-                      select2.appendChild(option2);  // Add to second dropdown
-                  });
-              })
-              .catch(error => console.error('Error fetching country data:', error));
-      });
-  </script>
 {% endblock %}
