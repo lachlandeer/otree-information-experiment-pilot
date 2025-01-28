@@ -25,7 +25,7 @@ class DisqualifiedStage01Results(Page):
             # 'disqualified_stage_2': participant.vars['disqualified_task_2'],
             #'selected_app': participant.vars['selected_app'],
             #'selected_round': participant.vars['selected_round'],
-            'random_payment': participant.vars['random_payment']
+            #'random_payment': participant.vars['random_payment']
         }
 
     def is_displayed(player):
