@@ -100,12 +100,12 @@ class Player(BasePlayer):
     # Replace CountryField with StringField
     residence = models.StringField(
         choices=Constants.COUNTRY_CHOICES,
-        label="<b>In which country do you currently reside?</b>",
+        label="<b>In which country/region do you currently reside?</b>",
         blank=False
     )
     
     nationality = models.StringField(
         choices=Constants.COUNTRY_CHOICES,
-        label="<b>In which country were you born?</b>",
+        label="<b>In which country/region were you born?</b>",
         blank=False
     )
