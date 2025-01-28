@@ -27,7 +27,10 @@ class Survey(Page):
             if len(missing) == 1:
                 return f"Please specify your {missing[0]}."
             return f"Please specify your {missing[0]} and {missing[1]}."
-    
+
+    def before_next_page(self):
+        # Add payment when participant completes the survey
+        self.player.payoff += c(200)    
 
 class Comments(Page):
     form_model = 'player'
