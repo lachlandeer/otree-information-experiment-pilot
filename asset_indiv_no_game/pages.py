@@ -75,7 +75,7 @@ class AttentionCheck2(Page):
 
         if correct_answers < 3:
             self.player.participant.vars['disqualified_task_1'] = True
-            self.player.participant.vars['random_payment'] = Constants.FAILED_PAYMENT
+            #self.player.participant.vars['random_payment'] = Constants.FAILED_PAYMENT
         else:
             self.player.participant.vars['disqualified_task_1'] = False
 
@@ -96,7 +96,6 @@ class Disqualification(Page):
         return {
             'disqualification_message': (
                 "You did not pass the attention checks and cannot proceed with this task. "
-                "Please proceed to the next part of the study."
             ),
             'first_check_score': ac1_score,
             'second_check_score': ac2_score,
@@ -104,7 +103,7 @@ class Disqualification(Page):
 
     def app_after_this_page(player, upcoming_apps):
         if player.participant.vars.get('disqualified_task_1', True):
-            return "GroupPreferenceElicitation"
+            return "RandomPaymentResults"
 
 class ContinueStudy(Page):
     def before_next_page(self):

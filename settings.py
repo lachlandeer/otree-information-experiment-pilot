@@ -1,5 +1,5 @@
 from os import environ
-SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=0.005, participation_fee=1)
+SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=0.005, participation_fee=0)
 SESSION_CONFIGS = [dict(name='my_session', 
                         num_demo_participants=3, 
                         app_sequence=[

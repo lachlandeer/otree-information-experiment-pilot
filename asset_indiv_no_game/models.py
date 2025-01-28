@@ -8,7 +8,7 @@ class Constants(BaseConstants):
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
-    FAILED_PAYMENT = 100
+    # FAILED_PAYMENT = 100
 
     # Correct answers for the attention check questions
     CORRECT_ANSWERS = {
