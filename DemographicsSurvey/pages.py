@@ -38,7 +38,7 @@ class Comments(Page):
 
 class Strategy(Page):
     def is_displayed(player):
-        return player.round_number == 1 and player.participant.vars.get('disqualified_task_1', False)
+        return player.round_number == 1 and not player.participant.vars.get('disqualified_task_1', False)
 
     form_model = 'player'
     form_fields = ['strategy']
