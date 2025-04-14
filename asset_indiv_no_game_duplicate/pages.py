@@ -134,7 +134,7 @@ class AssignTreatments(Page):
         p = self.player
 
         majority_prob = Constants.MAJORITY_PROBABILITY
-        treatments = ['baseline', 'owners_anonymous', 'owners_with_type']
+        treatments = ['owners_anonymous', 'owners_with_type']
 
         p.treatment = random.choice(treatments)
 
