@@ -1,0 +1,12 @@
+{% extends "global/Page.html" %}
+{% block content %}
+    <h3>You are unable to proceed</h3>
+
+    <!-- <p>{{ disqualification_message }}</p> -->
+
+    <p>Unfortunately, you did not answer the questions correctly and cannot proceed to the decision tasks.</p>
+
+    <p>Please click next to continue.</p>
+
+    {% next_button %}
+{% endblock %}

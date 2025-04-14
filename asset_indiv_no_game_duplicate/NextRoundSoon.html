@@ -1,0 +1,30 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Next Round{{ endblock }}
+
+{{ block content }}
+
+
+{{ if player.round_number != Constants.num_rounds }}
+
+<p>
+Click next to start the next decision task.    
+</p>
+
+{{ endif }}
+
+{{ if player.round_number == Constants.num_rounds }}
+<p>
+   You have completed the {{Constants.num_rounds}} decision tasks. 
+</p>
+
+<br>
+
+<p>
+    Click Next to continue.
+</p>
+{{ endif }}
+
+
+{{ next_button }}
+
+{{ endblock }}

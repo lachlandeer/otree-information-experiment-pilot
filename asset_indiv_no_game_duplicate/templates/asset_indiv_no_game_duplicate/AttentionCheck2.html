@@ -1,0 +1,105 @@
+{% extends "global/Page.html" %}
+{% block title %}
+    Check Your Understanding - Second Attempt
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-warning mb-4">
+    <h5>Your Previous Attempt</h5>
+    <p>You answered the following questions incorrectly in your first attempt:</p>
+    <div class="previous-answers">
+        {% if not previous_answers.q1_correct %}
+        <div class="question-result text-danger">
+            Question 1 ❌
+        </div>
+        {% endif %}
+        {% if not previous_answers.q2_correct %}
+        <div class="question-result text-danger">
+            Question 2 ❌
+        </div>
+        {% endif %}
+        {% if not previous_answers.q3_correct %}
+        <div class="question-result text-danger">
+            Question 3 ❌
+        </div>
+        {% endif %}
+    </div>
+    <p class="mt-3">Please try these questions again. We've provided hints to help you answer correctly.</p>
+    <p><strong>This is your last chance to answer these questions correctly.</strong> If you don't get all questions right in this attempt, you won't be able to continue to the game.</p>
+</div>
+
+<!-- Question 1 -->
+<div class="form-group {% if not previous_answers.q1_correct %}needs-attention{% endif %}">
+    {{ formfield 'question_1' }}
+    {% if not previous_answers.q1_correct %}
+    <div class="hint-box">
+        <i class="fas fa-lightbulb"></i>
+        <span class="hint-text">Values closer to this Mean Value, 100, are more likely to be selected as V than those further away from 100.</span>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Question 2 -->
+<div class="form-group {% if not previous_answers.q2_correct %}needs-attention{% endif %}">
+    {{ formfield 'question_2' }}
+    {% if not previous_answers.q2_correct %}
+    <div class="hint-box">
+        <i class="fas fa-lightbulb"></i>
+        <span class="hint-text">You can expect to earn more by forming an estimate that is closer to the Target value. Your Target Value depends on the value of the asset (V).</span>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Question 3 -->
+<div class="form-group {% if not previous_answers.q3_correct %}needs-attention{% endif %}">
+    {{ formfield 'question_3' }}
+    {% if not previous_answers.q3_correct %}
+    <div class="hint-box">
+        <i class="fas fa-lightbulb"></i>
+        <span class="hint-text">V is the average of all potential signals. Values closer to V are more likely to be selected as a signal than those further away from V.</span>
+    </div>
+    {% endif %}
+</div>
+
+{% next_button %}
+
+<style>
+    .form-group {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border-radius: 4px;
+    }
+    .needs-attention {
+        border-left: 3px solid #dc3545;
+        padding-left: 1rem;
+        background-color: #fff8f8;
+    }
+    .hint-box {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-left: 3px solid #007bff;
+        border-radius: 4px;
+    }
+    .previous-answers {
+        margin: 10px 0;
+        padding: 10px;
+        background-color: rgba(255,255,255,0.5);
+        border-radius: 4px;
+    }
+    .question-result {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+    .fas {
+        margin-right: 8px;
+        color: #007bff;
+    }
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+</style>
+
+{% endblock %}
