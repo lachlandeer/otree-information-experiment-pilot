@@ -1,0 +1,10 @@
+{% extends "global/Page.html" %}
+
+{% block content %}
+<script>
+    // Auto-advance to next page immediately
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("button.otree-btn-next").click();
+    });
+</script>
+{% endblock %}

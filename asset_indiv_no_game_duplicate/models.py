@@ -1,4 +1,7 @@
 from otree.api import *
+import csv
+import os
+from datetime import datetime
 
 class Constants(BaseConstants):
     name_in_url = 'asset_indiv_no_game_duplicate'
@@ -9,6 +12,8 @@ class Constants(BaseConstants):
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
     MAJORITY_PROBABILITY = 0.55
+    TARGET_PER_CELL = 10  # Number of participants to target per condition cell
+
     # FAILED_PAYMENT = 100
 
     # Correct answers for the attention check questions
@@ -18,19 +23,56 @@ class Constants(BaseConstants):
         'question_3': '78',
     }
 
+
 class Subsession(BaseSubsession):
+    owners_anonymous_count = models.IntegerField(initial=0)
+    owners_with_type_individualist_majority = models.IntegerField(initial=0)
+    owners_with_type_individualist_minority = models.IntegerField(initial=0)
+    owners_with_type_collectivist_majority = models.IntegerField(initial=0)
+    owners_with_type_collectivist_minority = models.IntegerField(initial=0)
+
     def creating_session(self):
         import random
-        # Load the CSV values once for the entire session
+
         csv_values = load_values_from_csv()
 
         for p in self.get_players():
-            # Shuffle once for the player at the start of the session
             player_values = csv_values.copy()
             random.shuffle(player_values)
-
-            # Store shuffled values for all rounds in participant vars
             p.participant.vars['shuffled_values'] = player_values
+
+        target_per_cell = Constants.TARGET_PER_CELL
+
+        self.session.vars['assignment_targets'] = {
+            'owners_anonymous': target_per_cell,
+            ('owners_with_type', 'Individualist', 'Majority'): target_per_cell,
+            ('owners_with_type', 'Individualist', 'Minority'): target_per_cell,
+            ('owners_with_type', 'Collectivist', 'Majority'): target_per_cell,
+            ('owners_with_type', 'Collectivist', 'Minority'): target_per_cell,
+        }
+
+        self.session.vars['assignment_counts'] = {
+            'owners_anonymous': 0,
+            ('owners_with_type', 'Individualist', 'Majority'): 0,
+            ('owners_with_type', 'Individualist', 'Minority'): 0,
+            ('owners_with_type', 'Collectivist', 'Majority'): 0,
+            ('owners_with_type', 'Collectivist', 'Minority'): 0,
+        }
+
+
+# class Subsession(BaseSubsession):
+#     def creating_session(self):
+#         import random
+#         # Load the CSV values once for the entire session
+#         csv_values = load_values_from_csv()
+
+#         for p in self.get_players():
+#             # Shuffle once for the player at the start of the session
+#             player_values = csv_values.copy()
+#             random.shuffle(player_values)
+
+#             # Store shuffled values for all rounds in participant vars
+#             p.participant.vars['shuffled_values'] = player_values
 
 def load_values_from_csv():
     import csv
@@ -48,6 +90,41 @@ def load_values_from_csv():
                 #'signal_4': float(row['signal_4']),
             })
     return values
+
+def save_assignment_counts(subsession):
+    counts = subsession.session.vars['assignment_counts']
+
+    subsession.owners_anonymous_count = counts['owners_anonymous']
+    subsession.owners_with_type_individualist_majority = counts[('owners_with_type', 'Individualist', 'Majority')]
+    subsession.owners_with_type_individualist_minority = counts[('owners_with_type', 'Individualist', 'Minority')]
+    subsession.owners_with_type_collectivist_majority = counts[('owners_with_type', 'Collectivist', 'Majority')]
+    subsession.owners_with_type_collectivist_minority = counts[('owners_with_type', 'Collectivist', 'Minority')]
+
+    print("=== Final assignment counts (saved to Subsession) ===")
+    for cell, count in counts.items():
+        print(f"{cell}: {count}")
+
+def export_assignment_counts_to_csv(session):
+    counts = session.vars['assignment_counts']
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    session_code = session.code
+    filename = f"_static/data/assignment_counts_{session_code}_{timestamp}.csv"
+
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Cell', 'Count'])
+
+        for cell, count in counts.items():
+            if isinstance(cell, tuple):
+                cell_name = " | ".join(cell)
+            else:
+                cell_name = cell
+            writer.writerow([cell_name, count])
+
+    print(f"Assignment counts exported to {filename}")
 
 class Group(BaseGroup):
     pass

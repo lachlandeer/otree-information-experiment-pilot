@@ -124,6 +124,37 @@ class ContinueStudy(Page):
 #     def is_displayed(self):
 #         return True
 
+# class AssignTreatments(Page):
+#     def is_displayed(self):
+#         return self.round_number == 1
+
+#     def before_next_page(self):
+#         import random
+
+#         p = self.player
+
+#         majority_prob = Constants.MAJORITY_PROBABILITY
+#         treatments = ['owners_anonymous', 'owners_with_type']
+
+#         p.treatment = random.choice(treatments)
+
+#         if p.treatment == 'owners_with_type':
+#             p.majority_status = 'Majority' if random.random() < majority_prob else 'Minority'
+#         else:
+#             p.majority_status = 'Not applicable'
+        
+#         if isinstance(p.treatment, (list, tuple)):
+#             p.treatment = p.treatment[0]
+
+#         if isinstance(p.majority_status, (list, tuple)):
+#             p.majority_status = p.majority_status[0]
+
+#         p.individualism = p.participant.vars.get('Individualism')
+#         p.participant.vars['treatment'] = p.treatment
+#         p.participant.vars['majority_status'] = p.majority_status
+
+#         print(f'Participant {p.participant.code}: individualism = {p.individualism}, treatment = {p.treatment}, majority status = {p.majority_status}')
+
 class AssignTreatments(Page):
     def is_displayed(self):
         return self.round_number == 1
@@ -132,28 +163,56 @@ class AssignTreatments(Page):
         import random
 
         p = self.player
+        individualism = p.participant.vars['Individualism']  # Ensure lowercase and correct
+        counts = self.session.vars['assignment_counts']
+        targets = self.session.vars['assignment_targets']
 
-        majority_prob = Constants.MAJORITY_PROBABILITY
-        treatments = ['owners_anonymous', 'owners_with_type']
+        # Define candidate cells (no baseline)
+        candidate_cells = [
+            ('owners_anonymous',),
+            ('owners_with_type', individualism, 'Majority'),
+            ('owners_with_type', individualism, 'Minority'),
+        ]
 
-        p.treatment = random.choice(treatments)
+        # Shuffle for random selection
+        random.shuffle(candidate_cells)
 
-        if p.treatment == 'owners_with_type':
-            p.majority_status = 'Majority' if random.random() < majority_prob else 'Minority'
-        else:
+        assigned_cell = None
+        for cell in candidate_cells:
+            if counts[cell] < targets[cell]:
+                assigned_cell = cell
+                break  # Found available cell
+
+        if assigned_cell is None:
+            # All candidate cells full: disqualify
+            print(f'Participant {p.participant.code}: no open assignment cell, disqualified.')
+            p.participant.vars['disqualified_task_1'] = True
+            return
+
+        # Assign treatment and majority_status
+        if assigned_cell[0] == 'owners_anonymous':
+            p.treatment = 'owners_anonymous'
             p.majority_status = 'Not applicable'
-        
-        if isinstance(p.treatment, (list, tuple)):
-            p.treatment = p.treatment[0]
+        else:  # owners_with_type
+            p.treatment = 'owners_with_type'
+            p.majority_status = assigned_cell[2]
 
-        if isinstance(p.majority_status, (list, tuple)):
-            p.majority_status = p.majority_status[0]
+        # Save player type for export
+        p.individualism = individualism
 
-        p.individualism = p.participant.vars.get('Individualism')
+        # Save to participant.vars
         p.participant.vars['treatment'] = p.treatment
         p.participant.vars['majority_status'] = p.majority_status
+        p.participant.vars['disqualified_task_1'] = False
 
-        print(f'Participant {p.participant.code}: individualism = {p.individualism}, treatment = {p.treatment}, majority status = {p.majority_status}')
+        # Increment count
+        counts[assigned_cell] += 1
+
+        print(f'Participant {p.participant.code} assigned to: {assigned_cell}')
+        print('Current assignment counts:')
+        for cell, count in counts.items():
+            print(f'  {cell}: {count}')
+
 
 class Guess(Page):
     timeout_seconds = 1*60
@@ -248,6 +307,19 @@ class NextRoundSoon(Page):
     def is_displayed(self):
         return True
 
+from .models import save_assignment_counts, export_assignment_counts_to_csv
+
+class SaveCounts(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+    def before_next_page(self):
+        if not self.session.vars.get('assignment_counts_saved', False):
+            save_assignment_counts(self.subsession)
+            export_assignment_counts_to_csv(self.session)
+            self.session.vars['assignment_counts_saved'] = True
+
+
 page_sequence = [
     #InstructionsCarousel,
     #AttentionCheck1,
@@ -257,6 +329,7 @@ page_sequence = [
     #CreateTaskOrder,
     AssignTreatments,
     Guess,
-    Results #,
+    Results,
+    SaveCounts #,
     #NextRoundSoon
 ]
