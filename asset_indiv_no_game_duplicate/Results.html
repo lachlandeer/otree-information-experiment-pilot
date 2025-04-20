@@ -1,88 +1,98 @@
-{% extends 'global/Page.html' %}
-{% block title %}Estimate Summary{% endblock %}
+{{ extends 'global/Page.html' }}
+{{ block title }}Estimate Summary{{ endblock }}
 
-{% block content %}
-
-<h4>Your Choices</h4> 
+{{ block content }}
 
 <style type="text/css">
-  .tg  {
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    width: 100%;
-  }
-  .tg td, .tg th {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    overflow: hidden;
-    padding: 15px 10px;
-    word-break: normal;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .tg-label {
-    width: 15%;
-  }
-  .tg-member {
-    width: 20%;
-  }
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td, .tg th {
+  border: 1px solid black;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 10px 5px;
+  text-align: center;
+  vertical-align: top;
+}
+.tg th {
+  font-weight: bold;
+}
+th div {
+  line-height: 1.2;
+}
+.table-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
 </style>
 
-<table class="tg" style="font-size:18px;">
-  <thead>
-    <tr>
-      <th class="tg-label"></th>
-      <th class="tg-member">
-        <b>{{ owner_1 }}</b>
-        {% if show_owner_type_info %}
-          <br>
-          <img src="{% static owner_image_1 %}" alt="{{ owner_type_1 }}" width="20" height="20">
-        {% endif %}
-      </th>
-      <th class="tg-member">
-        <b>{{ owner_2 }}</b>
-        {% if show_owner_type_info %}
-          <br>
-          <img src="{% static owner_image_2 %}" alt="{{ owner_type_2 }}" width="20" height="20">
-        {% endif %}
-      </th>
-      <th class="tg-member">
-        <b>{{ owner_3 }}</b>
-        {% if show_owner_type_info %}
-          <br>
-          <img src="{% static owner_image_3 %}" alt="{{ owner_type_3 }}" width="20" height="20">
-        {% endif %}
-      </th>
-      <th class="tg-baqh"><b>Mean Value</b></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="tg-label">Information</td>
-      <td class="tg-member">{{ player.signal_1 }}</td>
-      <td class="tg-member">{{ player.signal_2 }}</td>
-      <td class="tg-member">{{ player.signal_3 }}</td>
-      <td class="tg-baqh">{{ mean_asset_value }}</td>
-    </tr>
-    <tr>
-      <td class="tg-label">Allocation of Tokens</td>
-      <td class="tg-member">{{ player.weight_signal_1 }}</td>
-      <td class="tg-member">{{ player.weight_signal_2 }}</td>
-      <td class="tg-member">{{ player.weight_signal_3 }}</td>
-      <td class="tg-baqh">{{ player.weight_signal_4 }}</td>
-    </tr>
-  </tbody>
-</table>
+<h4>Your Choices</h4>
+
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <div>
+            {{ member_labels.0 }}<br>
+            {% if member_types.0 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.0 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>
+          <div>
+            {{ member_labels.1 }}<br>
+            {% if member_types.1 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.1 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>
+          <div>
+            {{ member_labels.2 }}<br>
+            {% if member_types.2 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.2 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Information</td>
+        <td>{{ member_signals.0 }}</td>
+        <td>{{ member_signals.1 }}</td>
+        <td>{{ member_signals.2 }}</td>
+        <td>{{ mean_asset_value }}</td>
+      </tr>
+      <tr>
+        <td>Allocation of Tokens</td>
+        <td>{{ weight_values.0 }}</td>
+        <td>{{ weight_values.1 }}</td>
+        <td>{{ weight_values.2 }}</td>
+        <td>{{ weight_signal_4 }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
 <h4>Estimated Target Value</h4>
-<p>Your estimate was <b>{{ player.guess|to2 }}</b>.</p>
+<p>Your estimate was <b>{{ guess|to2 }}</b>.</p>
 
 {{ next_button }}
 
-{% endblock %}
+{{ endblock }}
+
+

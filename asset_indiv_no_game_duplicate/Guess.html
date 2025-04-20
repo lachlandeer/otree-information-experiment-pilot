@@ -2,6 +2,7 @@
 {{ block title }}Estimate the Target Value{{ endblock }}
 
 {{ block content }}
+
 <style>
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td, .tg th {
@@ -15,74 +16,87 @@
 .tg th {
     font-weight: bold;
 }
+th div {
+    line-height: 1.2;
+}
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
 </style>
 
 <h4>Your Tokens</h4>
-<p>You need to allocate <b>{{ endowment }}</b> tokens to the information.</p>
+<p>You need to allocate <b>100</b> tokens to the information.</p>
 <p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
 <p>You have <span id="remaining-inputs">100</span> left to allocate.</p>
 
 <br>
 <h4>Token Allocation</h4>
 
-<table class="tg">
-  <thead>
-    <tr>
-      <th></th>
-      <th>{{ member_labels.0 }}</th>
-      <th>{{ member_labels.1 }}</th>
-      <th>{{ member_labels.2 }}</th>
-      <th>Mean Value</th>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>
-        {% if member_types.0 == 'Individualist' %}
-          <img src="{% static 'data/person.png' %}" width="20" height="20">
-        {% elif member_types.0 == 'Collectivist' %}
-          <img src="{% static 'data/people.png' %}" width="20" height="20">
-        {% endif %}
-      </td>
-      <td>
-        {% if member_types.1 == 'Individualist' %}
-          <img src="{% static 'data/person.png' %}" width="20" height="20">
-        {% elif member_types.1 == 'Collectivist' %}
-          <img src="{% static 'data/people.png' %}" width="20" height="20">
-        {% endif %}
-      </td>
-      <td>
-        {% if member_types.2 == 'Individualist' %}
-          <img src="{% static 'data/person.png' %}" width="20" height="20">
-        {% elif member_types.2 == 'Collectivist' %}
-          <img src="{% static 'data/people.png' %}" width="20" height="20">
-        {% endif %}
-      </td>
-      <td></td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Information</td>
-      <td>{{ member_signals.0 }}</td>
-      <td>{{ member_signals.1 }}</td>
-      <td>{{ member_signals.2 }}</td>
-      <td>{{ mean_asset_value }}</td>
-    </tr>
-    {% with w0=weight_fields.0 %}
-      {% with w1=weight_fields.1 %}
-        {% with w2=weight_fields.2 %}
-          <tr>
-            <td>Allocation of Tokens</td>
-            <td>{{ formfield w0 }}</td>
-            <td>{{ formfield w1 }}</td>
-            <td>{{ formfield w2 }}</td>
-            <td>{{ formfield 'weight_signal_4' }}</td>
-          </tr>
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <div>
+            {{ member_labels.0 }}<br>
+            {% if member_types.0 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.0 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>
+          <div>
+            {{ member_labels.1 }}<br>
+            {% if member_types.1 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.1 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>
+          <div>
+            {{ member_labels.2 }}<br>
+            {% if member_types.2 == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif member_types.2 == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        <th>Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Information</td>
+        <td>{{ member_signals.0 }}</td>
+        <td>{{ member_signals.1 }}</td>
+        <td>{{ member_signals.2 }}</td>
+        <td>{{ mean_asset_value }}</td>
+      </tr>
+      {% with w0=weight_fields.0 %}
+        {% with w1=weight_fields.1 %}
+          {% with w2=weight_fields.2 %}
+            <tr>
+              <td>Allocation of Tokens</td>
+              <td>{{ formfield w0 }}</td>
+              <td>{{ formfield w1 }}</td>
+              <td>{{ formfield w2 }}</td>
+              <td>{{ formfield 'weight_signal_4' }}</td>
+            </tr>
+          {% endwith %}
         {% endwith %}
       {% endwith %}
-    {% endwith %}
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
@@ -91,6 +105,7 @@
 
 <p id="next-question">Do you wish to submit this estimate?</p>
 <p id="next-button"><button id="next_button">Submit Estimate</button></p>
+
 {{ endblock }}
 
 {{ block scripts }}
@@ -138,4 +153,3 @@ forminputs.weight_signal_3.oninput = updateValues;
 forminputs.weight_signal_4.oninput = updateValues;
 </script>
 {{ endblock }}
-

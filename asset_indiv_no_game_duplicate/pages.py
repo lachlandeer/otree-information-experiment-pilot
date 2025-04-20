@@ -553,53 +553,81 @@ class Guess(Page):
                 # self.player.participant.vars['guess'] = self.player.guess
                 #self.player.participant.vars['target_value'] = self.player.target_value
 
+# class Results(Page):
+#     def vars_for_template(self):
+#         individualism = self.player.participant.vars['Individualism']
+#         treatment = self.player.participant.vars['treatment']
+#         majority_status = self.player.participant.vars['majority_status']
+
+#         # Determine opposite type
+#         opposite_type = 'Collectivist' if individualism == 'Individualist' else 'Individualist'
+
+#         # Determine owner types and images based on treatment
+#         if treatment == 'owners_with_type':
+#             show_owner_type_info = True
+
+#             owner_type_1 = individualism
+#             owner_type_2 = individualism if majority_status == 'Majority' else opposite_type
+#             owner_type_3 = opposite_type
+
+#             owner_image_1 = self.get_image_path(owner_type_1)
+#             owner_image_2 = self.get_image_path(owner_type_2)
+#             owner_image_3 = self.get_image_path(owner_type_3)
+#         else:
+#             show_owner_type_info = False
+#             owner_type_1 = owner_type_2 = owner_type_3 = ''
+#             owner_image_1 = owner_image_2 = owner_image_3 = ''
+
+#         return {
+#             'owner_1': 'Member 1 (me)',
+#             'owner_2': 'Member 2',
+#             'owner_3': 'Member 3',
+#             'owner_type_1': owner_type_1,
+#             'owner_type_2': owner_type_2,
+#             'owner_type_3': owner_type_3,
+#             'owner_image_1': owner_image_1,
+#             'owner_image_2': owner_image_2,
+#             'owner_image_3': owner_image_3,
+#             'show_owner_type_info': show_owner_type_info,
+#             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
+#         }
+
+#     @staticmethod
+#     def get_image_path(owner_type):
+#         if owner_type == 'Individualist':
+#             return 'data/person.png'
+#         elif owner_type == 'Collectivist':
+#             return 'data/people.png'
+#         return ''
+
 class Results(Page):
     def vars_for_template(self):
         individualism = self.player.participant.vars['Individualism']
         treatment = self.player.participant.vars['treatment']
         majority_status = self.player.participant.vars['majority_status']
 
-        # Determine opposite type
-        opposite_type = 'Collectivist' if individualism == 'Individualist' else 'Individualist'
-
-        # Determine owner types and images based on treatment
-        if treatment == 'owners_with_type':
-            show_owner_type_info = True
-
-            owner_type_1 = individualism
-            owner_type_2 = individualism if majority_status == 'Majority' else opposite_type
-            owner_type_3 = opposite_type
-
-            owner_image_1 = self.get_image_path(owner_type_1)
-            owner_image_2 = self.get_image_path(owner_type_2)
-            owner_image_3 = self.get_image_path(owner_type_3)
-        else:
-            show_owner_type_info = False
-            owner_type_1 = owner_type_2 = owner_type_3 = ''
-            owner_image_1 = owner_image_2 = owner_image_3 = ''
+        members = self.participant.vars['member_order'][self.round_number]
 
         return {
-            'owner_1': 'Member 1 (me)',
-            'owner_2': 'Member 2',
-            'owner_3': 'Member 3',
-            'owner_type_1': owner_type_1,
-            'owner_type_2': owner_type_2,
-            'owner_type_3': owner_type_3,
-            'owner_image_1': owner_image_1,
-            'owner_image_2': owner_image_2,
-            'owner_image_3': owner_image_3,
-            'show_owner_type_info': show_owner_type_info,
+            'individualism': individualism,
+            'treatment': treatment,
+            'majority_status': majority_status,
+            'member_labels': [
+                f"Member {i+1} (me)" if m['role'] == 'You' else f"Member {i+1}"
+                for i, m in enumerate(members)
+            ],
+            'member_signals': [m['signal'] for m in members],
+            'member_types': [m['type'] for m in members],
+            'weight_values': [
+                self.player.weight_signal_1,
+                self.player.weight_signal_2,
+                self.player.weight_signal_3
+            ],
+            'weight_signal_4': self.player.weight_signal_4,
+            'signal_4': self.player.signal_4,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
+            'guess': self.player.guess
         }
-
-    @staticmethod
-    def get_image_path(owner_type):
-        if owner_type == 'Individualist':
-            return 'data/person.png'
-        elif owner_type == 'Collectivist':
-            return 'data/people.png'
-        return ''
-
 
 class NextRoundSoon(Page):
     form_model = 'player'
