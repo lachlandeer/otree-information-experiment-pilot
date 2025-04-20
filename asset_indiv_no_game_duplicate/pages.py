@@ -169,7 +169,7 @@ class AssignTreatments(Page):
 
         # Define candidate cells (no baseline)
         candidate_cells = [
-            ('owners_anonymous',),
+            'owners_anonymous',
             ('owners_with_type', individualism, 'Majority'),
             ('owners_with_type', individualism, 'Minority'),
         ]
@@ -405,8 +405,8 @@ class Guess(Page):
 #         if allocated_tokens != 100.0:
 #             return 'The allocation of tokens to information must add up to 100.'
 
-class Results(Page):
-    form_model = 'player'
+# class Results(Page):
+#     form_model = 'player'
 
     # def before_next_page(self):
         # if self.player.participant.vars['selected_app'] == 'asset_indiv_no_game':
@@ -415,6 +415,54 @@ class Results(Page):
                 #self.player.payoff = self.player.earnings
                 # self.player.participant.vars['guess'] = self.player.guess
                 #self.player.participant.vars['target_value'] = self.player.target_value
+
+class Results(Page):
+    def vars_for_template(self):
+        individualism = self.player.participant.vars['Individualism']
+        treatment = self.player.participant.vars['treatment']
+        majority_status = self.player.participant.vars['majority_status']
+
+        # Determine opposite type
+        opposite_type = 'Collectivist' if individualism == 'Individualist' else 'Individualist'
+
+        # Determine owner types and images based on treatment
+        if treatment == 'owners_with_type':
+            show_owner_type_info = True
+
+            owner_type_1 = individualism
+            owner_type_2 = individualism if majority_status == 'Majority' else opposite_type
+            owner_type_3 = opposite_type
+
+            owner_image_1 = self.get_image_path(owner_type_1)
+            owner_image_2 = self.get_image_path(owner_type_2)
+            owner_image_3 = self.get_image_path(owner_type_3)
+        else:
+            show_owner_type_info = False
+            owner_type_1 = owner_type_2 = owner_type_3 = ''
+            owner_image_1 = owner_image_2 = owner_image_3 = ''
+
+        return {
+            'owner_1': 'Member 1 (me)',
+            'owner_2': 'Member 2',
+            'owner_3': 'Member 3',
+            'owner_type_1': owner_type_1,
+            'owner_type_2': owner_type_2,
+            'owner_type_3': owner_type_3,
+            'owner_image_1': owner_image_1,
+            'owner_image_2': owner_image_2,
+            'owner_image_3': owner_image_3,
+            'show_owner_type_info': show_owner_type_info,
+            'mean_asset_value': Constants.MEAN_ASSET_VALUE,
+        }
+
+    @staticmethod
+    def get_image_path(owner_type):
+        if owner_type == 'Individualist':
+            return 'data/person.png'
+        elif owner_type == 'Collectivist':
+            return 'data/people.png'
+        return ''
+
 
 class NextRoundSoon(Page):
     form_model = 'player'

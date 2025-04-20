@@ -1,62 +1,88 @@
-{{ extends 'global/Page.html' }}
-{{ block title }}Estimate Summary{{ endblock }}
+{% extends 'global/Page.html' %}
+{% block title %}Estimate Summary{% endblock %}
 
-{{ block content }}
+{% block content %}
 
-<h4> Your Choices </h4> 
+<h4>Your Choices</h4> 
 
 <style type="text/css">
-    .tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg .tg-baqh{text-align:center;vertical-align:top}
-    .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-
-    /* Container div for better spacing */
-    .table-container {
+  .tg  {
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    }
-    </style>
-  
-  <div class="table-container">
-    <table class="tg" style="font-size:18px; "><thead>
-      <tr>
-        <th class="tg-c3ow"></th>
-          <th class="tg-c3ow"><b>Signal 1</b></th>
-          <th class="tg-c3ow"><b>Signal 2</b></th>
-          <th class="tg-c3ow"><b>Signal 3</b></th>
-          <th class="tg-baqh"><b>Mean Value</b></th>
-      </tr></thead>
-    <tbody>
-      <tr>
-        <td class="tg-c3ow">Information</td>
-        <td class="tg-c3ow">{{ player.signal_1 }}</td>
-        <td class="tg-c3ow">{{ player.signal_2 }}</td>
-        <td class="tg-c3ow">{{ player.signal_3 }}</td>
-        <td class="tg-baqh">{{ Constants.MEAN_ASSET_VALUE }}</td>
-      </tr>
-      <tr>
-        <td class="tg-c3ow">Allocation of Tokens</td>
-        <td class="tg-c3ow">{{ player.weight_signal_1 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_2 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_3 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_4 }}</td>
-      </tr>
-    </tbody>
-    </table>
-   </div> 
-    <br>
+  }
+  .tg td, .tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 15px 10px;
+    word-break: normal;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tg-label {
+    width: 15%;
+  }
+  .tg-member {
+    width: 20%;
+  }
+</style>
 
-<!-- <h4>  Your Earnings Information </h4> -->
+<table class="tg" style="font-size:18px;">
+  <thead>
+    <tr>
+      <th class="tg-label"></th>
+      <th class="tg-member">
+        <b>{{ owner_1 }}</b>
+        {% if show_owner_type_info %}
+          <br>
+          <img src="{% static owner_image_1 %}" alt="{{ owner_type_1 }}" width="20" height="20">
+        {% endif %}
+      </th>
+      <th class="tg-member">
+        <b>{{ owner_2 }}</b>
+        {% if show_owner_type_info %}
+          <br>
+          <img src="{% static owner_image_2 %}" alt="{{ owner_type_2 }}" width="20" height="20">
+        {% endif %}
+      </th>
+      <th class="tg-member">
+        <b>{{ owner_3 }}</b>
+        {% if show_owner_type_info %}
+          <br>
+          <img src="{% static owner_image_3 %}" alt="{{ owner_type_3 }}" width="20" height="20">
+        {% endif %}
+      </th>
+      <th class="tg-baqh"><b>Mean Value</b></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-label">Information</td>
+      <td class="tg-member">{{ player.signal_1 }}</td>
+      <td class="tg-member">{{ player.signal_2 }}</td>
+      <td class="tg-member">{{ player.signal_3 }}</td>
+      <td class="tg-baqh">{{ mean_asset_value }}</td>
+    </tr>
+    <tr>
+      <td class="tg-label">Allocation of Tokens</td>
+      <td class="tg-member">{{ player.weight_signal_1 }}</td>
+      <td class="tg-member">{{ player.weight_signal_2 }}</td>
+      <td class="tg-member">{{ player.weight_signal_3 }}</td>
+      <td class="tg-baqh">{{ player.weight_signal_4 }}</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>Your estimate was {{ player.guess|to2 }}.</p>
+<br>
+
+<h4>Estimated Target Value</h4>
+<p>Your estimate was <b>{{ player.guess|to2 }}</b>.</p>
 
 {{ next_button }}
 
-
-{{ endblock }}
+{% endblock %}
