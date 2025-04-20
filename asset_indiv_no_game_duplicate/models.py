@@ -12,7 +12,8 @@ class Constants(BaseConstants):
     MEAN_ASSET_VALUE = 100
     PAYOFF_SCALER = 500
     MAJORITY_PROBABILITY = 0.55
-    TARGET_PER_CELL = 10  # Number of participants to target per condition cell
+    TARGET_PER_CELL = 1  # Number of participants to target per condition cell
+    OWNERS_ANONYMOUS_PROB = 0.2
 
     # FAILED_PAYMENT = 100
 
@@ -23,9 +24,9 @@ class Constants(BaseConstants):
         'question_3': '78',
     }
 
-
 class Subsession(BaseSubsession):
-    owners_anonymous_count = models.IntegerField(initial=0)
+    owners_anonymous_individualist = models.IntegerField(initial=0)
+    owners_anonymous_collectivist = models.IntegerField(initial=0)
     owners_with_type_individualist_majority = models.IntegerField(initial=0)
     owners_with_type_individualist_minority = models.IntegerField(initial=0)
     owners_with_type_collectivist_majority = models.IntegerField(initial=0)
@@ -41,22 +42,17 @@ class Subsession(BaseSubsession):
             random.shuffle(player_values)
             p.participant.vars['shuffled_values'] = player_values
 
-        target_per_cell = Constants.TARGET_PER_CELL
-
+        t = Constants.TARGET_PER_CELL
         self.session.vars['assignment_targets'] = {
-            'owners_anonymous': target_per_cell,
-            ('owners_with_type', 'Individualist', 'Majority'): target_per_cell,
-            ('owners_with_type', 'Individualist', 'Minority'): target_per_cell,
-            ('owners_with_type', 'Collectivist', 'Majority'): target_per_cell,
-            ('owners_with_type', 'Collectivist', 'Minority'): target_per_cell,
+            'owners_anonymous_Individualist': t // 2,
+            'owners_anonymous_Collectivist': t // 2,
+            ('owners_with_type', 'Individualist', 'Majority'): t,
+            ('owners_with_type', 'Individualist', 'Minority'): t,
+            ('owners_with_type', 'Collectivist', 'Majority'): t,
+            ('owners_with_type', 'Collectivist', 'Minority'): t,
         }
-
         self.session.vars['assignment_counts'] = {
-            'owners_anonymous': 0,
-            ('owners_with_type', 'Individualist', 'Majority'): 0,
-            ('owners_with_type', 'Individualist', 'Minority'): 0,
-            ('owners_with_type', 'Collectivist', 'Majority'): 0,
-            ('owners_with_type', 'Collectivist', 'Minority'): 0,
+            key: 0 for key in self.session.vars['assignment_targets']
         }
 
 
@@ -94,7 +90,8 @@ def load_values_from_csv():
 def save_assignment_counts(subsession):
     counts = subsession.session.vars['assignment_counts']
 
-    subsession.owners_anonymous_count = counts['owners_anonymous']
+    subsession.owners_anonymous_individualist = counts['owners_anonymous_Individualist']
+    subsession.owners_anonymous_collectivist = counts['owners_anonymous_Collectivist']
     subsession.owners_with_type_individualist_majority = counts[('owners_with_type', 'Individualist', 'Majority')]
     subsession.owners_with_type_individualist_minority = counts[('owners_with_type', 'Individualist', 'Minority')]
     subsession.owners_with_type_collectivist_majority = counts[('owners_with_type', 'Collectivist', 'Majority')]

@@ -155,6 +155,21 @@ class ContinueStudy(Page):
 
 #         print(f'Participant {p.participant.code}: individualism = {p.individualism}, treatment = {p.treatment}, majority status = {p.majority_status}')
 
+def try_with_type(individualism, counts, targets):
+    import random
+    if random.random() < 0.6:
+        first = ('owners_with_type', individualism, 'Majority')
+        second = ('owners_with_type', individualism, 'Minority')
+    else:
+        first = ('owners_with_type', individualism, 'Minority')
+        second = ('owners_with_type', individualism, 'Majority')
+
+    if counts[first] < targets[first]:
+        return first
+    elif counts[second] < targets[second]:
+        return second
+    return None
+
 class AssignTreatments(Page):
     def is_displayed(self):
         return self.round_number == 1
@@ -163,55 +178,52 @@ class AssignTreatments(Page):
         import random
 
         p = self.player
-        individualism = p.participant.vars['Individualism']  # Ensure lowercase and correct
+        individualism = p.participant.vars['Individualism']
         counts = self.session.vars['assignment_counts']
         targets = self.session.vars['assignment_targets']
 
-        # Define candidate cells (no baseline)
-        candidate_cells = [
-            'owners_anonymous',
-            ('owners_with_type', individualism, 'Majority'),
-            ('owners_with_type', individualism, 'Minority'),
-        ]
-
-        # Shuffle for random selection
-        random.shuffle(candidate_cells)
-
         assigned_cell = None
-        for cell in candidate_cells:
-            if counts[cell] < targets[cell]:
-                assigned_cell = cell
-                break  # Found available cell
+
+        # Decide treatment type first
+        if random.random() < Constants.OWNERS_ANONYMOUS_PROB:
+            anon_cell = f'owners_anonymous_{individualism}'
+            if counts[anon_cell] < targets[anon_cell]:
+                assigned_cell = anon_cell
+            else:
+                print(f'{anon_cell} full — rerouting to with_type')
+                assigned_cell = try_with_type(individualism, counts, targets)
+        else:
+            assigned_cell = try_with_type(individualism, counts, targets)
+            if assigned_cell is None:
+                anon_cell = f'owners_anonymous_{individualism}'
+                if counts[anon_cell] < targets[anon_cell]:
+                    assigned_cell = anon_cell
 
         if assigned_cell is None:
-            # All candidate cells full: disqualify
             print(f'Participant {p.participant.code}: no open assignment cell, disqualified.')
             p.participant.vars['disqualified_task_1'] = True
             return
 
-        # Assign treatment and majority_status
-        if assigned_cell[0] == 'owners_anonymous':
+        # Assignment logic
+        if isinstance(assigned_cell, str) and assigned_cell.startswith('owners_anonymous'):
             p.treatment = 'owners_anonymous'
             p.majority_status = 'Not applicable'
-        else:  # owners_with_type
+        else:
             p.treatment = 'owners_with_type'
             p.majority_status = assigned_cell[2]
 
-        # Save player type for export
         p.individualism = individualism
-
-        # Save to participant.vars
         p.participant.vars['treatment'] = p.treatment
         p.participant.vars['majority_status'] = p.majority_status
         p.participant.vars['disqualified_task_1'] = False
 
-        # Increment count
         counts[assigned_cell] += 1
 
         print(f'Participant {p.participant.code} assigned to: {assigned_cell}')
         print('Current assignment counts:')
         for cell, count in counts.items():
             print(f'  {cell}: {count}')
+
 
 class Guess(Page):
     timeout_seconds = 1 * 60
