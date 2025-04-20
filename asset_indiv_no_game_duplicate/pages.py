@@ -237,6 +237,7 @@ class Guess(Page):
         treatment = self.player.participant.vars['treatment']
         majority_status = self.player.participant.vars['majority_status']
 
+        # Retrieve signals for current round
         shuffled_values = self.player.participant.vars['shuffled_values']
         current_round_values = shuffled_values[self.round_number - 1]
 
@@ -246,60 +247,78 @@ class Guess(Page):
         self.player.signal_4 = 100
         self.player.asset_value = current_round_values['asset_value']
 
+        # Determine types for other members (only for 'owners_with_type' treatment)
+        if treatment == 'owners_with_type':
+            if majority_status == 'Majority':
+                member2_type = individualism
+                member3_type = 'Individualist' if individualism == 'Collectivist' else 'Collectivist'
+            else:
+                member2_type = 'Individualist' if individualism == 'Collectivist' else 'Collectivist'
+                member3_type = individualism
+        else:
+            member2_type = None
+            member3_type = None
+
+        # Define the 3 visible members (in logical order)
+        members = [
+            {'role': 'You', 'signal': self.player.signal_1, 'weight_field': 'weight_signal_1', 'type': individualism},
+            {'role': 'Member 2', 'signal': self.player.signal_2, 'weight_field': 'weight_signal_2', 'type': member2_type},
+            {'role': 'Member 3', 'signal': self.player.signal_3, 'weight_field': 'weight_signal_3', 'type': member3_type},
+        ]
+
+        # Ensure tracking structure exists
         if 'member_order' not in self.participant.vars:
             self.participant.vars['member_order'] = {}
+        if 'member_positions' not in self.participant.vars:
+            self.participant.vars['member_positions'] = {}
 
-        if self.round_number not in self.participant.vars['member_order']:
-            if treatment == 'owners_with_type':
-                if majority_status == 'Majority':
-                    member2_type = individualism
-                    member3_type = 'Individualist' if individualism == 'Collectivist' else 'Collectivist'
-                else:
-                    member2_type = 'Individualist' if individualism == 'Collectivist' else 'Collectivist'
-                    member3_type = individualism
-            else:
-                member2_type = None
-                member3_type = None
+        # Shuffle positions freshly each round
+        random.shuffle(members)
+        self.participant.vars['member_order'][self.round_number] = members
 
-            members = [
-                {
-                    'label': 'You',
-                    'signal': self.player.signal_1,
-                    'weight_field': 'weight_signal_1',
-                    'type': individualism
-                },
-                {
-                    'label': 'Member 2',
-                    'signal': self.player.signal_2,
-                    'weight_field': 'weight_signal_2',
-                    'type': member2_type
-                },
-                {
-                    'label': 'Member 3',
-                    'signal': self.player.signal_3,
-                    'weight_field': 'weight_signal_3',
-                    'type': member3_type
-                }
-            ]
+        # Save role-to-position mapping for export
+        positions = {m['role']: i + 1 for i, m in enumerate(members)}
+        self.participant.vars['member_positions'][self.round_number] = positions
 
-            random.shuffle(members)
-            self.participant.vars['member_order'][self.round_number] = members
-        else:
-            members = self.participant.vars['member_order'][self.round_number]
+        # Write identities to Player fields
+        self.player.member_1_identity = members[0]['role']
+        self.player.member_2_identity = members[1]['role']
+        self.player.member_3_identity = members[2]['role']
+
+        # Determine where each signal ended up
+        for idx, m in enumerate(members):
+            if m['weight_field'] == 'weight_signal_1':
+                self.player.signal_1_position = idx + 1
+                if m['role'] == 'You':
+                    self.player.players_signal_position = idx + 1
+            elif m['weight_field'] == 'weight_signal_2':
+                self.player.signal_2_position = idx + 1
+                if m['role'] == 'You':
+                    self.player.players_signal_position = idx + 1
+            elif m['weight_field'] == 'weight_signal_3':
+                self.player.signal_3_position = idx + 1
+                if m['role'] == 'You':
+                    self.player.players_signal_position = idx + 1
+
+        # Generate dynamic labels for table header
+        member_labels = [
+            f"Member {i+1} (me)" if m['role'] == 'You' else f"Member {i+1}"
+            for i, m in enumerate(members)
+        ]
 
         return {
             'individualism': individualism,
             'treatment': treatment,
             'majority_status': majority_status,
-            'signal_4': self.player.signal_4,
             'endowment': Constants.ENDOWMENT,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
-            'asset_value': self.player.asset_value,
-            'member_labels': [m['label'] for m in members],
+            'member_labels': member_labels,
             'member_signals': [m['signal'] for m in members],
             'member_types': [m['type'] for m in members],
-            'weight_fields': [m['weight_field'] for m in members]
+            'weight_fields': [m['weight_field'] for m in members],
         }
+
+
 
     def js_vars(self):
         return dict(

@@ -160,9 +160,19 @@ class Player(BasePlayer):
     signal_2 = models.FloatField()
     signal_3 = models.FloatField()
     signal_4 = models.FloatField()
-    target_value = models.FloatField()
+    # Who appeared in each table column (0 = left, 1 = middle, 2 = right)
+    member_1_identity = models.StringField()  # e.g., "You", "Member 2", "Member 3"
+    member_2_identity = models.StringField()
+    member_3_identity = models.StringField()
+    # Position in table of each signal
+    signal_1_position = models.IntegerField()  # 1 = first column, etc.
+    signal_2_position = models.IntegerField()
+    signal_3_position = models.IntegerField()
+    # Which signal belongs to the player: 1, 2, or 3
+    players_signal_position = models.IntegerField()
+        #target_value = models.FloatField()
     asset_value = models.FloatField()
-    earnings = models.FloatField()
+    #earnings = models.FloatField()
     is_payment_round = models.BooleanField(initial=False)
 
 
