@@ -114,47 +114,6 @@ class ContinueStudy(Page):
         return (self.round_number == 1 and 
                 not self.player.participant.vars.get('disqualified_task_1', False))
 
-# class CreateTaskOrder(WaitPage):
-#     def after_all_players_arrive(self):
-#         # Loop through all players and call creating_round_order for each
-#         for player in self.group.get_players():
-#             creating_round_order(player)
-#     # after_all_players_arrive = creating_round_order
-
-#     def is_displayed(self):
-#         return True
-
-# class AssignTreatments(Page):
-#     def is_displayed(self):
-#         return self.round_number == 1
-
-#     def before_next_page(self):
-#         import random
-
-#         p = self.player
-
-#         majority_prob = Constants.MAJORITY_PROBABILITY
-#         treatments = ['owners_anonymous', 'owners_with_type']
-
-#         p.treatment = random.choice(treatments)
-
-#         if p.treatment == 'owners_with_type':
-#             p.majority_status = 'Majority' if random.random() < majority_prob else 'Minority'
-#         else:
-#             p.majority_status = 'Not applicable'
-        
-#         if isinstance(p.treatment, (list, tuple)):
-#             p.treatment = p.treatment[0]
-
-#         if isinstance(p.majority_status, (list, tuple)):
-#             p.majority_status = p.majority_status[0]
-
-#         p.individualism = p.participant.vars.get('Individualism')
-#         p.participant.vars['treatment'] = p.treatment
-#         p.participant.vars['majority_status'] = p.majority_status
-
-#         print(f'Participant {p.participant.code}: individualism = {p.individualism}, treatment = {p.treatment}, majority status = {p.majority_status}')
-
 def try_with_type(individualism, counts, targets):
     import random
     if random.random() < 0.6:
@@ -349,257 +308,6 @@ class Guess(Page):
             return 'The allocation of tokens to information must add up to 100.'
 
 
-
-# class Guess(Page):
-#     timeout_seconds = 1 * 60
-#     form_model = 'player'
-#     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
-
-#     def vars_for_template(self):
-#         individualism = self.player.participant.vars['Individualism']
-#         treatment = self.player.participant.vars['treatment']
-#         majority_status = self.player.participant.vars['majority_status']
-
-#         # Retrieve shuffled values for the current round
-#         shuffled_values = self.player.participant.vars['shuffled_values']
-#         current_round_values = shuffled_values[self.round_number - 1]
-
-#         # Assign signals to player variables
-#         self.player.signal_1 = current_round_values['signal_1']
-#         self.player.signal_2 = current_round_values['signal_2']
-#         self.player.signal_3 = current_round_values['signal_3']
-#         self.player.signal_4 = 100  # Always 100
-#         self.player.asset_value = current_round_values['asset_value']
-
-#         # Prepare variables for template (explicit, no loops!)
-#         signals = {
-#             'signal_1': self.player.signal_1,
-#             'signal_2': self.player.signal_2,
-#             'signal_3': self.player.signal_3,
-#             'signal_4': self.player.signal_4,
-#         }
-
-#         # Determine opposite type
-#         opposite_type = 'Collectivist' if individualism == 'Individualist' else 'Individualist'
-
-#         # Prepare owner labels
-#         owner_1 = 'Member 1 (me)'
-#         owner_2 = 'Member 2'
-#         owner_3 = 'Member 3'
-
-#         # Prepare owner types and images
-#         if treatment == 'owners_with_type':
-#             show_owner_type_info = True
-
-#             # Owner types
-#             owner_type_1 = individualism
-#             if majority_status == 'Majority':
-#                 owner_type_2 = individualism
-#             else:
-#                 owner_type_2 = opposite_type
-#             owner_type_3 = opposite_type
-
-#             # Owner images
-#             owner_image_1 = self.get_image_path(owner_type_1)
-#             owner_image_2 = self.get_image_path(owner_type_2)
-#             owner_image_3 = self.get_image_path(owner_type_3)
-
-#         else:
-#             show_owner_type_info = False
-#             owner_type_1 = owner_type_2 = owner_type_3 = ''
-#             owner_image_1 = owner_image_2 = owner_image_3 = ''
-
-#         return {
-#             **signals,
-#             'owner_1': owner_1,
-#             'owner_2': owner_2,
-#             'owner_3': owner_3,
-#             'owner_type_1': owner_type_1,
-#             'owner_type_2': owner_type_2,
-#             'owner_type_3': owner_type_3,
-#             'owner_image_1': owner_image_1,
-#             'owner_image_2': owner_image_2,
-#             'owner_image_3': owner_image_3,
-#             'show_owner_type_info': show_owner_type_info,
-#             'individualism': individualism,
-#             'treatment': treatment,
-#             'majority_status': majority_status,
-#             'num_rounds': Constants.num_rounds,
-#             'endowment': Constants.ENDOWMENT,
-#             'mean_asset_value': Constants.MEAN_ASSET_VALUE
-#         }
-
-
-#     def get_image_path(self, owner_type):
-#         if owner_type == 'Individualist':
-#             return 'data/person.png'
-#         elif owner_type == 'Collectivist':
-#             return 'data/people.png'
-#         else:
-#             return ''
-
-#     def js_vars(self):
-#         return dict(
-#             signal1=self.player.signal_1,
-#             signal2=self.player.signal_2,
-#             signal3=self.player.signal_3,
-#             signal4=100
-#         )
-
-#     def before_next_page(self):
-#         target_value = self.player.asset_value
-#         guess = 1 / 100 * (
-#             self.player.signal_1 * self.player.weight_signal_1 +
-#             self.player.signal_2 * self.player.weight_signal_2 +
-#             self.player.signal_3 * self.player.weight_signal_3 +
-#             self.player.signal_4 * self.player.weight_signal_4
-#         )
-#         self.player.guess = guess
-
-#     def error_message(self, values):
-#         allocated_tokens = (
-#             values['weight_signal_1'] +
-#             values['weight_signal_2'] +
-#             values['weight_signal_3'] +
-#             values['weight_signal_4']
-#         )
-#         if allocated_tokens != 100.0:
-#             return 'The allocation of tokens to information must add up to 100.'
-
-    
-
-# class Guess(Page):
-#     timeout_seconds = 1*60
-#     form_model = 'player'
-#     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
-
-#     def vars_for_template(self):
-#         individualism   = self.player.participant.vars['Individualism']
-#         treatment       = self.player.participant.vars['treatment']
-#         majority_status = self.player.participant.vars['majority_status']
-#         # individualism   = self.player.participant.Individualism,
-#         # treatment       = self.player.participant.treatment,
-#         # majority_status = self.player.participant.majority_status,
-#         # Just to confirm it's printing
-#         print(f'Participant {self.player.participant.code} has individualism value: {individualism}')
-#         print(f'Participant {self.player.participant.code} has treatment value: {treatment}')
-#         print(f'Participant {self.player.participant.code} has status value: {majority_status}')
-
-        
-#         # Retrieve shuffled values for the current round
-#         shuffled_values = self.player.participant.vars['shuffled_values']
-#         current_round_values = shuffled_values[self.round_number - 1]
-
-#         # Assign shuffled values to the player for the current round
-#         self.player.signal_1 = current_round_values['signal_1']
-#         self.player.signal_2 = current_round_values['signal_2']
-#         self.player.signal_3 = current_round_values['signal_3']
-#         self.player.signal_4 = 100  # Always set signal_4 to 100
-#         self.player.asset_value = current_round_values['asset_value']
-
-#         # Return the values to the template (optional, if needed for display)
-#         return {
-#             'individualism': individualism,
-#             'treatment': treatment,
-#             'majority_status': majority_status,
-#             'signal_1': self.player.signal_1,
-#             'signal_2': self.player.signal_2,
-#             'signal_3': self.player.signal_3,
-#             'signal_4': self.player.signal_4,  # Always 100
-#             'asset_value': self.player.asset_value
-#         }
-#     # def vars_for_template(self):
-#     #     task = get_values()
-#     #     self.player.signal_1 = task['signal_1']
-#     #     self.player.signal_2 = task['signal_2']
-#     #     self.player.signal_3 = task['signal_3']
-#     #     self.player.signal_4 = Constants.MEAN_ASSET_VALUE
-#     #     self.player.asset_value = task['asset_value']
-#     #     return task
-    
-#     def js_vars(self):
-#         return dict(
-#             signal1=self.player.signal_1,
-#             signal2=self.player.signal_2,
-#             signal3=self.player.signal_3,
-#             signal4=100
-#         )
-
-#     def before_next_page(self):
-#         target_value = self.player.asset_value
-#         guess = 1/100 * (self.player.signal_1 * self.player.weight_signal_1 +
-#                          self.player.signal_2 * self.player.weight_signal_2 +
-#                          self.player.signal_3 * self.player.weight_signal_3 +
-#                          self.player.signal_4 * self.player.weight_signal_4)
-#         # earnings = Constants.PAYOFF_SCALER - (guess - target_value) ** 2
-#         # self.player.earnings = round(earnings, 2)
-#         # self.player.target_value = target_value
-#         self.player.guess = guess
-
-#     def error_message(self, values):
-#         allocated_tokens = (values['weight_signal_1'] + values['weight_signal_2'] +
-#                             values['weight_signal_3'] + values['weight_signal_4'])
-#         if allocated_tokens != 100.0:
-#             return 'The allocation of tokens to information must add up to 100.'
-
-# class Results(Page):
-#     form_model = 'player'
-
-    # def before_next_page(self):
-        # if self.player.participant.vars['selected_app'] == 'asset_indiv_no_game':
-            # if self.player.round_number == self.player.participant.vars['selected_round']:
-                #self.player.participant.vars['random_payment'] = self.player.earnings
-                #self.player.payoff = self.player.earnings
-                # self.player.participant.vars['guess'] = self.player.guess
-                #self.player.participant.vars['target_value'] = self.player.target_value
-
-# class Results(Page):
-#     def vars_for_template(self):
-#         individualism = self.player.participant.vars['Individualism']
-#         treatment = self.player.participant.vars['treatment']
-#         majority_status = self.player.participant.vars['majority_status']
-
-#         # Determine opposite type
-#         opposite_type = 'Collectivist' if individualism == 'Individualist' else 'Individualist'
-
-#         # Determine owner types and images based on treatment
-#         if treatment == 'owners_with_type':
-#             show_owner_type_info = True
-
-#             owner_type_1 = individualism
-#             owner_type_2 = individualism if majority_status == 'Majority' else opposite_type
-#             owner_type_3 = opposite_type
-
-#             owner_image_1 = self.get_image_path(owner_type_1)
-#             owner_image_2 = self.get_image_path(owner_type_2)
-#             owner_image_3 = self.get_image_path(owner_type_3)
-#         else:
-#             show_owner_type_info = False
-#             owner_type_1 = owner_type_2 = owner_type_3 = ''
-#             owner_image_1 = owner_image_2 = owner_image_3 = ''
-
-#         return {
-#             'owner_1': 'Member 1 (me)',
-#             'owner_2': 'Member 2',
-#             'owner_3': 'Member 3',
-#             'owner_type_1': owner_type_1,
-#             'owner_type_2': owner_type_2,
-#             'owner_type_3': owner_type_3,
-#             'owner_image_1': owner_image_1,
-#             'owner_image_2': owner_image_2,
-#             'owner_image_3': owner_image_3,
-#             'show_owner_type_info': show_owner_type_info,
-#             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
-#         }
-
-#     @staticmethod
-#     def get_image_path(owner_type):
-#         if owner_type == 'Individualist':
-#             return 'data/person.png'
-#         elif owner_type == 'Collectivist':
-#             return 'data/people.png'
-#         return ''
-
 class Results(Page):
     def vars_for_template(self):
         individualism = self.player.participant.vars['Individualism']
@@ -628,6 +336,26 @@ class Results(Page):
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
             'guess': self.player.guess
         }
+    def before_next_page(self):
+    round_data = {
+        'signal_1': self.player.signal_1,
+        'signal_2': self.player.signal_2,
+        'signal_3': self.player.signal_3,
+        'signal_4': self.player.signal_4,
+        'display_signal_1': self.player.display_signal_1,
+        'display_signal_2': self.player.display_signal_2,
+        'display_signal_3': self.player.display_signal_3,
+        'players_signal_position': self.player.players_signal_position,
+        'member_positions': self.participant.vars.get('member_positions'),
+        'owner_type_1': self.participant.vars.get('owner_type_1'),
+        'owner_type_2': self.participant.vars.get('owner_type_2'),
+        'owner_type_3': self.participant.vars.get('owner_type_3'),
+    }
+
+    if 'stage2_task_rounds' not in self.participant.vars:
+        self.participant.vars['stage2_task_rounds'] = {}
+
+    self.participant.vars['stage2_task_rounds'][self.round_number] = round_data
 
 class NextRoundSoon(Page):
     form_model = 'player'
