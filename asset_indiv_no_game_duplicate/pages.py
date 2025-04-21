@@ -337,25 +337,25 @@ class Results(Page):
             'guess': self.player.guess
         }
     def before_next_page(self):
-    round_data = {
-        'signal_1': self.player.signal_1,
-        'signal_2': self.player.signal_2,
-        'signal_3': self.player.signal_3,
-        'signal_4': self.player.signal_4,
-        'display_signal_1': self.player.display_signal_1,
-        'display_signal_2': self.player.display_signal_2,
-        'display_signal_3': self.player.display_signal_3,
-        'players_signal_position': self.player.players_signal_position,
-        'member_positions': self.participant.vars.get('member_positions'),
-        'owner_type_1': self.participant.vars.get('owner_type_1'),
-        'owner_type_2': self.participant.vars.get('owner_type_2'),
-        'owner_type_3': self.participant.vars.get('owner_type_3'),
-    }
+        round_data = {
+            'signal_1': self.player.signal_1,
+            'signal_2': self.player.signal_2,
+            'signal_3': self.player.signal_3,
+            'signal_4': self.player.signal_4,
+            'display_signal_1': self.player.signal_1_position,
+            'display_signal_2': self.player.signal_2_position,
+            'display_signal_3': self.player.signal_3_position,
+            'players_signal_position': self.player.players_signal_position,
+            # 'member_positions': self.participant.vars.get('member_positions'),
+            # 'owner_type_1': self.participant.vars.get('owner_type_1'),
+            # 'owner_type_2': self.participant.vars.get('owner_type_2'),
+            # 'owner_type_3': self.participant.vars.get('owner_type_3'),
+        }
 
-    if 'stage2_task_rounds' not in self.participant.vars:
-        self.participant.vars['stage2_task_rounds'] = {}
+        if 'stage2_task_rounds' not in self.participant.vars:
+            self.participant.vars['stage2_task_rounds'] = {}
 
-    self.participant.vars['stage2_task_rounds'][self.round_number] = round_data
+        self.participant.vars['stage2_task_rounds'][self.round_number] = round_data
 
 class NextRoundSoon(Page):
     form_model = 'player'
@@ -365,17 +365,19 @@ class NextRoundSoon(Page):
     def is_displayed(self):
         return True
 
-from .models import save_assignment_counts, export_assignment_counts_to_csv
+# from .models import save_assignment_counts, export_assignment_counts_to_csv
 
-class SaveCounts(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
+# class SaveCounts(Page):
+#     @staticmethod
+#     def is_displayed(self):
+#         return round_number == Constants.num_rounds
 
-    def before_next_page(self):
-        if not self.session.vars.get('assignment_counts_saved', False):
-            save_assignment_counts(self.subsession)
-            export_assignment_counts_to_csv(self.session)
-            self.session.vars['assignment_counts_saved'] = True
+#     @staticmethod
+#     def before_next_page(self):
+#         if not session.vars.get('assignment_counts_saved', False):
+#             save_assignment_counts(subsession)
+#             export_assignment_counts_to_csv(session)
+#             session.vars['assignment_counts_saved'] = True
 
 
 page_sequence = [
@@ -388,6 +390,6 @@ page_sequence = [
     AssignTreatments,
     Guess,
     Results,
-    SaveCounts #,
+    # SaveCounts #,
     #NextRoundSoon
 ]

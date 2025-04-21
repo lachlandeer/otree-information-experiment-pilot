@@ -1,10 +1,19 @@
 {% extends "global/Page.html" %}
 
+{% block title %}Saving Progress{% endblock %}
+
 {% block content %}
+
+<p>Saving your progress. Please wait...</p>
+
+<form method="post">
+</form>
+
 <script>
-    // Auto-advance to next page immediately
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector("button.otree-btn-next").click();
-    });
+    // Auto-submit the form on page load
+    window.onload = function () {
+        document.forms[0].submit();
+    };
 </script>
+
 {% endblock %}

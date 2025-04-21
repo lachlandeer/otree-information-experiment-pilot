@@ -106,7 +106,7 @@ def export_assignment_counts_to_csv(session):
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     session_code = session.code
-    filename = f"_static/data/assignment_counts_{session_code}_{timestamp}.csv"
+    filename = f"_static/treatment_log/assignment_counts_{session_code}_{timestamp}.csv"
 
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
