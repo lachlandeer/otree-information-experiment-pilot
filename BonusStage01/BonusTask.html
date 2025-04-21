@@ -1,0 +1,127 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Allocate Tokens for the Bonus Task{{ endblock }}
+
+{{ block content }}
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;
+    font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;
+    font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-baqh{text-align:center;vertical-align:top}
+  .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+</style>
+
+<p><b>This is round {{ player.round_number }} of {{ C.NUM_ROUNDS }}.</b></p>
+
+
+<p>You need to allocate <b>100</b> tokens to the information.</p>
+<p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
+<p>You have <span id="remaining-inputs">100</span> left to allocate.</p>
+
+<br>
+
+<div style="display: flex; justify-content: center; width: 100%;">
+  <table class="tg" style="font-size:18px; width: auto;">
+    <thead>
+      <tr>
+        <th class="tg-c3ow"></th>
+        <th class="tg-c3ow">Signal 1</th>
+        <th class="tg-c3ow">Signal 2</th>
+        <th class="tg-c3ow">Signal 3</th>
+        <th class="tg-baqh">Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-c3ow">Information</td>
+        <td class="tg-c3ow">{{ signal_1 }}</td>
+        <td class="tg-c3ow">{{ signal_2 }}</td>
+        <td class="tg-c3ow">{{ signal_3 }}</td>
+        <td class="tg-c3ow">{{ signal_4 }}</td>
+      </tr>
+      <tr>
+        <td class="tg-c3ow">
+          Allocation for<br>
+          {% if recipient_type == 'Individualist' %}
+            a <img src="{% static 'data/person.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+          {% else %}
+            a <img src="{% static 'data/people.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+          {% endif %}
+        </td>
+        <td class="tg-c3ow">{{ formfield 'weight_signal_1' }}</td>
+        <td class="tg-c3ow">{{ formfield 'weight_signal_2' }}</td>
+        <td class="tg-c3ow">{{ formfield 'weight_signal_3' }}</td>
+        <td class="tg-c3ow">{{ formfield 'weight_signal_4' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<!-- Icon explanation button -->
+<button type="button" class="btn btn-success btn-sm" onclick="toggleInfo()" style="margin-top:10px;">
+  <i class="bi bi-question-circle"></i>ℹ️ What does the icon mean?
+</button>
+
+<div id="icon-info" style="display:none; margin-top:10px; font-size:13px;">
+  {% if recipient_type == 'Individualist' %}
+    <p>
+      <img src="{% static 'data/person.png' %}" width="20" height="20">
+      = This icon represents a person who prefers a group culture that values <b>individual talents</b> and autonomy.
+    </p>
+  {% else %}
+    <p>
+      <img src="{% static 'data/people.png' %}" width="20" height="20">
+      = This icon represents someone who values <b>collective responsibility</b> and shared goals.
+    </p>
+  {% endif %}
+</div>
+
+<br>
+<br>
+
+<p id="next-question">Do you wish to submit this allocation?</p>
+<p id="next-button"><button id="next_button">Submit Allocation</button></p>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+function toggleInfo() {
+    const info = document.getElementById("icon-info");
+    info.style.display = info.style.display === "none" ? "block" : "none";
+}
+
+// Real-time token tracking
+document.getElementById('next-button').style.visibility = "hidden";
+document.getElementById('next-question').style.visibility = "hidden";
+
+function updateTokenCount() {
+  let sum = 0;
+  for (let i = 1; i <= 4; i++) {
+    const val = parseFloat(document.getElementById(`id_weight_signal_${i}`).value) || 0;
+    sum += val;
+  }
+
+  document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
+  document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
+
+  const isValid = (Math.round(sum * 100) / 100 === 100.00);
+  document.getElementById('summed-inputs').style.color = isValid ? 'green' : 'red';
+  document.getElementById('next-button').style.visibility = isValid ? "visible" : "hidden";
+  document.getElementById('next-question').style.visibility = isValid ? "visible" : "hidden";
+}
+
+// Attach event handlers
+window.onload = function () {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById(`id_weight_signal_${i}`).addEventListener('input', updateTokenCount);
+  }
+};
+</script>
+{{ endblock }}
