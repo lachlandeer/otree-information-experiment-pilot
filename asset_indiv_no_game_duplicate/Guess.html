@@ -35,6 +35,7 @@ th div {
 <br>
 <h4>Token Allocation</h4>
 
+
 <div class="table-container">
   <table class="tg" style="font-size:18px;">
     <thead>
@@ -98,6 +99,15 @@ th div {
   </table>
 </div>
 
+<!-- Icon explanation button -->
+<button class="btn btn-success btn-sm" type="button" onclick="toggleInfo()">What do these icons mean?</button>
+<!-- <button class="btn btn-primary btn-sm" type="button" onclick="toggleInfo()">What do the icons mean?</button> -->
+<div id="icon-info" style="display:none; margin-top:10px; font-size: 13px; line-height: 1.4;">
+    <p><img src="{% static 'data/person.png' %}" width="20" height="20"> = Group member prefers a group culture that values individual talents and autonomy, where each member is empowered to navigate their own path.</p>
+    <p><img src="{% static 'data/people.png' %}" width="20" height="20"> = Group member prefers a group culture that prioritizes community and collective responsibility, where all members work together towards shared goals.</p>
+</div>
+
+<br>
 <br>
 
 <h4>Estimated Target Value</h4>
@@ -116,6 +126,11 @@ setTimeout(function () {
 
 document.getElementById('next-button').style.visibility = "hidden";
 document.getElementById('next-question').style.visibility = "hidden";
+
+function toggleInfo() {
+    const info = document.getElementById("icon-info");
+    info.style.display = (info.style.display === "none") ? "block" : "none";
+}
 
 function updateValues() {
     const w1 = parseFloat(forminputs.weight_signal_1.value) || 0;
