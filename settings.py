@@ -7,6 +7,7 @@ SESSION_CONFIGS = [dict(name='my_session',
                          #'Introduction', 
                          #'asset_indiv_no_game', 
                          'GroupPreferenceElicitation', 
+                         'BonusStage01',
                          'asset_indiv_no_game_duplicate'
                          #'bonus', 
                          #'CollectivismSurvey', 
