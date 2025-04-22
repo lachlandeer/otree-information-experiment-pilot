@@ -326,17 +326,26 @@ class Results(Page):
             ],
             'member_signals': [m['signal'] for m in members],
             'member_types': [m['type'] for m in members],
-            'weight_values': [
-                self.player.weight_signal_1,
-                self.player.weight_signal_2,
-                self.player.weight_signal_3
-            ],
+            # 'weight_values': [
+            #     self.player.weight_signal_1,
+            #     self.player.weight_signal_2,
+            #     self.player.weight_signal_3
+            # ],
+            'weight_values': [getattr(self.player, m['weight_field']) for m in members],
             'weight_signal_4': self.player.weight_signal_4,
             'signal_4': self.player.signal_4,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
             'guess': self.player.guess
         }
+    
     def before_next_page(self):
+        current_round = self.round_number
+        members = self.participant.vars['member_order'][current_round]
+        member_positions = self.participant.vars['member_positions'][current_round]
+
+        # Get each member's type using their role label
+        owner_types = {m['role']: m['type'] for m in members}
+
         round_data = {
             'signal_1': self.player.signal_1,
             'signal_2': self.player.signal_2,
@@ -346,16 +355,48 @@ class Results(Page):
             'display_signal_2': self.player.signal_2_position,
             'display_signal_3': self.player.signal_3_position,
             'players_signal_position': self.player.players_signal_position,
-            # 'member_positions': self.participant.vars.get('member_positions'),
-            # 'owner_type_1': self.participant.vars.get('owner_type_1'),
-            # 'owner_type_2': self.participant.vars.get('owner_type_2'),
-            # 'owner_type_3': self.participant.vars.get('owner_type_3'),
+            'member_positions': member_positions,  # keeps 'You' as key
+            'owner_types': owner_types,            # keys: 'You', 'Member 2', 'Member 3'
         }
 
         if 'stage2_task_rounds' not in self.participant.vars:
             self.participant.vars['stage2_task_rounds'] = {}
 
-        self.participant.vars['stage2_task_rounds'][self.round_number] = round_data
+        self.participant.vars['stage2_task_rounds'][current_round] = round_data
+
+        if self.round_number == Constants.num_rounds:
+            print("✅ Final round complete. Stored stage2_task_rounds:")
+            for r, data in self.participant.vars['stage2_task_rounds'].items():
+                print(f"  Round {r}: keys = {list(data.keys())}")
+
+
+
+    # def before_next_page(self):
+    #     round_data = {
+    #         'signal_1': self.player.signal_1,
+    #         'signal_2': self.player.signal_2,
+    #         'signal_3': self.player.signal_3,
+    #         'signal_4': self.player.signal_4,
+    #         'display_signal_1': self.player.signal_1_position,
+    #         'display_signal_2': self.player.signal_2_position,
+    #         'display_signal_3': self.player.signal_3_position,
+    #         'players_signal_position': self.player.players_signal_position,
+    #         'member_positions': self.participant.vars.get('member_positions'),
+    #         'owner_type_1': self.participant.vars.get('owner_type_1'),
+    #         'owner_type_2': self.participant.vars.get('owner_type_2'),
+    #         'owner_type_3': self.participant.vars.get('owner_type_3')
+    #     }
+
+    #     if 'stage2_task_rounds' not in self.participant.vars:
+    #         self.participant.vars['stage2_task_rounds'] = {}
+
+    #     self.participant.vars['stage2_task_rounds'][self.round_number] = round_data
+
+    #     # Add debug info ONLY on final round
+    #     if self.round_number == Constants.num_rounds:
+    #             print("✅ Arrived at last page of main game")
+    #             print(f"  disqualified_task_1 = {self.participant.vars.get('disqualified_task_1')}")
+    #             print(f"  apps (from session config): {self.session.config.get('app_sequence')}")
 
 class NextRoundSoon(Page):
     form_model = 'player'
@@ -389,7 +430,7 @@ page_sequence = [
     #CreateTaskOrder,
     AssignTreatments,
     Guess,
-    Results,
+    Results
     # SaveCounts #,
     #NextRoundSoon
 ]

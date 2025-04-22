@@ -12,7 +12,7 @@ SESSION_CONFIGS = [dict(name='my_session',
                          'BonusStage02'
                          #'bonus', 
                          #'CollectivismSurvey', 
-                         #'DemographicsSurvey',
+                         #'DemographicsSurvey' #,
                          #'RandomPaymentResults'
                          ]
                        )

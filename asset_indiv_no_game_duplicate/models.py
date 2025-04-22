@@ -13,7 +13,7 @@ class Constants(BaseConstants):
     PAYOFF_SCALER = 500
     MAJORITY_PROBABILITY = 0.55
     TARGET_PER_CELL = 1  # Number of participants to target per condition cell
-    OWNERS_ANONYMOUS_PROB = 0.2
+    OWNERS_ANONYMOUS_PROB = 0.4
 
     # FAILED_PAYMENT = 100
 
