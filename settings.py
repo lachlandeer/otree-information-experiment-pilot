@@ -5,11 +5,11 @@ SESSION_CONFIGS = [dict(name='my_session',
                         num_demo_participants=3, 
                         app_sequence=[
                          #'Introduction', 
-                         #'asset_indiv_no_game', 
+                         'asset_indiv_no_game', 
                          'GroupPreferenceElicitation', 
-                         #'BonusStage01',
-                         'asset_indiv_no_game_duplicate',
-                         'BonusStage02'
+                         'BonusStage01',
+                         #'asset_indiv_no_game_duplicate',
+                         #'BonusStage02'
                          #'bonus', 
                          #'CollectivismSurvey', 
                          #'DemographicsSurvey' #,
@@ -23,7 +23,7 @@ USE_POINTS = True
 DEMO_PAGE_INTRO_HTML = ''
 PARTICIPANT_FIELDS = ['selected_app', 'selected_round', 'random_payment', 'group_results', 'condition', 
                       'task_1', 'task_2', 'task_3', 'task_4', 'task_5', 'task_6', 'task_7', 'task_8', 'task_9', 'task_10', 
-                      'task_11', 'task_12', 'task_13', 'task_14', 'task_15', 'task_16', 'task_17', 'task_18', 'task_19', 'task_20',
+                      'task_11', 'task_12',
                       'bonus_tasks']
 SESSION_FIELDS = []
 ROOMS = []
