@@ -20,16 +20,22 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     def creating_session(self):
         import random
-        # Load the CSV values once for the entire session
         csv_values = load_values_from_csv()
 
-        for p in self.get_players():
-            # Shuffle once for the player at the start of the session
-            player_values = csv_values.copy()
-            random.shuffle(player_values)
+        if self.round_number == 1:
+            for p in self.get_players():
+                # Shuffle tasks/signals
+                player_values = csv_values.copy()
+                random.shuffle(player_values)
+                p.participant.vars['shuffled_values'] = player_values
 
-            # Store shuffled values for all rounds in participant vars
-            p.participant.vars['shuffled_values'] = player_values
+                # Select a random payment round
+                payment_round = random.randint(1, Constants.num_rounds)
+                p.participant.vars['payment_round'] = payment_round
+
+                # ✅ Debugging output
+                print(f'Player {p.id_in_subsession}: selected payment round = {payment_round}')
+
 
 def load_values_from_csv():
     import csv
@@ -112,20 +118,20 @@ class Player(BasePlayer):
 #     }
 #     return task
 
-def creating_round_order(player: Player):
-    subsession = player.subsession
+# def creating_round_order(player: Player):
+#     subsession = player.subsession
 
-    # Ensure this only runs in the first round
-    if subsession.round_number == 1:
-        # Select a random payment app and round for this player
-        selected_app, selected_round = select_random_payment(num_rounds_indiv=Constants.num_rounds, num_rounds_live=10)
+#     # Ensure this only runs in the first round
+#     if subsession.round_number == 1:
+#         # Select a random payment app and round for this player
+#         selected_app, selected_round = select_random_payment(num_rounds_indiv=Constants.num_rounds, num_rounds_live=10)
         
-        # Store the selected app and round in the player's participant variables
-        player.participant.vars['selected_app'] = selected_app
-        player.participant.vars['selected_round'] = selected_round
+#         # Store the selected app and round in the player's participant variables
+#         player.participant.vars['selected_app'] = selected_app
+#         player.participant.vars['selected_round'] = selected_round
 
-        # Optional: Debugging output to track selected app and round
-        print(f'Player {player.id_in_subsession}: selected app = {selected_app}; selected round = {selected_round}.')
+#         # Optional: Debugging output to track selected app and round
+#         print(f'Player {player.id_in_subsession}: selected app = {selected_app}; selected round = {selected_round}.')
 
 # def creating_round_order(group: Group):
 #     subsession = group.subsession
@@ -136,9 +142,9 @@ def creating_round_order(player: Player):
 #             p.participant.vars['selected_round'] = selected_round
 #             print(f'Random payment: selected app = {selected_app}; selected round = {selected_round}.')
 
-def select_random_payment(num_rounds_indiv: int, num_rounds_live: int):
-    import random
-    selected_app = 'asset_indiv_no_game'
-    #selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game', 'bonus'])
-    selected_round = random.randint(1, num_rounds_indiv if selected_app == 'asset_indiv_no_game' else num_rounds_live)
-    return selected_app, selected_round
+# def select_random_payment(num_rounds_indiv: int, num_rounds_live: int):
+#     import random
+#     selected_app = 'asset_indiv_no_game'
+#     #selected_app = random.choice(['asset_indiv_no_game', 'asset_live_game', 'bonus'])
+#     selected_round = random.randint(1, num_rounds_indiv if selected_app == 'asset_indiv_no_game' else num_rounds_live)
+#     return selected_app, selected_round

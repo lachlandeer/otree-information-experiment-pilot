@@ -107,32 +107,44 @@ class Guess(Page):
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
     
     def vars_for_template(self):
+        import random
+
+        player = self.player
+
         # Retrieve shuffled values for the current round
-        shuffled_values = self.player.participant.vars['shuffled_values']
+        shuffled_values = player.participant.vars['shuffled_values']
         current_round_values = shuffled_values[self.round_number - 1]
 
         # Assign real signal values to the player
-        self.player.signal_1 = current_round_values['signal_1']
-        self.player.signal_2 = current_round_values['signal_2']
-        self.player.signal_3 = current_round_values['signal_3']
-        self.player.signal_4 = 100  # Mean asset value
-        self.player.asset_value = current_round_values['asset_value']
+        player.signal_1 = current_round_values['signal_1']
+        player.signal_2 = current_round_values['signal_2']
+        player.signal_3 = current_round_values['signal_3']
+        player.signal_4 = 100  # Mean asset value
+        player.asset_value = current_round_values['asset_value']
 
         # Map signal numbers to their values
         signal_values = {
-            1: self.player.signal_1,
-            2: self.player.signal_2,
-            3: self.player.signal_3,
+            1: player.signal_1,
+            2: player.signal_2,
+            3: player.signal_3,
         }
 
-        # Build a map: which position each signal goes into
+        # Shuffle and assign display order
+        display_order = [1, 2, 3]
+        random.shuffle(display_order)
+
+        player.display_signal_1 = display_order[0]
+        player.display_signal_2 = display_order[1]
+        player.display_signal_3 = display_order[2]
+
+        # Build a map: where each true signal appears
         position_map = {
-            self.player.display_signal_1: (signal_values[1], 'weight_signal_1'),
-            self.player.display_signal_2: (signal_values[2], 'weight_signal_2'),
-            self.player.display_signal_3: (signal_values[3], 'weight_signal_3'),
+            player.display_signal_1: (signal_values[1], 'weight_signal_1'),
+            player.display_signal_2: (signal_values[2], 'weight_signal_2'),
+            player.display_signal_3: (signal_values[3], 'weight_signal_3'),
         }
 
-        # Sort positions 1, 2, 3
+        # Sort positions 1 → 2 → 3 visually
         members = [
             ('Signal 1', position_map[1][0], position_map[1][1]),
             ('Signal 2', position_map[2][0], position_map[2][1]),
@@ -143,6 +155,7 @@ class Guess(Page):
             'members': members,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
         }
+
     
     def js_vars(self):
         return dict(
@@ -175,43 +188,52 @@ class Results(Page):
     def vars_for_template(self):
         player = self.player
 
+        # Map signals to their real values
         signal_values = {
             1: player.signal_1,
             2: player.signal_2,
             3: player.signal_3,
         }
-
-        # Build the same mapping as on Guess page
-        position_map = {
-            player.display_signal_1: (signal_values[1], 'weight_signal_1'),
-            player.display_signal_2: (signal_values[2], 'weight_signal_2'),
-            player.display_signal_3: (signal_values[3], 'weight_signal_3'),
+        
+        # Map weights
+        weight_values = {
+            1: player.weight_signal_1,
+            2: player.weight_signal_2,
+            3: player.weight_signal_3,
         }
 
-        # Arrange signals in correct order
+        # Now use the display orders to pull the correct signal and weight
         members = [
-            ('Signal 1', position_map[1][0], player.weight_signal_1),
-            ('Signal 2', position_map[2][0], player.weight_signal_2),
-            ('Signal 3', position_map[3][0], player.weight_signal_3),
+            ('Signal 1', signal_values[player.display_signal_1], weight_values[player.display_signal_1]),
+            ('Signal 2', signal_values[player.display_signal_2], weight_values[player.display_signal_2]),
+            ('Signal 3', signal_values[player.display_signal_3], weight_values[player.display_signal_3]),
         ]
 
         return {
             'members': members,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
-            'signal_4': player.signal_4,  # Should be 100
+            'signal_4': player.signal_4,
             'weight_signal_4': player.weight_signal_4,
-            'asset_value': player.asset_value,
+            'target_value': player.target_value,
             'guess': player.guess,
+            'earnings': player.earnings,
         }
 
 
+
     def before_next_page(self):
-        if self.player.participant.vars['selected_app'] == 'asset_indiv_no_game':
-            if self.player.round_number == self.player.participant.vars['selected_round']:
-                self.player.participant.vars['random_payment'] = self.player.earnings
-                self.player.payoff = self.player.earnings
-                self.player.participant.vars['guess'] = self.player.guess
-                self.player.participant.vars['target_value'] = self.player.target_value
+        player = self.player
+        participant = player.participant
+
+        if player.round_number == participant.vars['payment_round']:
+            player.payoff = player.earnings
+
+            # Save clean summary info
+            participant.vars['paid_earnings'] = player.earnings
+            participant.vars['paid_guess'] = player.guess
+            participant.vars['paid_target_value'] = player.target_value
+            participant.vars['paid_round'] = player.round_number
+
 
 class NextRoundSoon(Page):
     form_model = 'player'

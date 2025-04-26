@@ -4,6 +4,11 @@
 
 {{ block content }}
 
+This is round <b>{{ player.round_number }}</b> of <b>{{ Constants.num_rounds }}</b>.
+
+<br>
+<br>
+
 <h4>Your Choices</h4> 
 
 <style type="text/css">
@@ -75,13 +80,12 @@
 
 <h4>Your Earnings Information</h4>
 
-<p>The target value was {{ asset_value|to2 }}.</p>
+<p>The target value was {{ target_value|to2 }}.</p>
 
 <p>Your estimate was {{ guess|to2 }}.</p>
 
-<p>Your profit is {{ player.earnings|to2 }} points.</p>
+<p>Your profit is {{ earnings|to2 }} points.</p>
 
 {{ next_button }}
 
 {{ endblock }}
-
