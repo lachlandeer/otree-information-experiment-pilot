@@ -1,28 +1,39 @@
 {% extends "global/Page.html" %}
+{{ block title }}Your Earnings{{ endblock }}
 
 {% block content %}
 
-    <h3>Results</h3>
+<h4>Main Task Payment</h4>
+<p>You were randomly selected to be paid for <b>Round {{ main_payment_round }}</b> of the main task.</p>
 
-    <p>You have completed all the tasks.</p>
+<ul>
+  <li>Target value: <b>{{ main_target_value|to2 }}</b></li>
+  <li>Your guess: <b>{{ main_guess|to2 }}</b></li>
+  <li>Payment for this round in points: <b>{{ main_earnings_points|to2 }}</b> points</li>
+  <li>Payment for this round in currency: <b>{{ main_earnings_currency }}</b></li>
 
-    <p>Your payment is based on Round {% selected_round %}.</p>
+</ul>
 
-    <ul>
-        <li>The Target Value was {% target_value %}.</li>
-        <li>Your estimate was {% guess %}.</li>
-        <li>Profit earned from this decision is {% random_payment %} points.</li>
-    </ul>
+<h4>Bonus Task Payment</h4>
+<p>You were randomly selected to be paid for <b>Task {{ bonus_payment_round }}</b> from the bonus stage.</p>
+<p><i>Note: The bonus payment will be determined later, once decisions of other participants are known.</i></p>
 
-    <h3>Your Earnings</h3>
+<h4>Summary</h4>
+<ul>
+  <li>Participation fee: <b>{{ participation_fee }}</b></li>
+  <li>Main task earnings: <b>{{ main_earnings_currency }}</b></li>
+  <li><b>Total payment so far: {{ total_payment_now }}</b></li>
+  <li>Bonus payment: <i>To be determined</i></li>
+</ul>
 
-    <p>The payment you have earned is <strong>{% random_payment %}</strong> points. This converts to an additional <strong>{% payoff %}</strong> in earnings on top of your participation fee of <strong>£1.</strong></p>
+<hr>
 
-    <p>Your total earnings are <strong>{% total_payment %}</strong>. </p>
+<p>To prove that you have completed the study, please return to the Prolific window and enter the completion code: <strong>CCLHK0J7</strong>.</p>
 
-    <p>To prove that you have completed the study, please return to the Prolific window enter the completion code: <strong>CCLHK0J7</strong> </p>
+<p>You may close this window after entering the completion code.</p>
 
-    <p>You may close this window after entering the completion code. </p>
+{{ next_button }}
+
 
 
 {% endblock %}
