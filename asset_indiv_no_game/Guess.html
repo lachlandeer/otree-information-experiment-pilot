@@ -1,92 +1,82 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Estimate the Target Value{{ endblock }}
+
+{{ block title }}
+    Estimate the Target Value
+{{ endblock }}
 
 {{ block content }}
-This is round <b>{{ player.round_number }}</b> of <b>{{ Constants.num_rounds }}</b>.
-
-<br>
-<br>
-
-<h4>Your Tokens</h4>
-
-You need to allocate <b>{{ Constants.ENDOWMENT }}</b> tokens to the information.
-
-<br>
-
-You have allocated <span id="summed-inputs">0</span> tokens so far.
-
-<br>
-
-You have <span id="remaining-inputs">100</span> left to allocate.
-
-<br>
-<br>
-
-<h4>Token Allocation</h4>
-
-<br>
 
 <style type="text/css">
-    .tg  {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 600px; /* Limit the table's total width */
-        margin: 0 auto; /* Center the table on the page */
-    }
-    .tg td, .tg th {
-        border: 1px solid black;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        padding: 10px;
-        text-align: center;
-        vertical-align: middle;
-    }
-    .tg .tg-header {
-        font-weight: bold;
-    }
-    .tg .tg-first-column {
-        width: 150px; /* Fixed width for the first column */
-        font-weight: bold; /* Bold text */
-        text-align: center; /* Left-align text in the first column */
-    }
-    .tg .tg-field {
-        width: 80px; /* Adjust the width of the signal columns */
-        text-align: center;
-    }
-    </style>
-    
-    <table class="tg" style="font-size:18px;">
-        <thead>
-            <tr>
-                <th class="tg-first-column"></th>
-                <th class="tg-header"><b>Signal 1</b></th>
-                <th class="tg-header"><b>Signal 2</b></th>
-                <th class="tg-header"><b>Signal 3</b></th>
-                <th class="tg-header"><b>Mean Value</b></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="tg-first-column">Information</td>
-                <td>{{ signal_1 }}</td>
-                <td>{{ signal_2 }}</td>
-                <td>{{ signal_3 }}</td>
-                <td>{{ Constants.MEAN_ASSET_VALUE }}</td>
-            </tr>
-            <tr>
-                <td class="tg-first-column">Allocation of Tokens</td>
-                <td class="tg-field">{{ formfield 'weight_signal_1' }}</td>
-                <td class="tg-field">{{ formfield 'weight_signal_2' }}</td>
-                <td class="tg-field">{{ formfield 'weight_signal_3' }}</td>
-                <td class="tg-field">{{ formfield 'weight_signal_4' }}</td>
-            </tr>
-        </tbody>
-    </table>
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 600px; /* Limit the table's total width */
+    margin: 0 auto; /* Center the table on the page */
+}
+.tg td, .tg th {
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+.tg .tg-header {
+    font-weight: bold;
+}
+.tg .tg-first-column {
+    width: 150px; /* Fixed width for the first column */
+    font-weight: bold;
+    text-align: center;
+}
+.tg .tg-field {
+    width: 80px; /* Adjust the width of the signal columns */
+    text-align: center;
+}
+</style>
 
+<h4>Your Tokens</h4>
+<p>You need to allocate <b>100</b> tokens to the information.</p>
+<p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
+<p>You have <span id="remaining-inputs">100</span> tokens left to allocate.</p>
+
+<br>
+<h4>Token Allocation</h4>
+
+<div class="table-container">
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-first-column"></th>
+        {% for label, value, field in members %}
+            <th class="tg-field">{{ label }}</th>
+        {% endfor %}
+        <th class="tg-field">Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-first-column">Information</td>
+        {% for label, value, field in members %}
+            <td class="tg-field">{{ value }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ mean_asset_value }}</td>
+      </tr>
+      <tr>
+        <td class="tg-first-column">Allocation of Tokens</td>
+        {% for label, value, field in members %}
+            <td class="tg-field">{{ formfield field label="" }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ formfield 'weight_signal_4' label="" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
 <br>
 
 <h4>Estimated Target Value</h4>
-
 <p>Your estimate of the target value is <b><span id="target-price">0</span></b></p>
 
 <p id="next-question">Do you wish to submit this estimate?</p>
@@ -96,77 +86,48 @@ You have <span id="remaining-inputs">100</span> left to allocate.
 
 {{ block scripts }}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Define form inputs for each signal weight field
-    const forminputs = {
-        weight_signal_1: document.getElementsByName('weight_signal_1')[0],
-        weight_signal_2: document.getElementsByName('weight_signal_2')[0],
-        weight_signal_3: document.getElementsByName('weight_signal_3')[0],
-        weight_signal_4: document.getElementsByName('weight_signal_4')[0]
-    };
+setTimeout(function () {
+    alert("Please make your decision.");
+}, 60000);
 
-    // Use js_vars object to hold signal values, passed from backend
-    const js_vars = {{ js_vars|safe }};
+// Hide submit button until total = 100
+document.getElementById('next-button').style.visibility = "hidden";
+document.getElementById('next-question').style.visibility = "hidden";
 
-    // Hide submit button and question initially
-    document.getElementById('next-button').style.visibility = "hidden";
-    document.getElementById('next-question').style.visibility = "hidden";
+function updateValues() {
+    const w1 = parseFloat(forminputs.weight_signal_1.value) || 0;
+    const w2 = parseFloat(forminputs.weight_signal_2.value) || 0;
+    const w3 = parseFloat(forminputs.weight_signal_3.value) || 0;
+    const w4 = parseFloat(forminputs.weight_signal_4.value) || 0;
 
-    // Function to handle empty values, returning 0 if the value is empty
-    function parseInputValue(input) {
-        return parseFloat(input.value) || 0;
+    const sum = w1 + w2 + w3 + w4;
+    document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
+    document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
+
+    if (sum === 100) {
+        document.getElementById('summed-inputs').style.color = "green";
+        document.getElementById('next-button').style.visibility = "visible";
+        document.getElementById('next-question').style.visibility = "visible";
+    } else {
+        document.getElementById('summed-inputs').style.color = "red";
+        document.getElementById('next-button').style.visibility = "hidden";
+        document.getElementById('next-question').style.visibility = "hidden";
     }
 
-    // Update allocated token sums with fallback for empty values
-    function allocatedWeights() {
-        let sum = parseInputValue(forminputs.weight_signal_1) +
-                  parseInputValue(forminputs.weight_signal_2) +
-                  parseInputValue(forminputs.weight_signal_3) +
-                  parseInputValue(forminputs.weight_signal_4);
+    const estimate = (1 / 100 * (
+        js_vars.signal1 * w1 +
+        js_vars.signal2 * w2 +
+        js_vars.signal3 * w3 +
+        js_vars.signal4 * w4
+    )).toFixed(2);
 
-        document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
-        document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
+    document.getElementById('target-price').innerHTML = estimate;
+}
 
-        // Change color and toggle submit button visibility based on sum
-        if (sum === 100) {
-            document.getElementById('summed-inputs').style.color = "green";
-            document.getElementById('next-button').style.visibility = "visible";
-            document.getElementById('next-question').style.visibility = "visible";
-        } else {
-            document.getElementById('summed-inputs').style.color = "red";
-            document.getElementById('next-button').style.visibility = "hidden";
-            document.getElementById('next-question').style.visibility = "hidden";
-        }
-    }
-
-    // Calculate target price with fallback for empty values
-    function calulateTargetPrice() {
-        let targetPrice = (
-            parseInputValue(forminputs.weight_signal_1) * parseFloat(js_vars.signal1) +
-            parseInputValue(forminputs.weight_signal_2) * parseFloat(js_vars.signal2) +
-            parseInputValue(forminputs.weight_signal_3) * parseFloat(js_vars.signal3) +
-            parseInputValue(forminputs.weight_signal_4) * parseFloat(js_vars.signal4)
-        ) / 100;
-
-        document.getElementById('target-price').innerHTML = targetPrice.toFixed(2);
-    }
-
-    // Function to update all displayed values
-    function updateValues() {
-        allocatedWeights();
-        calulateTargetPrice();
-    }
-
-    // Set event listeners for real-time updates
-    forminputs.weight_signal_1.addEventListener('input', updateValues);
-    forminputs.weight_signal_2.addEventListener('input', updateValues);
-    forminputs.weight_signal_3.addEventListener('input', updateValues);
-    forminputs.weight_signal_4.addEventListener('input', updateValues);
-
-    // Timeout alert for user decision
-    setTimeout(function () {
-        alert("Please make your decision.");
-    }, 90 * 1000); // 60 seconds
-});
+// Attach live update
+forminputs.weight_signal_1.oninput = updateValues;
+forminputs.weight_signal_2.oninput = updateValues;
+forminputs.weight_signal_3.oninput = updateValues;
+forminputs.weight_signal_4.oninput = updateValues;
 </script>
 {{ endblock }}

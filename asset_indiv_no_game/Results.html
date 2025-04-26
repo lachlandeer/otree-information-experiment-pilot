@@ -1,66 +1,87 @@
 {{ extends 'global/Page.html' }}
+
 {{ block title }}Results{{ endblock }}
 
 {{ block content }}
 
-<h4> Your Choices </h4> 
+<h4>Your Choices</h4> 
 
 <style type="text/css">
-    .tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-    .tg .tg-baqh{text-align:center;vertical-align:top}
-    .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-
-    /* Container div for better spacing */
-    .table-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 600px;
+        margin: 0 auto;
     }
-    </style>
+    .tg td, .tg th {
+        border: 1px solid black;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .tg .tg-header {
+        font-weight: bold;
+    }
+    .tg .tg-first-column {
+        width: 150px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .tg .tg-field {
+        width: 80px;
+        text-align: center;
+    }
+    .table-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+</style>
   
-  <div class="table-container">
-    <table class="tg" style="font-size:18px; "><thead>
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
+    <thead>
       <tr>
-        <th class="tg-c3ow"></th>
-          <th class="tg-c3ow"><b>Signal 1</b></th>
-          <th class="tg-c3ow"><b>Signal 2</b></th>
-          <th class="tg-c3ow"><b>Signal 3</b></th>
-          <th class="tg-baqh"><b>Mean Value</b></th>
-      </tr></thead>
+        <th class="tg-first-column"></th>
+        {% for label, signal_value, weight in members %}
+            <th class="tg-field"><b>{{ label }}</b></th>
+        {% endfor %}
+        <th class="tg-field"><b>Mean Value</b></th>
+      </tr>
+    </thead>
     <tbody>
       <tr>
-        <td class="tg-c3ow"><b>Information</b></td>
-        <td class="tg-c3ow">{{ player.signal_1 }}</td>
-        <td class="tg-c3ow">{{ player.signal_2 }}</td>
-        <td class="tg-c3ow">{{ player.signal_3 }}</td>
-        <td class="tg-baqh">{{ Constants.MEAN_ASSET_VALUE }}</td>
+        <td class="tg-first-column"><b>Information</b></td>
+        {% for label, signal_value, weight in members %}
+            <td class="tg-field">{{ signal_value }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ mean_asset_value }}</td>
       </tr>
       <tr>
-        <td class="tg-c3ow"><b>Allocation of Tokens</b></td>
-        <td class="tg-c3ow">{{ player.weight_signal_1 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_2 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_3 }}</td>
-        <td class="tg-c3ow">{{ player.weight_signal_4 }}</td>
+        <td class="tg-first-column"><b>Allocation of Tokens</b></td>
+        {% for label, signal_value, weight in members %}
+            <td class="tg-field">{{ weight }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ weight_signal_4 }}</td>
       </tr>
     </tbody>
-    </table>
-   </div> 
-    <br>
+  </table>
+</div>
 
-<h4>  Your Earnings Information </h4>
+<br>
 
-<p>The target value was {{ player.target_value|to2 }}.</p>
+<h4>Your Earnings Information</h4>
 
-<p>Your estimate was {{ player.guess|to2 }}.</p>
+<p>The target value was {{ asset_value|to2 }}.</p>
+
+<p>Your estimate was {{ guess|to2 }}.</p>
 
 <p>Your profit is {{ player.earnings|to2 }} points.</p>
 
 {{ next_button }}
 
-
 {{ endblock }}
+
