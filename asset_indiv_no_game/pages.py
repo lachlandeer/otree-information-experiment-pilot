@@ -94,9 +94,9 @@ class Disqualification(Page):
             return "RandomPaymentResults"
 
 class ContinueStudy(Page):
-    def before_next_page(self):
-        if self.round_number == 1:
-            creating_round_order(self.player)
+    # def before_next_page(self):
+    #     if self.round_number == 1:
+    #         creating_round_order(self.player)
     
     def is_displayed(self):
         return (self.round_number == 1 and 
@@ -244,13 +244,11 @@ class NextRoundSoon(Page):
         return True
 
 page_sequence = [
-    #InstructionsCarousel,
-    #AttentionCheck1,
-    #AttentionCheck2,
-    #Disqualification,
-    #ContinueStudy,
-    #CreateTaskOrder,
+    InstructionsCarousel,
+    AttentionCheck1,
+    AttentionCheck2,
+    Disqualification,
+    ContinueStudy,
     Guess,
-    Results #,
-    #NextRoundSoon
+    Results
 ]
