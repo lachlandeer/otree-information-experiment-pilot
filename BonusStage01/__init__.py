@@ -70,7 +70,7 @@ class Instructions(Page):
         return player.round_number == 1
 
     @staticmethod
-    def before_next_page(player: Player, timeout_happened):
+    def before_next_page(player: Player, timeout_happened=False):
         all_tasks = load_bonus_tasks_from_csv()
         selected_tasks = random.sample(all_tasks, 5)
         player.participant.vars['bonus_tasks'] = selected_tasks
@@ -177,7 +177,7 @@ class Results(Page):
         }
     
     @staticmethod
-    def before_next_page(player: Player):
+    def before_next_page(player: Player, timeout_happened=False):
         payment_round = player.participant.vars.get('bonus_payment_round')
         player.is_bonus_payment_round = (player.round_number == payment_round)
 
