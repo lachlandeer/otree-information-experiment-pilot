@@ -44,6 +44,8 @@ class Player(BasePlayer):
     weight_signal_3 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
     weight_signal_4 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
 
+    is_bonus_payment_round = models.BooleanField(initial=False)
+
 
 def load_bonus_tasks_from_csv():
     import csv
@@ -76,6 +78,13 @@ class Instructions(Page):
         # Assign recipient type ONCE
         if player.round_number == 1:
             player.participant.vars['recipient_type'] = random.choice(['Individualist', 'Collectivist'])
+            
+            # 🎯 Select a bonus payment round NOW
+            player.participant.vars['bonus_payment_round'] = random.randint(1, C.NUM_ROUNDS)
+
+            # Debugging
+            print(f"Player {player.id_in_subsession}: bonus payment round = {player.participant.vars['bonus_payment_round']}")
+
 
 
 class Example(Page):
@@ -166,6 +175,11 @@ class Results(Page):
             'recipient_type': player.recipient_type,
             'weight_signal_4': player.weight_signal_4,
         }
+    
+    @staticmethod
+    def before_next_page(player: Player):
+        payment_round = player.participant.vars.get('bonus_payment_round')
+        player.is_bonus_payment_round = (player.round_number == payment_round)
 
 
 

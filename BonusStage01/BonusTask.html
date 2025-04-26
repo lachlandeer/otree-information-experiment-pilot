@@ -68,7 +68,7 @@
       <tr>
         <td class="tg-first-column">
           Allocation for<br>
-          player of<br>
+          a player of<br>
           type 
           {% if recipient_type == 'Individualist' %}
             <img src="{% static 'data/person.png' %}" width="20" height="20">
@@ -95,10 +95,10 @@
 <div id="icon-info" style="display:none; margin-top:10px; font-size:13px;">
   {% if recipient_type == 'Individualist' %}
     <p><img src="{% static 'data/person.png' %}" width="20" height="20">
-    = Values individual talents and autonomy.</p>
+    = This icon represents a person who prefers a group culture that values individual talents and autonomy.</p>
   {% else %}
     <p><img src="{% static 'data/people.png' %}" width="20" height="20">
-    = Values collective responsibility and shared goals.</p>
+    = This icon represents someone who values collective responsibility and shared goals.</p>
   {% endif %}
 </div>
 
