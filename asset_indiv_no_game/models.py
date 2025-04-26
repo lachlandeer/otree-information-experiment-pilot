@@ -1,9 +1,9 @@
 from otree.api import *
 
 class Constants(BaseConstants):
-    name_in_url = 'asset_indiv_no_game'
+    name_in_url = 'DecisionTask'
     players_per_group = None  # Ensure this is uppercase
-    num_rounds = 20
+    num_rounds = 12
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
@@ -33,7 +33,7 @@ class Subsession(BaseSubsession):
 
 def load_values_from_csv():
     import csv
-    file_path = '_static/data/asset_indiv_no_game.csv'  # Adjust the path as needed
+    file_path = '_static/data/asset_indiv_no_game_tasks_12.csv'  # Adjust the path as needed
     with open(file_path, mode='r') as file:
         csv_reader = csv.DictReader(file)
         values = []
