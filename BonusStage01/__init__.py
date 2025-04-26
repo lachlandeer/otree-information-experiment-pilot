@@ -91,6 +91,12 @@ class Example(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'recipient_type': player.participant.vars['recipient_type']
+        }
 
 
 class BonusTask(Page):
@@ -185,7 +191,7 @@ class Results(Page):
 
 
 page_sequence = [Instructions, 
-                 #Example, 
+                 Example, 
                  BonusTask, 
                  Results
                  ]
