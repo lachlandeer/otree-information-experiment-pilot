@@ -102,7 +102,7 @@ class ContinueStudy(Page):
         return (self.round_number == 1 and 
                 not self.player.participant.vars.get('disqualified_task_1', False))
 class Guess(Page):
-    #timeout_seconds = 2*60
+    timeout_seconds = 2*60
     form_model = 'player'
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
     

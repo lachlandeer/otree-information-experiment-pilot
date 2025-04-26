@@ -94,6 +94,7 @@ class Example(Page):
 
 
 class BonusTask(Page):
+    timeout_seconds = 2*60
     form_model = 'player'
     form_fields = ['weight_signal_1', 'weight_signal_2', 'weight_signal_3', 'weight_signal_4']
 
