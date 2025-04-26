@@ -9,18 +9,6 @@ class InstructionsCarousel(Page):
         #print(f'Instructions is_displayed called for round {self.player.round_number}')    
         return self.player.round_number == 1
 
-# class AssetValueIllustration(Page):
-#     def is_displayed(self):
-#         return self.player.round_number == 1
-
-# class ThreeSignalsIllustration(Page):
-#     def is_displayed(self):
-#         return self.player.round_number == 1
-
-# class Example(Page):
-#     def is_displayed(self):
-#         return self.player.round_number == 1
-
 class AttentionCheck1(Page):
     form_model = 'player'
     form_fields = ['question_1', 'question_2', 'question_3']
@@ -113,17 +101,6 @@ class ContinueStudy(Page):
     def is_displayed(self):
         return (self.round_number == 1 and 
                 not self.player.participant.vars.get('disqualified_task_1', False))
-
-# class CreateTaskOrder(WaitPage):
-#     def after_all_players_arrive(self):
-#         # Loop through all players and call creating_round_order for each
-#         for player in self.group.get_players():
-#             creating_round_order(player)
-#     # after_all_players_arrive = creating_round_order
-
-#     def is_displayed(self):
-#         return True
-
 class Guess(Page):
     #timeout_seconds = 2*60
     form_model = 'player'
@@ -166,73 +143,6 @@ class Guess(Page):
             'members': members,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
         }
-
-    # def vars_for_template(self):
-    #     shuffled_values = self.player.participant.vars['shuffled_values']
-    #     current_round_values = shuffled_values[self.round_number - 1]
-
-    #     self.player.signal_1 = current_round_values['signal_1']
-    #     self.player.signal_2 = current_round_values['signal_2']
-    #     self.player.signal_3 = current_round_values['signal_3']
-    #     self.player.signal_4 = 100
-    #     self.player.asset_value = current_round_values['asset_value']
-
-    #     # Build true signal list
-    #     signal_list = [
-    #         (1, self.player.signal_1),
-    #         (2, self.player.signal_2),
-    #         (3, self.player.signal_3),
-    #     ]
-
-    #     # Shuffle the display order
-    #     import random
-    #     random.shuffle(signal_list)
-
-    #     # Save the shuffled display mapping in player model
-    #     self.player.display_signal_1 = signal_list[0][0]  # Which real signal appears 1st
-    #     self.player.display_signal_2 = signal_list[1][0]  # 2nd
-    #     self.player.display_signal_3 = signal_list[2][0]  # 3rd
-
-    #     # Match fields for form inputs
-    #     display_signals = [
-    #         ('Signal 1', signal_list[0][1], 'weight_signal_1'),
-    #         ('Signal 2', signal_list[1][1], 'weight_signal_2'),
-    #         ('Signal 3', signal_list[2][1], 'weight_signal_3'),
-    #     ]
-
-    #     return {
-    #         'members': display_signals,
-    #         'mean_asset_value': Constants.MEAN_ASSET_VALUE,
-    #     }
-
-    # def vars_for_template(self):
-    #     # Retrieve shuffled values for the current round
-    #     shuffled_values = self.player.participant.vars['shuffled_values']
-    #     current_round_values = shuffled_values[self.round_number - 1]
-
-    #     # Assign shuffled values to the player for the current round
-    #     self.player.signal_1 = current_round_values['signal_1']
-    #     self.player.signal_2 = current_round_values['signal_2']
-    #     self.player.signal_3 = current_round_values['signal_3']
-    #     self.player.signal_4 = 100  # Always set signal_4 to 100
-    #     self.player.asset_value = current_round_values['asset_value']
-
-    #     # Return the values to the template (optional, if needed for display)
-    #     return {
-    #         'signal_1': self.player.signal_1,
-    #         'signal_2': self.player.signal_2,
-    #         'signal_3': self.player.signal_3,
-    #         'signal_4': self.player.signal_4,  # Always 100
-    #         'asset_value': self.player.asset_value
-    #     }
-    # def vars_for_template(self):
-    #     task = get_values()
-    #     self.player.signal_1 = task['signal_1']
-    #     self.player.signal_2 = task['signal_2']
-    #     self.player.signal_3 = task['signal_3']
-    #     self.player.signal_4 = Constants.MEAN_ASSET_VALUE
-    #     self.player.asset_value = task['asset_value']
-    #     return task
     
     def js_vars(self):
         return dict(
@@ -312,7 +222,6 @@ class NextRoundSoon(Page):
         return True
 
 page_sequence = [
-    # Example, 
     #InstructionsCarousel,
     #AttentionCheck1,
     #AttentionCheck2,
