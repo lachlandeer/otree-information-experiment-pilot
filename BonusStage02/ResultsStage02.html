@@ -1,0 +1,81 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Bonus Allocation Summary{{ endblock }}
+
+{{ block content }}
+
+<style>
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td, .tg th {
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    text-align: center;
+    vertical-align: top;
+}
+.tg th {
+    font-weight: bold;
+}
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+</style>
+
+<h4>Summary of Your Allocation</h4>
+
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
+    <thead>
+      <tr>
+        <th></th>
+        {% for label, type, signal, weight in members %}
+        <th>
+          <div>
+            {{ label }}<br>
+            {% if type == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif type == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        {% endfor %}
+        <th>Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Information</td>
+        {% for label, type, signal, weight in members %}
+        <td>{{ signal }}</td>
+        {% endfor %}
+        <td>{{ mean_asset_value }}</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="line-height: 1.4;">
+            Allocation for<br>
+            <strong>{{ bonus_recipient_label }}</strong><br>
+            {% if bonus_recipient_type == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif bonus_recipient_type == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </td>
+        {% for label, type, signal, weight in members %}
+        <td>{{ weight }}</td>
+        {% endfor %}
+        <td>{{ weight_signal_4 }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    {{ next_button }}
+
+{{ endblock }}
+

@@ -1,0 +1,114 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Bonus Allocation Task{{ endblock }}
+
+{{ block content }}
+
+<style>
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td, .tg th {
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    text-align: center;
+    vertical-align: top;
+}
+.tg th {
+    font-weight: bold;
+}
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+</style>
+
+<h4>Bonus Allocation</h4>
+<p>You are allocating <strong>100</strong> tokens on behalf of a group member.</p>
+<p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
+<p>You have <span id="remaining-inputs">100</span> tokens remaining.</p>
+
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
+    <thead>
+      <tr>
+        <th></th>
+        {% for label, type, signal, field in members %}
+        <th>
+          <div>
+            {{ label }}<br>
+            {% if type == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif type == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </th>
+        {% endfor %}
+        <th>Mean Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Information</td>
+        {% for label, type, signal, field in members %}
+        <td>{{ signal }}</td>
+        {% endfor %}
+        <td>{{ mean_asset_value }}</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="line-height: 1.4;">
+            Allocation for<br>
+            <strong>{{ bonus_recipient_label }}</strong><br>
+            {% if bonus_recipient_type == 'Individualist' %}
+              <img src="{% static 'data/person.png' %}" width="20" height="20">
+            {% elif bonus_recipient_type == 'Collectivist' %}
+              <img src="{% static 'data/people.png' %}" width="20" height="20">
+            {% endif %}
+          </div>
+        </td>
+        {% for label, type, signal, field in members %}
+        <td>{{ formfield field label="" }}</td>
+        {% endfor %}
+        <td>{{ formfield 'weight_signal_4' label="" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Submit button -->
+<p id="next-question" style="visibility: hidden;">Do you wish to submit this allocation?</p>
+<p id="next-button" style="visibility: hidden;">
+    <button id="next_button">Submit Allocation</button>
+</p>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+function updateValues() {
+    const w1 = parseFloat(forminputs.weight_signal_1.value) || 0;
+    const w2 = parseFloat(forminputs.weight_signal_2.value) || 0;
+    const w3 = parseFloat(forminputs.weight_signal_3.value) || 0;
+    const w4 = parseFloat(forminputs.weight_signal_4.value) || 0;
+
+    const sum = w1 + w2 + w3 + w4;
+    document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
+    document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
+
+    const isValid = sum === 100;
+    document.getElementById('summed-inputs').style.color = isValid ? "green" : "red";
+    document.getElementById('next-question').style.visibility = isValid ? "visible" : "hidden";
+    document.getElementById('next-button').style.visibility = isValid ? "visible" : "hidden";
+}
+
+// Trigger updates on input
+forminputs.weight_signal_1.oninput = updateValues;
+forminputs.weight_signal_2.oninput = updateValues;
+forminputs.weight_signal_3.oninput = updateValues;
+forminputs.weight_signal_4.oninput = updateValues;
+updateValues();
+</script>
+{{ endblock }}
