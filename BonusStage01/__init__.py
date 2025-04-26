@@ -30,25 +30,19 @@ class Player(BasePlayer):
     signal_3 = models.FloatField()
     signal_4 = models.FloatField()
 
-    # Shuffled display signals
+    # position tracking of signals
     display_signal_1 = models.FloatField()
     display_signal_2 = models.FloatField()
     display_signal_3 = models.FloatField()
-
-    # Position tracking
-    signal_1_position = models.IntegerField()
-    signal_2_position = models.IntegerField()
-    signal_3_position = models.IntegerField()
-    players_signal_position = models.IntegerField()
 
     # Recipient type treatment
     recipient_type = models.StringField(choices=['Individualist', 'Collectivist'])
 
     # Allocations
-    weight_signal_1 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
-    weight_signal_2 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
-    weight_signal_3 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
-    weight_signal_4 = models.FloatField(initial=0, label='', max=C.GUESS_MAX, min=0)
+    weight_signal_1 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
+    weight_signal_2 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
+    weight_signal_3 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
+    weight_signal_4 = models.FloatField(label='', max=C.GUESS_MAX, min=0)
 
 
 def load_bonus_tasks_from_csv():
@@ -98,40 +92,51 @@ class BonusTask(Page):
     def vars_for_template(player: Player):
         task = player.participant.vars['bonus_tasks'][player.round_number - 1]
 
-        # Save original signals
+        # Assign real signals
         player.signal_1 = task['signal_1']
         player.signal_2 = task['signal_2']
         player.signal_3 = task['signal_3']
         player.signal_4 = C.MEAN_ASSET_VALUE
 
-        # Shuffle signal display order
-        signal_items = [
-            ('signal_1', player.signal_1),
-            ('signal_2', player.signal_2),
-            ('signal_3', player.signal_3),
+        # Map signal numbers to their real values
+        signal_values = {
+            1: player.signal_1,
+            2: player.signal_2,
+            3: player.signal_3,
+        }
+
+        # Shuffle the display order of signals (just 1, 2, 3, NOT values)
+        shuffled_signal_numbers = [1, 2, 3]
+        random.shuffle(shuffled_signal_numbers)
+
+        # Save the shuffled positions
+        player.display_signal_1 = shuffled_signal_numbers[0]
+        player.display_signal_2 = shuffled_signal_numbers[1]
+        player.display_signal_3 = shuffled_signal_numbers[2]
+
+        # Map display positions to real signal values
+        position_map = {
+            player.display_signal_1: (signal_values[1], 'weight_signal_1'),
+            player.display_signal_2: (signal_values[2], 'weight_signal_2'),
+            player.display_signal_3: (signal_values[3], 'weight_signal_3'),
+        }
+
+        # Create members list for rendering
+        members = [
+            ('Signal 1', position_map[1][0], 'weight_signal_1'),
+            ('Signal 2', position_map[2][0], 'weight_signal_2'),
+            ('Signal 3', position_map[3][0], 'weight_signal_3'),
         ]
-        random.shuffle(signal_items)
-
-        player.display_signal_1 = signal_items[0][1]
-        player.display_signal_2 = signal_items[1][1]
-        player.display_signal_3 = signal_items[2][1]
-
-        for idx, (label, _) in enumerate(signal_items, start=1):
-            setattr(player, f'{label}_position', idx)
-            if label == 'signal_1':
-                player.players_signal_position = idx
 
         # Load assigned treatment
         player.recipient_type = player.participant.vars['recipient_type']
 
         return {
-            'signal_1': player.display_signal_1,
-            'signal_2': player.display_signal_2,
-            'signal_3': player.display_signal_3,
-            'signal_4': C.MEAN_ASSET_VALUE,
-            'players_signal_position': player.players_signal_position,
+            'members': members,
+            'mean_asset_value': C.MEAN_ASSET_VALUE,
             'recipient_type': player.recipient_type,
         }
+
 
     @staticmethod
     def error_message(player: Player, values):
@@ -143,19 +148,26 @@ class BonusTask(Page):
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return {
-            'signal_1': player.display_signal_1,
-            'signal_2': player.display_signal_2,
-            'signal_3': player.display_signal_3,
-            'signal_4': C.MEAN_ASSET_VALUE,
-            'weights': [
-                player.weight_signal_1,
-                player.weight_signal_2,
-                player.weight_signal_3,
-                player.weight_signal_4
-            ],
-            'recipient_type': player.recipient_type,
+        signal_values = {
+            1: player.signal_1,
+            2: player.signal_2,
+            3: player.signal_3,
         }
+
+        members = [
+            ('Signal 1', signal_values[player.display_signal_1], player.weight_signal_1),
+            ('Signal 2', signal_values[player.display_signal_2], player.weight_signal_2),
+            ('Signal 3', signal_values[player.display_signal_3], player.weight_signal_3),
+        ]
+
+        return {
+            'members': members,
+            'mean_asset_value': C.MEAN_ASSET_VALUE,
+            'recipient_type': player.recipient_type,
+            'weight_signal_4': player.weight_signal_4,
+        }
+
+
 
 page_sequence = [Instructions, 
                  #Example, 

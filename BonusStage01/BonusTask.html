@@ -4,19 +4,41 @@
 {{ block content }}
 
 <style type="text/css">
-  .tg  {border-collapse:collapse;border-spacing:0;}
-  .tg td{border-color:black;border-style:solid;border-width:1px;
-    font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:10px 5px;word-break:normal;}
-  .tg th{border-color:black;border-style:solid;border-width:1px;
-    font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-  .tg .tg-baqh{text-align:center;vertical-align:top}
-  .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+  .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 600px;
+    margin: 0 auto;
+  }
+  .tg td, .tg th {
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tg .tg-header {
+    font-weight: bold;
+  }
+  .tg .tg-first-column {
+    width: 150px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .tg .tg-field {
+    width: 80px;
+    text-align: center;
+  }
+  .table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
 </style>
 
-<p><b>This is round {{ player.round_number }} of {{ C.NUM_ROUNDS }}.</b></p>
-
+<p>This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
 
 <p>You need to allocate <b>100</b> tokens to the information.</p>
 <p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
@@ -24,38 +46,40 @@
 
 <br>
 
-<div style="display: flex; justify-content: center; width: 100%;">
-  <table class="tg" style="font-size:18px; width: auto;">
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
     <thead>
       <tr>
-        <th class="tg-c3ow"></th>
-        <th class="tg-c3ow">Signal 1</th>
-        <th class="tg-c3ow">Signal 2</th>
-        <th class="tg-c3ow">Signal 3</th>
-        <th class="tg-baqh">Mean Value</th>
+        <th class="tg-first-column"></th>
+        {% for label, signal_value, weight_field in members %}
+          <th class="tg-field"><b>{{ label }}</b></th>
+        {% endfor %}
+        <th class="tg-field"><b>Mean Value</b></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="tg-c3ow">Information</td>
-        <td class="tg-c3ow">{{ signal_1 }}</td>
-        <td class="tg-c3ow">{{ signal_2 }}</td>
-        <td class="tg-c3ow">{{ signal_3 }}</td>
-        <td class="tg-c3ow">{{ signal_4 }}</td>
+        <td class="tg-first-column"><b>Information</b></td>
+        {% for label, signal_value, weight_field in members %}
+          <td class="tg-field">{{ signal_value }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ mean_asset_value }}</td>
       </tr>
       <tr>
-        <td class="tg-c3ow">
+        <td class="tg-first-column">
           Allocation for<br>
+          player of<br>
+          type 
           {% if recipient_type == 'Individualist' %}
-            a <img src="{% static 'data/person.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+            <img src="{% static 'data/person.png' %}" width="20" height="20">
           {% else %}
-            a <img src="{% static 'data/people.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+            <img src="{% static 'data/people.png' %}" width="20" height="20">
           {% endif %}
         </td>
-        <td class="tg-c3ow">{{ formfield 'weight_signal_1' }}</td>
-        <td class="tg-c3ow">{{ formfield 'weight_signal_2' }}</td>
-        <td class="tg-c3ow">{{ formfield 'weight_signal_3' }}</td>
-        <td class="tg-c3ow">{{ formfield 'weight_signal_4' }}</td>
+        {% for label, signal_value, weight_field in members %}
+          <td class="tg-field">{{ formfield weight_field }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ formfield 'weight_signal_4' }}</td>
       </tr>
     </tbody>
   </table>
@@ -63,27 +87,22 @@
 
 <br>
 
-<!-- Icon explanation button -->
+<!-- Info Button -->
 <button type="button" class="btn btn-success btn-sm" onclick="toggleInfo()" style="margin-top:10px;">
-  <i class="bi bi-question-circle"></i>ℹ️ What does the icon mean?
+  ℹ️ What does the icon mean?
 </button>
 
 <div id="icon-info" style="display:none; margin-top:10px; font-size:13px;">
   {% if recipient_type == 'Individualist' %}
-    <p>
-      <img src="{% static 'data/person.png' %}" width="20" height="20">
-      = This icon represents a person who prefers a group culture that values individual talents and autonomy.
-    </p>
+    <p><img src="{% static 'data/person.png' %}" width="20" height="20">
+    = Values individual talents and autonomy.</p>
   {% else %}
-    <p>
-      <img src="{% static 'data/people.png' %}" width="20" height="20">
-      = This icon represents someone who values collective responsibility and shared goals.
-    </p>
+    <p><img src="{% static 'data/people.png' %}" width="20" height="20">
+    = Values collective responsibility and shared goals.</p>
   {% endif %}
 </div>
 
-<br>
-<br>
+<br><br>
 
 <p id="next-question">Do you wish to submit this allocation?</p>
 <p id="next-button"><button id="next_button">Submit Allocation</button></p>
@@ -97,31 +116,30 @@ function toggleInfo() {
     info.style.display = info.style.display === "none" ? "block" : "none";
 }
 
-// Real-time token tracking
 document.getElementById('next-button').style.visibility = "hidden";
 document.getElementById('next-question').style.visibility = "hidden";
 
 function updateTokenCount() {
-  let sum = 0;
-  for (let i = 1; i <= 4; i++) {
-    const val = parseFloat(document.getElementById(`id_weight_signal_${i}`).value) || 0;
-    sum += val;
-  }
+    let sum = 0;
+    {% for label, signal_value, weight_field in members %}
+        sum += parseFloat(document.getElementById("id_{{ weight_field }}").value) || 0;
+    {% endfor %}
+    sum += parseFloat(document.getElementById("id_weight_signal_4").value) || 0;
 
-  document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
-  document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
+    document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
+    document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
 
-  const isValid = (Math.round(sum * 100) / 100 === 100.00);
-  document.getElementById('summed-inputs').style.color = isValid ? 'green' : 'red';
-  document.getElementById('next-button').style.visibility = isValid ? "visible" : "hidden";
-  document.getElementById('next-question').style.visibility = isValid ? "visible" : "hidden";
+    const isValid = Math.abs(sum - 100) < 0.01;
+    document.getElementById('summed-inputs').style.color = isValid ? 'green' : 'red';
+    document.getElementById('next-button').style.visibility = isValid ? "visible" : "hidden";
+    document.getElementById('next-question').style.visibility = isValid ? "visible" : "hidden";
 }
 
-// Attach event handlers
 window.onload = function () {
-  for (let i = 1; i <= 4; i++) {
-    document.getElementById(`id_weight_signal_${i}`).addEventListener('input', updateTokenCount);
-  }
+    {% for label, signal_value, weight_field in members %}
+      document.getElementById("id_{{ weight_field }}").addEventListener('input', updateTokenCount);
+    {% endfor %}
+    document.getElementById("id_weight_signal_4").addEventListener('input', updateTokenCount);
 };
 </script>
 {{ endblock }}

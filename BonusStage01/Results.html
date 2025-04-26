@@ -5,63 +5,79 @@
 
 <style type="text/css">
   .tg  {border-collapse:collapse;border-spacing:0;}
-  .tg td{border-color:black;border-style:solid;border-width:1px;
-    font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:10px 5px;word-break:normal;}
-  .tg th{border-color:black;border-style:solid;border-width:1px;
-    font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-  .tg .tg-baqh{text-align:center;vertical-align:top}
-  .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+  .tg td, .tg th {
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tg .tg-first-column {
+    width: 150px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .tg .tg-field {
+    width: 80px;
+    text-align: center;
+  }
+  .table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
 </style>
 
-<p><b>This is round {{ player.round_number }} of {{ C.NUM_ROUNDS }}.</b></p>
-
+<p>This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
 
 <p>Here’s a summary of your allocation for this round:</p>
 
 <br>
 
-<div style="display: flex; justify-content: center; width: 100%;">
-  <table class="tg" style="font-size:18px; width: auto;">
+<div class="table-container">
+  <table class="tg" style="font-size:18px;">
     <thead>
       <tr>
-        <th class="tg-c3ow"></th>
-        <th class="tg-c3ow">Signal 1</th>
-        <th class="tg-c3ow">Signal 2</th>
-        <th class="tg-c3ow">Signal 3</th>
-        <th class="tg-baqh">Mean Value</th>
+        <th class="tg-first-column"></th>
+        {% for label, signal_value, weight in members %}
+          <th class="tg-field"><b>{{ label }}</b></th>
+        {% endfor %}
+        <th class="tg-field"><b>Mean Value</b></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="tg-c3ow">Information</td>
-        <td class="tg-c3ow">{{ signal_1 }}</td>
-        <td class="tg-c3ow">{{ signal_2 }}</td>
-        <td class="tg-c3ow">{{ signal_3 }}</td>
-        <td class="tg-c3ow">{{ signal_4 }}</td>
+        <td class="tg-first-column"><b>Information</b></td>
+        {% for label, signal_value, weight in members %}
+          <td class="tg-field">{{ signal_value }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ mean_asset_value }}</td>
       </tr>
       <tr>
-        <td class="tg-c3ow">
+        <td class="tg-first-column">
           Allocation for<br>
           {% if recipient_type == 'Individualist' %}
-            a <img src="{% static 'data/person.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+            <img src="{% static 'data/person.png' %}" width="20" height="20">
           {% else %}
-            a <img src="{% static 'data/people.png' %}" width="20" height="20" style="vertical-align: middle;"> player
+            <img src="{% static 'data/people.png' %}" width="20" height="20">
           {% endif %}
         </td>
-        <td class="tg-c3ow">{{ weights.0 }}</td>
-        <td class="tg-c3ow">{{ weights.1 }}</td>
-        <td class="tg-c3ow">{{ weights.2 }}</td>
-        <td class="tg-c3ow">{{ weights.3 }}</td>
+        {% for label, signal_value, weight in members %}
+          <td class="tg-field">{{ weight }}</td>
+        {% endfor %}
+        <td class="tg-field">{{ weight_signal_4 }}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
+
 <br>
+
 {{ next_button }}
 
 {{ endblock }}
-
-
