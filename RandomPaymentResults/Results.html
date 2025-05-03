@@ -3,27 +3,27 @@
 
 {% block content %}
 
-<h4>Main Task Payment</h4>
-<p>You were randomly selected to be paid for <b>Round {{ main_payment_round }}</b> of the main task.</p>
+<h4>Task 1 Payment</h4>
+<p>You were randomly selected to be paid for <b>decision problem {{ main_payment_round }}</b> of Task 1.</p>
 
 <ul>
   <li>Target value: <b>{{ main_target_value|to2 }}</b></li>
-  <li>Your guess: <b>{{ main_guess|to2 }}</b></li>
+  <li>Your estimate: <b>{{ main_guess|to2 }}</b></li>
   <li>Payment for this round in points: <b>{{ main_earnings_points|to2 }}</b> points</li>
   <li>Payment for this round in currency: <b>{{ main_earnings_currency }}</b></li>
 
 </ul>
 
-<h4>Bonus Task Payment</h4>
-<p>You were randomly selected to be paid for <b>Task {{ bonus_payment_round }}</b> from the bonus stage.</p>
+<h4>Task 2 Payment</h4>
+<p>You were randomly selected to be paid for <b>decision problem {{ bonus_payment_round }}</b> of Task 2.</p>
 <p><i>Note: The bonus payment will be determined later, once decisions of other participants are known.</i></p>
 
 <h4>Summary</h4>
 <ul>
   <li>Participation fee: <b>{{ participation_fee }}</b></li>
-  <li>Main task earnings: <b>{{ main_earnings_currency }}</b></li>
+  <li>Task 1 Payment: <b>{{ main_earnings_currency }}</b></li>
+  <li>Task 2 payment: <i>To be determined</i></li>
   <li><b>Total payment so far: {{ total_payment_now }}</b></li>
-  <li>Bonus payment: <i>To be determined</i></li>
 </ul>
 
 <hr>
