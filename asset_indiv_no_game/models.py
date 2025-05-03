@@ -1,7 +1,7 @@
 from otree.api import *
 
 class Constants(BaseConstants):
-    name_in_url = 'DecisionTask'
+    name_in_url = 'Task01'
     players_per_group = None  # Ensure this is uppercase
     num_rounds = 12
     GUESS_MAX = 100

@@ -6,7 +6,7 @@ c = cu
 doc = ""
 
 class C(BaseConstants):
-    NAME_IN_URL = 'BonusProblem'
+    NAME_IN_URL = 'Task02'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
     GUESS_MAX = 100
