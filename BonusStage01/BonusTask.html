@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Allocate Tokens for the Bonus Task{{ endblock }}
+{{ block title }}Estimate the Token Allocation{{ endblock }}
 
 {{ block content }}
 
@@ -38,15 +38,19 @@
   }
 </style>
 
-<p>This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
+<p>This is decision problem <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
 
-<h4>Your Tokens</h4>
-<p>You need to allocate <b>100</b> tokens to the information.</p>
+<h4>Token Allocation</h4>
+
+<p>You need to estimate the allocation of 100 tokens for a          {% if recipient_type == 'Individualist' %}
+  <img src="{% static 'data/person.png' %}" width="20" height="20">
+{% else %}
+  <img src="{% static 'data/people.png' %}" width="20" height="20">
+{% endif %} player.</p>
 <p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
 <p>You have <span id="remaining-inputs">100</span> left to allocate.</p>
 
 <br>
-<h4>Token Allocation</h4>
 
 <div class="table-container">
   <table class="tg" style="font-size:18px;">
@@ -89,34 +93,22 @@
 
 <br>
 
-<!-- Info Button -->
-<button type="button" class="btn btn-success btn-sm" onclick="toggleInfo()" style="margin-top:10px;">
-  ℹ️ What does the icon mean?
-</button>
-
-<div id="icon-info" style="display:none; margin-top:10px; font-size:13px;">
-  {% if recipient_type == 'Individualist' %}
+<div margin-top:10px; font-size:13px;">
     <p><img src="{% static 'data/person.png' %}" width="20" height="20">
     = This icon represents a person who prefers a group culture that values individual talents and autonomy.</p>
-  {% else %}
     <p><img src="{% static 'data/people.png' %}" width="20" height="20">
-    = This icon represents someone who values collective responsibility and shared goals.</p>
-  {% endif %}
+    = This icon represents a person who values collective responsibility and shared goals.</p>
 </div>
 
 <br><br>
 
-<p id="next-question">Do you wish to submit this allocation?</p>
-<p id="next-button"><button id="next_button">Submit Allocation</button></p>
+<p id="next-question">Do you wish to submit this estimate?</p>
+<p id="next-button"><button id="next_button">Submit Estimate</button></p>
 
 {{ endblock }}
 
 {{ block scripts }}
 <script>
-function toggleInfo() {
-    const info = document.getElementById("icon-info");
-    info.style.display = info.style.display === "none" ? "block" : "none";
-}
 
 document.getElementById('next-button').style.visibility = "hidden";
 document.getElementById('next-question').style.visibility = "hidden";

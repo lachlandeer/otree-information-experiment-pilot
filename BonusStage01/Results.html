@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Allocation Summary{{ endblock }}
+{{ block title }}Results{{ endblock }}
 
 {{ block content }}
 
@@ -32,9 +32,9 @@
   }
 </style>
 
-<p>This is round <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
+<p>This is decision problem <b>{{ player.round_number }}</b> of <b>{{ C.NUM_ROUNDS }}.</b></p>
 
-<p>Here’s a summary of your allocation for this round:</p>
+<h4>Your Estimate</h4>
 
 <br>
 

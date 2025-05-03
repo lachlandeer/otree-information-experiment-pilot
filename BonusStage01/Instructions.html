@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    <h3>Bonus Task</h3>
-    <p>There are {{ C.NUM_ROUNDS }} decision problems in this task. In each decision problem, you will see signals and the mean value from one of the decision problems in your previous task. Your goal is to estimate the average number of tokens that participants resonating with a certain group culture allocated to each piece of information.</p>
-    <p>One of the decision problems will be randomly selected for calculating your bonus payment from this task. The closer your estimate is to the <b>average tokens allocated by participants resonating with the group culture stated in that decision problem</b>, the higher your bonus will be. The bonus will be calculated accordingly to the formula below:</p>
-    <p style="text-align: center; font-weight: bold;">Bonus = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
+    <h3>Task 2</h3>
+    <p>There are {{ C.NUM_ROUNDS }} decision problems in this task. In each decision problem, you will see signals and the mean value from one of the decision problems in Task 1. Your goal is to estimate the average number of tokens that participants resonating with a certain group culture allocated to each piece of information.</p>
+    <p>One of the decision problems will be randomly selected for calculating your payoff from Task 2. The closer your estimate is to the <b>average tokens allocated by participants resonating with the group culture stated in that decision problem</b>, the higher your payoff will be. The payoff will be calculated accordingly to the formula below:</p>
+    <p style="text-align: center; font-weight: bold;">Payoff = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
     <p><b>You can expect to earn more by assigning tokens in a manner that is closer to what participants resonating with the group culture specified chose on average</b> because the deduction is smaller the closer your guess is to the actual average allocated tokens to each piece of information.</p>
-    <p>The more tokens other players assign to a piece of information, the more important they consider it is in determining the target value. The number of tokens other players assigned is between 0 and 100, and all 100 tokens are used.</p>
+    <p>The more tokens other players assign to a piece of information, the more important they consider it is in determining the target value.</p>
 
     {{ next_button }}
 
