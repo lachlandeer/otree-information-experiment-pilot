@@ -79,9 +79,9 @@
               <tbody>
                   <tr>
                       <td class="tg-c3ow"><b>Information</b></td>
-                      <td class="tg-c3ow">98</td>
+                      <td class="tg-c3ow">89</td>
                       <td class="tg-c3ow">103</td>
-                      <td class="tg-c3ow">99</td>
+                      <td class="tg-c3ow">95</td>
                       <td class="tg-baqh">100</td>
                   </tr>
                   <tr>
@@ -99,7 +99,7 @@
           </table>
         </div>
 
-    <p>In this example, the three signals show 98, 103 and 99. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/person.png' %}" width="20" height="20"> when estimating the target value:</p>
+    <p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/person.png' %}" width="20" height="20"> when estimating the target value:</p>
     <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
     <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
@@ -133,9 +133,9 @@
           <tbody>
               <tr>
                   <td class="tg-c3ow"><b>Information</b></td>
-                  <td class="tg-c3ow">98</td>
+                  <td class="tg-c3ow">89</td>
                   <td class="tg-c3ow">103</td>
-                  <td class="tg-c3ow">99</td>
+                  <td class="tg-c3ow">95</td>
                   <td class="tg-baqh">100</td>
               </tr>
               <tr>
@@ -144,10 +144,10 @@
                     type </b>
                       <img src="{% static 'data/person.png' %}" width="20" height="20">
                    </td>
-                  <td class="tg-c3ow">35</td>
+                  <td class="tg-c3ow">30</td>
+                  <td class="tg-c3ow">30</td>
+                  <td class="tg-c3ow">30</td>
                   <td class="tg-c3ow">10</td>
-                  <td class="tg-c3ow">35</td>
-                  <td class="tg-c3ow">20</td>
               </tr>
           </tbody>
       </table>
@@ -156,28 +156,28 @@
       <button class="disabled-submit">Submit Estimate</button>
     </div>
 
-    <p>In this example, you estimated that the participants of type <img src="{% static 'data/person.png' %}" width="20" height="20"> have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value.</p>
+    <p>In this example, you estimated that the participants of type <img src="{% static 'data/person.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
     <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
     <h4>Your earnings</h4>
     <p>The closer your estimate is to the average behavior of the <img src="{% static 'data/person.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
-    <p style="text-align: center; font-weight: bold;">Payoff = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
+    <p style="text-align: center; font-weight: bold;">Payoff = 1000 – 0.25*(the sum of squared difference between the average allocated tokens and your guess across all four pieces of information)</p>
     
     <p>
-        Suppose the <b>actual</b> average tokens allocated are 0 tokens to 98, 50 tokens to 103, 50 tokens
-        to 99, and 0 tokens to the mean value. Then your payoff is:
+        Suppose the <b>actual</b> average tokens allocated are 0 tokens to 89, 50 tokens to 103, 50 tokens
+        to 95, and 0 tokens to the mean value. Then your payoff is:
     </p>
     <div style="display: flex; justify-content: center;">
         <table style="border-collapse: collapse; font-size: 16px; white-space: nowrap;">
           <tr>
             <td style="text-align: right; padding-right: 5px;"><b>Payoff</b></td>
             <td>=</td>
-            <td style="text-align: left;">1000 - 0.25 × [(0 - 35)<sup>2</sup> + (50 - 10)<sup>2</sup> + (50 - 35)<sup>2</sup> + (0 - 20)<sup>2</sup>]</td>
+            <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (0 - 10)<sup>2</sup>]</td>
           </tr>
           <tr>
             <td></td>
             <td>=</td>
-            <td>137.5 points</td>
+            <td>550 points</td>
           </tr>
         </table>
       </div>
@@ -228,9 +228,9 @@
           <tbody>
               <tr>
                   <td class="tg-c3ow"><b>Information</b></td>
-                  <td class="tg-c3ow">98</td>
+                  <td class="tg-c3ow">89</td>
                   <td class="tg-c3ow">103</td>
-                  <td class="tg-c3ow">99</td>
+                  <td class="tg-c3ow">95</td>
                   <td class="tg-baqh">100</td>
               </tr>
               <tr>
@@ -248,7 +248,7 @@
       </table>
     </div>
 
-<p>In this example, the three signals show 98, 103 and 99. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/people.png' %}" width="20" height="20"> when estimating the target value:</p>
+<p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/people.png' %}" width="20" height="20"> when estimating the target value:</p>
 <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
 <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
@@ -280,9 +280,9 @@
       <tbody>
           <tr>
               <td class="tg-c3ow"><b>Information</b></td>
-              <td class="tg-c3ow">98</td>
+              <td class="tg-c3ow">89</td>
               <td class="tg-c3ow">103</td>
-              <td class="tg-c3ow">99</td>
+              <td class="tg-c3ow">95</td>
               <td class="tg-baqh">100</td>
           </tr>
           <tr>
@@ -291,10 +291,10 @@
                 type </b>
                   <img src="{% static 'data/people.png' %}" width="20" height="20">
                </td>
-              <td class="tg-c3ow">35</td>
+              <td class="tg-c3ow">30</td>
+              <td class="tg-c3ow">30</td>
+              <td class="tg-c3ow">30</td>
               <td class="tg-c3ow">10</td>
-              <td class="tg-c3ow">35</td>
-              <td class="tg-c3ow">20</td>
           </tr>
       </tbody>
   </table>
@@ -303,7 +303,7 @@
     <button class="disabled-submit">Submit Estimate</button>
 </div>
 
-<p>In this example, you estimated that the participants of type <img src="{% static 'data/people.png' %}" width="20" height="20"> have 35 tokens allocated to 98, 10 tokens to 103, 35 tokens to 99, and 20 tokens to the mean value.</p>
+<p>In this example, you estimated that the participants of type <img src="{% static 'data/people.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
 <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
 <h4>Your earnings</h4>
@@ -311,20 +311,20 @@
 <p style="text-align: center; font-weight: bold;">Payoff = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
 
 <p>
-    Suppose the <b>actual</b> average tokens allocated are 0 tokens to 98, 50 tokens to 103, 50 tokens
-    to 99, and 0 tokens to the mean value. Then your payoff is:
+    Suppose the <b>actual</b> average tokens allocated are 0 tokens to 89, 50 tokens to 103, 50 tokens
+    to 95, and 0 tokens to the mean value. Then your payoff is:
 </p>
 <div style="display: flex; justify-content: center;">
     <table style="border-collapse: collapse; font-size: 16px; white-space: nowrap;">
       <tr>
         <td style="text-align: right; padding-right: 5px;"><b>Bonus</b></td>
         <td>=</td>
-        <td style="text-align: left;">1000 - 0.25 × [(0 - 35)<sup>2</sup> + (50 - 10)<sup>2</sup> + (50 - 35)<sup>2</sup> + (0 - 20)<sup>2</sup>]</td>
+        <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (0 - 10)<sup>2</sup>]</td>
       </tr>
       <tr>
         <td></td>
         <td>=</td>
-        <td>137.5 points</td>
+        <td>550 points</td>
       </tr>
     </table>
   </div>
