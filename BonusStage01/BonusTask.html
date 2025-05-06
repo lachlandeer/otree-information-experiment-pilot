@@ -42,11 +42,11 @@
 
 <h4>Token Allocation</h4>
 
-<p>You need to estimate the allocation of 100 tokens for a          {% if recipient_type == 'Individualist' %}
+<p>You need to estimate the allocation of 100 tokens for           {% if recipient_type == 'Individualist' %}
   <img src="{% static 'data/person.png' %}" width="20" height="20">
 {% else %}
   <img src="{% static 'data/people.png' %}" width="20" height="20">
-{% endif %} player.</p>
+{% endif %} players.</p>
 <p>You have allocated <span id="summed-inputs">0</span> tokens so far.</p>
 <p>You have <span id="remaining-inputs">100</span> left to allocate.</p>
 
@@ -73,14 +73,14 @@
       </tr>
       <tr>
         <td class="tg-first-column">
-          Allocation for<br>
-          a player of<br>
-          type 
+          Estimated <br> 
+            allocation  for <br>
           {% if recipient_type == 'Individualist' %}
             <img src="{% static 'data/person.png' %}" width="20" height="20">
           {% else %}
             <img src="{% static 'data/people.png' %}" width="20" height="20">
           {% endif %}
+           players
         </td>
         {% for label, signal_value, weight_field in members %}
           <td class="tg-field">{{ formfield weight_field }}</td>
@@ -95,9 +95,9 @@
 
 <div margin-top:10px; font-size:13px;">
     <p><img src="{% static 'data/person.png' %}" width="20" height="20">
-    = This icon represents a person who prefers a group culture that values individual talents and autonomy.</p>
+    = Participants who prefer a group culture that values individual talents and autonomy.</p>
     <p><img src="{% static 'data/people.png' %}" width="20" height="20">
-    = This icon represents a person who values collective responsibility and shared goals.</p>
+    = Participants who prefer a group culture that values collective responsibility and shared goals.</p>
 </div>
 
 <br><br>
