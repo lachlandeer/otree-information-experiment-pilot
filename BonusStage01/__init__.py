@@ -75,15 +75,45 @@ class Instructions(Page):
         selected_tasks = random.sample(all_tasks, 5)
         player.participant.vars['bonus_tasks'] = selected_tasks
 
-        # Assign recipient type ONCE
         if player.round_number == 1:
-            player.participant.vars['recipient_type'] = random.choice(['Individualist', 'Collectivist'])
-            
+            # Retrieve player's own type
+            own_type = player.participant.vars['Individualism']  # 'Individualist' or 'Collectivist'
+
+            # Assign recipient type with 55-45 probability
+            if own_type == 'Individualist':
+                player.participant.vars['recipient_type'] = (
+                    'Individualist' if random.random() < 0.55 else 'Collectivist'
+                )
+            else:  # own_type == 'Collectivist'
+                player.participant.vars['recipient_type'] = (
+                    'Collectivist' if random.random() < 0.55 else 'Individualist'
+                )
+
             # 🎯 Select a bonus payment round NOW
             player.participant.vars['bonus_payment_round'] = random.randint(1, C.NUM_ROUNDS)
 
             # Debugging
-            print(f"Player {player.id_in_subsession}: bonus payment round = {player.participant.vars['bonus_payment_round']}")
+            print(
+                f"Player {player.id_in_subsession}: own_type = {own_type}, "
+                f"recipient_type = {player.participant.vars['recipient_type']}, "
+                f"bonus_payment_round = {player.participant.vars['bonus_payment_round']}"
+            )
+
+    # @staticmethod
+    # def before_next_page(player: Player, timeout_happened=False):
+    #     all_tasks = load_bonus_tasks_from_csv()
+    #     selected_tasks = random.sample(all_tasks, 5)
+    #     player.participant.vars['bonus_tasks'] = selected_tasks
+
+    #     # Assign recipient type ONCE
+    #     if player.round_number == 1:
+    #         player.participant.vars['recipient_type'] = random.choice(['Individualist', 'Collectivist'])
+            
+    #         # 🎯 Select a bonus payment round NOW
+    #         player.participant.vars['bonus_payment_round'] = random.randint(1, C.NUM_ROUNDS)
+
+    #         # Debugging
+    #         print(f"Player {player.id_in_subsession}: bonus payment round = {player.participant.vars['bonus_payment_round']}")
 
 
 
