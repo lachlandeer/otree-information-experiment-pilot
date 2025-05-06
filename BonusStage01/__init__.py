@@ -125,7 +125,8 @@ class Example(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'recipient_type': player.participant.vars['recipient_type']
+            'recipient_type': player.participant.vars['recipient_type'],
+            'uncertainty_type': player.participant.vars['Uncertainty'],
         }
 
 

@@ -40,14 +40,14 @@
           .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
       </style>
 
-    {% if recipient_type == "Individualist" %}
+    {% if uncertainty_type == "Seeker" %}
 
         <h3>Example</h3>
         <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value). The participants of whom you are trying to estimate the token allocation will have seen the same screen as you.</p>
 
         <p>
           In the task below you are trying to estimate the token allocation of participants who <b>prefers a group culture that values individual talents and autonomy.</b>
-          These participants are labelled as "<img src="{% static 'data/person.png' %}" width="20" height="20">" in the Table below.      
+          These participants are labelled as "<img src="{% static 'data/dice.png' %}" width="20" height="20">" in the Table below.      
         </p>
 
         <div class="screenshot-box">  
@@ -61,7 +61,7 @@
             </h5>
             
             <p>You need to estimate the allocation of 100 tokens for a
-                <img src="{% static 'data/person.png' %}" width="20" height="20">
+                <img src="{% static 'data/dice.png' %}" width="20" height="20">
                  player.</p>
                         
             <p>You have allocated 0 tokens so far.</p>      
@@ -88,7 +88,7 @@
                     <td class="tg-c3ow"><b>Allocation for<br>
                         a player of<br>
                         type </b>
-                          <img src="{% static 'data/person.png' %}" width="20" height="20">
+                          <img src="{% static 'data/dice.png' %}" width="20" height="20">
                        </td>
                       <td class="tg-c3ow"></td>
                       <td class="tg-c3ow"></td>
@@ -99,7 +99,7 @@
           </table>
         </div>
 
-    <p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/person.png' %}" width="20" height="20"> when estimating the target value:</p>
+    <p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/dice.png' %}" width="20" height="20"> when estimating the target value:</p>
     <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
     <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
@@ -114,7 +114,7 @@
         </h5>
         
         <p>You need to estimate the allocation of 100 tokens for a
-            <img src="{% static 'data/person.png' %}" width="20" height="20">
+            <img src="{% static 'data/dice.png' %}" width="20" height="20">
              player.</p>
           
         <p>You have allocated 100 tokens so far.</p>
@@ -142,7 +142,7 @@
                 <td class="tg-c3ow"><b>Allocation for<br>
                     a player of<br>
                     type </b>
-                      <img src="{% static 'data/person.png' %}" width="20" height="20">
+                      <img src="{% static 'data/dice.png' %}" width="20" height="20">
                    </td>
                   <td class="tg-c3ow">30</td>
                   <td class="tg-c3ow">30</td>
@@ -156,11 +156,11 @@
       <button class="disabled-submit">Submit Estimate</button>
     </div>
 
-    <p>In this example, you estimated that the participants of type <img src="{% static 'data/person.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
+    <p>In this example, you estimated that the participants of type <img src="{% static 'data/dice.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
     <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
     <h4>Your earnings</h4>
-    <p>The closer your estimate is to the average behavior of the <img src="{% static 'data/person.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
+    <p>The closer your estimate is to the average behavior of the <img src="{% static 'data/dice.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
     <p style="text-align: center; font-weight: bold;">Payoff = 1000 – 0.25*(the sum of squared difference between the average allocated tokens and your guess across all four pieces of information)</p>
     
     <p>
@@ -189,14 +189,14 @@
 
     {% endif %}
 
-    {% if recipient_type == "Collectivist" %}
+    {% if uncertainty_type == "Avoider" %}
 
     <h3>Example</h3>
     <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value). The participants of whom you are trying to estimate the token allocation will have seen the same screen as you.</p>
 
     <p>
       In the task below you are trying to estimate the token allocation of participants who <b>prefers a group culture that values collective responsibility and shared goals.</b>
-      These participants are labelled as "<img src="{% static 'data/people.png' %}" width="20" height="20">" in the Table below.      
+      These participants are labelled as "<img src="{% static 'data/tower.png' %}" width="20" height="20">" in the Table below.      
     </p>
 
     <div class="screenshot-box">  
@@ -210,7 +210,7 @@
         </h5>
   
         <p>You need to estimate the allocation of 100 tokens for a
-            <img src="{% static 'data/people.png' %}" width="20" height="20">
+            <img src="{% static 'data/tower.png' %}" width="20" height="20">
              player.</p>
                   
         <p>You have allocated 0 tokens so far.</p>  
@@ -237,7 +237,7 @@
                 <td class="tg-c3ow"><b>Allocation for<br>
                     a player of<br>
                     type </b>
-                      <img src="{% static 'data/people.png' %}" width="20" height="20">
+                      <img src="{% static 'data/tower.png' %}" width="20" height="20">
                    </td>
                   <td class="tg-c3ow"></td>
                   <td class="tg-c3ow"></td>
@@ -248,7 +248,7 @@
       </table>
     </div>
 
-<p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/people.png' %}" width="20" height="20"> when estimating the target value:</p>
+<p>In this example, the three signals show 89, 103 and 95. You will be given 100 tokens to allocate towards each of the four pieces of information. The more tokens you assign to a certain piece of information, the more important you consider it is for a participant of type <img src="{% static 'data/tower.png' %}" width="20" height="20"> when estimating the target value:</p>
 <p style="font-weight: bold; text-align: center;">Target Value = the Value of the Asset (V)</p>
 <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
@@ -262,7 +262,7 @@
         Token Allocation
     </h5>
     <p>You need to estimate the allocation of 100 tokens for a
-        <img src="{% static 'data/people.png' %}" width="20" height="20">
+        <img src="{% static 'data/tower.png' %}" width="20" height="20">
          player.</p>
 
     <p>You have allocated 100 tokens so far.
@@ -289,7 +289,7 @@
             <td class="tg-c3ow"><b>Allocation for<br>
                 a player of<br>
                 type </b>
-                  <img src="{% static 'data/people.png' %}" width="20" height="20">
+                  <img src="{% static 'data/tower.png' %}" width="20" height="20">
                </td>
               <td class="tg-c3ow">30</td>
               <td class="tg-c3ow">30</td>
@@ -303,11 +303,11 @@
     <button class="disabled-submit">Submit Estimate</button>
 </div>
 
-<p>In this example, you estimated that the participants of type <img src="{% static 'data/people.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
+<p>In this example, you estimated that the participants of type <img src="{% static 'data/tower.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
 <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
 <h4>Your earnings</h4>
-<p>The closer your estimate is to the average behavior of the <img src="{% static 'data/people.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
+<p>The closer your estimate is to the average behavior of the <img src="{% static 'data/tower.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
 <p style="text-align: center; font-weight: bold;">Payoff = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
 
 <p>
