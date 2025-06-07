@@ -8,7 +8,7 @@ doc = ""
 class C(BaseConstants):
     NAME_IN_URL = 'Task02'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 10
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
