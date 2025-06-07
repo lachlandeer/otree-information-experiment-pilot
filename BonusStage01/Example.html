@@ -43,15 +43,15 @@
     {% if uncertainty_type == "Seeker" %}
 
         <h3>Example</h3>
-        <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value). The participants of whom you are trying to estimate the token allocation will have seen the same screen as you.</p>
+        <p>Below is an example of the decision screen.</p>
 
         <p>
-          In the task below you are trying to estimate the token allocation of participants who <b>prefers a group culture that values taking risks and embracing the unknown.</b>
-          These participants are labelled as "<img src="{% static 'data/dice.png' %}" width="20" height="20">" in the Table below.      
+          You are trying to estimate the token allocation of participants who <b>prefers a group culture that values taking risks and embracing the unknown.</b>
+          These participants are labelled as "<img src="{% static 'data/dice.png' %}" width="20" height="20">" players.      
         </p>
 
         <div class="screenshot-box">  
-            Decision problem <b>1</b> of <b>5</b>.
+            Decision problem <b>1</b> of <b>10</b>.
       
             <br>
             <br>
@@ -105,7 +105,7 @@
     <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
     <div class="screenshot-box">  
-        Decision problem <b>1</b> of <b>5</b>.
+        Decision problem <b>1</b> of <b>10</b>.
   
         <br>
         <br>
@@ -158,34 +158,38 @@
       <button class="disabled-submit">Submit Estimate</button>
     </div>
 
-    <p>In this example, you estimated that the participants of type <img src="{% static 'data/dice.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
+    <p>In this example, you estimated that the participants of type <img src="{% static 'data/dice.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value in Task 1.</p>
     <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
     <h4>Your earnings</h4>
-    <p>The closer your estimate is to the average behavior of the <img src="{% static 'data/dice.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
-    <p style="text-align: center; font-weight: bold;">Payoff = 1000 – 0.25*(the sum of squared difference between the average allocated tokens and your guess across all four pieces of information)</p>
-    
+    <p>The closer your estimate is to the average token allocation of <img src="{% static 'data/dice.png' %}" width="20" height="20"> participants, the higher your payoff will be. Your payoff will be calculated according to the formula below:</p>
+    <p style="text-align: center; font-weight: bold;">Payoff = 1000 – 0.25 × (the sum of squared difference between the average allocated tokens and your estimate across all four pieces of information)</p>
+
     <p>
-        Suppose the <b>actual</b> average tokens allocated are 0 tokens to 89, 50 tokens to 103, 50 tokens
-        to 95, and 0 tokens to the mean value. Then your payoff is:
+    <b>You can expect to earn more by assigning tokens in a way that matches how people who prefer the selected group culture usually do</b> because the closer your estimate is to the average choice, the smaller your deduction will be.
+    </p>
+
+    <p>
+        For example, suppose the (unlikely) <b>actual</b> average tokens allocated in Task 1 are 0 tokens to 89, 0 tokens to 103, 0 tokens
+        to 95, and 100 tokens to the mean value. Then your payoff will be calculated as:
     </p>
     <div style="display: flex; justify-content: center;">
         <table style="border-collapse: collapse; font-size: 16px; white-space: nowrap;">
           <tr>
             <td style="text-align: right; padding-right: 5px;"><b>Payoff</b></td>
             <td>=</td>
-            <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (0 - 10)<sup>2</sup>]</td>
+            <td style="text-align: left;">500 - 0.25 × [(0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (100 - 10)<sup>2</sup>]</td>
           </tr>
           <tr>
             <td></td>
             <td>=</td>
-            <td>550 points</td>
+            <td>-2200 points</td>
           </tr>
         </table>
       </div>
       <br>
       <p>
-        Please note that because the <b>Task 2 payment depends on the decisions of other participants</b>, you will <b>not see the payoff after each task</b> and <b>it will be paid to you in the days after the data has been collected</b>.
+        <b>Note:</b> Since your Task 2 payoff depends on the Task 1 decisions of selected participants, you will not see the payoff after each task. It will be paid to you in the days following data collection.
     </p>
       
 
@@ -194,15 +198,15 @@
     {% if uncertainty_type == "Avoider" %}
 
     <h3>Example</h3>
-    <p>Below is an example of the decision screen. In each decision problem, you will see three signals and the mean of all potential asset values (Mean Value). The participants of whom you are trying to estimate the token allocation will have seen the same screen as you.</p>
+    <p>Below is an example of the decision screen.</p>
 
     <p>
-      In the task below you are trying to estimate the token allocation of participants who <b>prefers a group culture that values careful planning and risk management.</b>
-      These participants are labelled as "<img src="{% static 'data/tower.png' %}" width="20" height="20">" in the Table below.      
+      You are trying to estimate the token allocation of participants who <b>prefers a group culture that values careful planning and risk management.</b>
+      These participants are labelled as "<img src="{% static 'data/tower.png' %}" width="20" height="20">" players.      
     </p>
 
     <div class="screenshot-box">  
-        Decision problem <b>1</b> of <b>5</b>.
+        Decision problem <b>1</b> of <b>10</b>.
   
         <br>
         <br>
@@ -256,7 +260,7 @@
 <p>To form an estimate of these participants' allocation of tokens, you need to input your estimate into the respective boxes:</p>
 
 <div class="screenshot-box">  
-    Decision problem <b>1</b> of <b>5</b>.
+    Decision problem <b>1</b> of <b>10</b>.
 
     <br>
     <br>
@@ -311,30 +315,34 @@
 <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
 <h4>Your earnings</h4>
-<p>The closer your estimate is to the average behavior of the <img src="{% static 'data/tower.png' %}" width="20" height="20"> participants, the higher your payoff from this decision problem will be. The payoff will be calculated according to the formula below:</p>
-<p style="text-align: center; font-weight: bold;">Payoff = 1000 – (the sum of squared difference between the average allocated tokens and your guess across all four pieces of information) / 4</p>
+<p>The closer your estimate is to the average token allocation of the <img src="{% static 'data/tower.png' %}" width="20" height="20"> participants in Task 1, the higher your payoff will be. Your payoff will be calculated according to the formula below:</p>
+<p style="text-align: center; font-weight: bold;">Payoff = 500 –  0.25 × (the sum of squared difference between the average allocated tokens and your estimate across all four pieces of information)</p>
+
+  <p>
+    <b>You can expect to earn more by assigning tokens in a way that matches how people who prefer the selected group culture usually do</b> because the closer your estimate is to the average choice, the smaller your deduction will be.
+  </p>
 
 <p>
-    Suppose the <b>actual</b> average tokens allocated are 0 tokens to 89, 50 tokens to 103, 50 tokens
-    to 95, and 0 tokens to the mean value. Then your payoff is:
+    For example, suppose the (unlikely) <b>actual</b> average tokens allocated are 0 tokens to 89, 0 tokens to 103, 0 tokens
+    to 95, and 100 tokens to the mean value. Then your payoff will be calculated as:
 </p>
 <div style="display: flex; justify-content: center;">
     <table style="border-collapse: collapse; font-size: 16px; white-space: nowrap;">
       <tr>
         <td style="text-align: right; padding-right: 5px;"><b>Bonus</b></td>
         <td>=</td>
-        <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (50 - 30)<sup>2</sup> + (0 - 10)<sup>2</sup>]</td>
+        <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (100 - 10)<sup>2</sup>]</td>
       </tr>
       <tr>
         <td></td>
         <td>=</td>
-        <td>550 points</td>
+        <td>-2200 points</td>
       </tr>
     </table>
   </div>
   <br>
   <p>
-    Please note that because the <b>Task 2 payment depends on the decisions of other participants</b>, you will <b>not see the payoff after each task</b> and <b>it will be paid to you in the days after the data has been collected</b>.
+    <b>Note:</b> Since your Task 2 payoff depends on the Task 1 decisions of selected participants, you will not see the payoff after each task. It will be paid to you in the days following data collection.
 </p>
 
     {% endif %}
