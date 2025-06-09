@@ -72,7 +72,7 @@ class Instructions(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened=False):
         all_tasks = load_bonus_tasks_from_csv()
-        selected_tasks = random.sample(all_tasks, 5)
+        selected_tasks = random.sample(all_tasks, C.NUM_ROUNDS)
         player.participant.vars['bonus_tasks'] = selected_tasks
 
         if player.round_number == 1:
