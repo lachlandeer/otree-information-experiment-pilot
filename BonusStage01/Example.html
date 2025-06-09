@@ -311,7 +311,7 @@
     <button class="disabled-submit">Submit Estimate</button>
 </div>
 
-<p>In this example, you estimated that the participants of type <img src="{% static 'data/tower.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value.</p>
+<p>In this example, you estimated that the participants of type <img src="{% static 'data/tower.png' %}" width="20" height="20"> have 30 tokens allocated to 89, 30 tokens to 103, 30 tokens to 95, and 10 tokens to the mean value in Task 1.</p>
 <p>You can adjust the allocation of the tokens until you are satisfied with your estimate.</p>
 
 <h4>Your earnings</h4>
@@ -323,7 +323,7 @@
   </p>
 
 <p>
-    For example, suppose the (unlikely) <b>actual</b> average tokens allocated are 0 tokens to 89, 0 tokens to 103, 0 tokens
+    For example, suppose the (unlikely) <b>actual</b> average tokens allocated in Task 1 are 0 tokens to 89, 0 tokens to 103, 0 tokens
     to 95, and 100 tokens to the mean value. Then your payoff will be calculated as:
 </p>
 <div style="display: flex; justify-content: center;">
@@ -331,7 +331,7 @@
       <tr>
         <td style="text-align: right; padding-right: 5px;"><b>Bonus</b></td>
         <td>=</td>
-        <td style="text-align: left;">1000 - 0.25 × [(0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (100 - 10)<sup>2</sup>]</td>
+        <td style="text-align: left;">500 - 0.25 × [(0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (0 - 30)<sup>2</sup> + (100 - 10)<sup>2</sup>]</td>
       </tr>
       <tr>
         <td></td>
