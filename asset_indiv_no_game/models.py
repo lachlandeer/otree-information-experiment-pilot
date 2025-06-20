@@ -61,7 +61,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     # Attention check questions
     question_2 = models.StringField(
-        label="Suppose that V is determined by the computer to be 80. Which estimate of the Target Value will give you the highest earning?",
+        label="Suppose that V is determined by the computer to be 80. Which estimate of the Target Value will give you the highest earnings?",
         choices=['80', '85', '90', '95'],
         widget=widgets.RadioSelect
     )
