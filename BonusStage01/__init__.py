@@ -12,7 +12,7 @@ class C(BaseConstants):
     GUESS_MAX = 100
     ENDOWMENT = 100
     MEAN_ASSET_VALUE = 100
-    PAYOFF_SCALER = 500
+    PAYOFF_SCALER = 600
 
 
 class Subsession(BaseSubsession):
