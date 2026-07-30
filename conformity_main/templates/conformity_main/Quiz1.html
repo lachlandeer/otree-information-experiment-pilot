@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Comprehension Question
+{% endblock %}
+
+{% block content %}
+    <p>Please answer the comprehension questions below to proceed. You must answer all questions correctly to continue to the task.</p>
+
+    {% formfields %}
+
+    <div>
+        <button class="btn btn-primary">Submit</button>
+    </div>
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+    </style>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Comprehension Question
+{% endblock %}
+
+{% block content %}
+    <div class="alert-danger alert">
+        <p>Below are hints for question(s) that you did not answer correctly.</p>
+
+        {% if player.q1_1 != Constants.a1 %}
+            <b>Hint for Q1</b>
+            <p>In the real study, empty circles will be filled with the colors predicted by the first 6 participants in
+                Study X.</p>
+        {% endif %}
+
+        {% if player.q2_1 != Constants.a2 %}
+            <b>Hint for Q2</b>
+            <p>Suppose the success rate is 55%. With 55% chance, the actual color will be correctly predicted for you;
+                with the remaining 45% chance, the prediction fails, and you will see the incorrect color.</p>
+        {% endif %}
+
+        {% if player.q3_1 != Constants.a3 %}
+            <b>Hint for Q3</b>
+            <p>Since you clicked 'Computer' for all 11 scenarios, your preference indicated for the selected scenario
+                (i.e., scenario 2) is Computer Prediction. Therefore, Computer Prediction will be delivered to you.</p>
+        {% endif %}
+
+    </div>
+
+    {% formfields %}
+
+    <div>
+        <button class="btn btn-primary">Submit</button>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const a1 = js_vars.a1;
+    const a2 = js_vars.a2;
+    const a3 = js_vars.a3;
+
+    document.getElementById('id_q1_2_' + a1).checked = true;
+    document.getElementById('id_q2_2_' + a2).checked = true;
+    document.getElementById('id_q3_2_' + a3).checked = true;
+</script>
+{% endblock %}

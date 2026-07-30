@@ -1,0 +1,53 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instructions
+{% endblock %}
+
+{% block content %}
+    <h4>Selecting Reference Predictions</h4>
+
+    <div class="alert-danger alert">
+        <p>Incorrect. Please try again.</p>
+        <p>Since you clicked 'Computer' for all 11 scenarios, your preference indicated for the selected scenario (i.e.,
+            scenario 2) is Computer Prediction. Therefore, Computer Prediction will be delivered to you.</p>
+    </div>
+
+    <p>You do not directly choose which reference predictions to observe. Instead, you indicate your preferences, which
+        influences the delivery of the reference.</p>
+
+    <p>There are 11 scenarios differed by the success rate of Computer Prediction, with 5% increment from 50% to 100%.
+        You indicate <i>for each scenario</i> your preference over Peer Predictions and Computer Prediction by clicking
+        the radio button “Peer” or “Computer”.</p>
+
+    <img src="{% static 'conformity_main/figure4_selecting_reference_predictions.png' %}"
+         alt="Figure 4_Selecting Reference Predictions"
+         class="center" style="width: 55em">
+
+    <p>The computer will <i>randomly select one scenario</i> (each is equally likely). A prediction will
+        then be delivered to you according to your choice in the selected scenario.</p>
+
+    <br>
+
+    <p style="font-weight: bold">Comprehension Question: Suppose that you clicked “Computer” for all 11 scenarios. But
+        when Computer Prediction has a 55% success rate, you would rather see Peer Predictions.</p>
+
+
+    {% formfields %}
+
+    <p>The moral of this question is: if you make your choices based on what you <i>truly prefer</i>, you will
+        <i>never</i> regret no matter which scenario is selected for delivering your reference.</p>
+
+    <p>The next screen shows the prediction interface.</p>
+
+    {% next_button %}
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .col-form-label {
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}

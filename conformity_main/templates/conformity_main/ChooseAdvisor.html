@@ -1,0 +1,193 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Select Reference Predictions
+{% endblock %}
+
+{% block content %}
+    <table style="width:100%">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 40%;">
+            <col span="1" style="width: 25%;">
+        </colgroup>
+        <tr>
+            <th>Scenario</th>
+            <th>Peer Predictions</th>
+            <th>Computer Prediction</th>
+            <th>Choice</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 50% Success Rate</td>
+            <td>{% formfield player.a1 label='' %}</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 55% Success Rate</td>
+            <td>{% formfield player.a2 label='' %}</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 60% Success Rate</td>
+            <td>{% formfield player.a3 label='' %}</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 65% Success Rate</td>
+            <td>{% formfield player.a4 label='' %}</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 70% Success Rate</td>
+            <td>{% formfield player.a5 label='' %}</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 75% Success Rate</td>
+            <td>{% formfield player.a6 label='' %}</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 80% Success Rate</td>
+            <td>{% formfield player.a7 label='' %}</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 85% Success Rate</td>
+            <td>{% formfield player.a8 label='' %}</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 90% Success Rate</td>
+            <td>{% formfield player.a9 label='' %}</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 95% Success Rate</td>
+            <td>{% formfield player.a10 label='' %}</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>Peer Predictions</td>
+            <td>Predicted Color with 100% Success Rate</td>
+            <td>{% formfield player.a11 label='' %}</td>
+        </tr>
+    </table>
+
+    <p></p>
+    <div id="tp_container">
+    <div class="tp_line" id="tp_A">I choose Peer Predictions for Scenario 1 to  {% formfield player.tp_A label='' %}</div>
+    <div class="tp_line" id="tp_B">I choose Computer Prediction for Scenario  {% formfield player.tp_B label='' %}  to 11</div>
+    </div>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // grab the inputs and spans (fallback to querySelector by name)
+    var tpAInput = document.getElementById('id_tp_A')
+                || document.querySelector('input[name="tp_A"]');
+    var tpBInput = document.getElementById('id_tp_B')
+                || document.querySelector('input[name="tp_B"]');
+    var spanTpA  = document.getElementById('tp_A');
+    var spanTpB  = document.getElementById('tp_B');
+
+    if (!tpAInput || !tpBInput || !spanTpA || !spanTpB) {
+        console.warn('ChooseAdvisor script: missing elements, skipping JS logic.');
+        return;
+    }
+
+    function updateTpB() {
+        var x = parseInt(tpAInput.value, 10);
+        if (!isNaN(x) && x >= 1 && x <= 10) {
+            spanTpA.style.textDecoration = 'initial';
+            spanTpB.style.textDecoration = 'initial';
+            tpBInput.value = x + 1;
+        } else if (x === 11) {
+            // all “Peer”
+            spanTpA.style.textDecoration = 'initial';
+            spanTpB.style.textDecoration = 'line-through';
+            tpBInput.value = '';
+        } else {
+            // invalid or empty
+            spanTpA.style.textDecoration = 'initial';
+            spanTpB.style.textDecoration = 'initial';
+            tpBInput.value = '';
+        }
+    }
+
+    function updateTpA() {
+        var y = parseInt(tpBInput.value, 10);
+        if (!isNaN(y) && y >= 2 && y <= 11) {
+            spanTpA.style.textDecoration = 'initial';
+            spanTpB.style.textDecoration = 'initial';
+            tpAInput.value = y - 1;
+        } else if (y === 1) {
+            // all “Computer”
+            spanTpA.style.textDecoration = 'line-through';
+            spanTpB.style.textDecoration = 'initial';
+            tpAInput.value = '';
+        } else {
+            // invalid or empty
+            tpAInput.value = '';
+            spanTpA.style.textDecoration = 'initial';
+            spanTpB.style.textDecoration = 'initial';
+        }
+    }
+
+    tpAInput.addEventListener('blur', updateTpB);
+    tpBInput.addEventListener('blur', updateTpA);
+});
+</script>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        /* wrap each row on its own flex line */
+        #tp_container .tp_line {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0;
+            white-space: nowrap;
+        }
+
+        /* make the oTree formfield wrapper inline inside the flex container */
+        #tp_container ._formfield.mb-3 {
+            display: inline-flex !important;
+            align-items: center;
+            margin: 0 0.5em; /* tweak spacing */
+        }
+
+        /* the inner “controls” div can also be inline so the <input> sits tight */
+        #tp_container ._formfield .controls {
+            display: inline-block;
+            margin: 0;
+        }
+
+        td, th {
+            border: 1px solid grey;
+            text-align: center;
+        }
+
+        th {
+            background-color: lightgrey;
+        }
+    </style>
+{% endblock %}
+

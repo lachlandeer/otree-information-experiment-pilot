@@ -1,0 +1,48 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Color Prediction
+{% endblock %}
+
+{% block content %}
+
+<p>In this task, you will make a prediction about the color of a randomly drawn ball.</p>
+
+<p>Your additional earnings for this task will depend on the accuracy of your prediction:</p>
+
+<ul>
+    <li>A <b>correct prediction</b> will earn you <b>50 points</b> (equivalent to <b>£0.25</b>).</li>
+    <li>An <b>incorrect prediction</b> will earn you <b>5 points</b> (equivalent to <b>£0.025</b>).</li>
+</ul>
+
+<p>You will now proceed to the instructions. Please read all instructions carefully. A good understanding of the
+    instructions is essential for making sound decisions and improving your chance of earning more.</p>
+
+<!-- <p>You will be asked to answer some comprehension questions to verify your understanding of the instructions. You
+    will not be able to proceed to the study if you do not successfully answer any
+    comprehension question within two attempts.</p> -->
+
+<input type="hidden" name="user_agent_str" id="user_agent_str">
+{{ formfield_errors 'user_agent_str' }}
+
+{% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function UserAgent_raw_str() {
+            return navigator.userAgent;
+        }
+        document.getElementById('user_agent_str').value = UserAgent_raw_str();
+    </script>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .otree-form-errors ul {
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}

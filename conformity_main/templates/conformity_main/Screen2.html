@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Observing Peer Predictions
+{% endblock %}
+
+{% block content %}
+
+    <p>In a similar study (“Study X”), 7 participants like you made predictions about the color of a ball drawn
+        from the same virtual urn. </p>
+
+    <p>During Study X, these 7 participants formed a queue, and each made a prediction in turn after seeing the
+        predictions made by those ahead in the queue.</p>
+
+    <p>For observing Peer Predictions, you will be like the 7<sup>th</sup> participant in Study X and see exactly what
+        this participant saw before he/she made the color prediction. You will see 6 circles like the ones shown below.
+    </p>
+
+    <img src="{% static 'conformity_main/figure2_peer_prediction_blank_color.png' %}"
+     alt="Figure 2_peer_prediction_blank_color" id="figure2"/>
+
+    <p>In the real study, these circles will be filled with the colors predicted by the first 6 participants in Study X,
+        which you may use as a reference for forming your own prediction.</p>
+
+    <p>The next screen describes the second type of references – computer prediction.</p>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .col-form-label {
+            font-weight: bold;
+        }
+        #figure2 {
+            width: 20rem;
+        }
+    </style>
+{% endblock %}

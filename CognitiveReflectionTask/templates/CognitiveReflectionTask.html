@@ -1,0 +1,31 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Cognitive Reflection Task{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Please answer each question below.
+</p>
+
+<br>
+
+{{ for field in form }}
+    <div class="question-block" style="margin-bottom: 30px; padding: 15px; border: 1px solid #dee2e6; border-radius: 5px; background-color: #f8f9fa;">
+        {{ formfield field }}
+    </div>
+{{ endfor }}
+
+<br>
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    // Show a reminder after 2 minutes — no auto-submit
+    setTimeout(function () {
+        alert("Please enter your answer.");
+    }, 120000);
+</script>
+{{ endblock }}
