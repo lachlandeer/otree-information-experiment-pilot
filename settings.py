@@ -10,7 +10,8 @@ SESSION_CONFIGS = [dict(name='my_session',
                          'BonusStage01',
                          #'asset_indiv_no_game_duplicate',
                          #'BonusStage02'
-                         'CollectivismSurvey', 
+                         'CollectivismSurvey',
+                         'CognitiveReflectionTask',
                          'DemographicsSurvey',
                          'RandomPaymentResults'
                          ]
