@@ -1,0 +1,94 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    See Reference and Make Prediction
+{% endblock %}
+
+{% block content %}
+
+    <br>
+    <p>Scenario {{ player.scenario }} was selected. In Scenario {{ player.scenario }}, you chose {{ advisor }}. </p>
+    <br>
+
+    {% if player.advisor_A %}
+        <p>Peer Predictions</p>
+        <div id="history"></div>
+    {% else %}
+        <p>Predicted Color ({{ accuracy }}% Success Rate):</p>
+        <div class="ball" id="hint_B"></div>
+    {% endif %}
+
+    <br>
+    <p>Which color would you predict the ball to be?</p>
+    <br>
+    <div id="button_holder">
+        <button name="guess_blue" value="True" class="btn" id="blue">Blue</button>
+        <button name="guess_blue" value="False" class="btn" id="red">Red</button>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const advisor = js_vars.advisor;
+        const hint = js_vars.hint;
+
+        // if the realized advisor is B
+        if (advisor === 'B'){
+            let ball = document.getElementById('hint_B');
+            ball.style.background = hint;
+        } else {
+            // if the realized advisor is A, display previous participants' choices one by one
+            hint.forEach((item, index) => {
+                let ball = document.createElement('span');
+                ball.setAttribute("class", "ball");
+                ball.style.background = item;
+                setTimeout(function () {
+                    document.getElementById("history").appendChild(ball);
+                }, index * 300);
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .ball {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: 2px solid black;
+            width: 24px;
+            height: 24px;
+            border-radius: 14px;
+        }
+        #blue {
+            color: white;
+            background-color: blue;
+            border-color: blue;
+            font-family: inherit;
+        }
+        #red {
+            color: white;
+            background-color: red;
+            border-color: red;
+            font-family: inherit;
+        }
+        #button_holder {
+            display: flex;
+            justify-content: space-around;
+        }
+        td, th {
+            border: 1px solid grey;
+            text-align: center;
+        }
+        th {
+            background-color: lightgrey;
+        }
+        #hint_B {
+            margin-left: 50%;
+        }
+
+    </style>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    CONSENT FORM
+{% endblock %}
+
+{% block content %}
+
+    <p>Welcome to this research study about decision making.</p>
+
+    <p>During this study, you will make decisions in various settings. You will be paid for your participation. The payment will be made after the completion of the study.</p>
+
+    <p>You participation in this study is entirely voluntary. Your decision to participate or not will not affect your current or future relationships with the university. If you decide to participate, you are free to withdraw at any time without affecting those relationships. You will not receive any payment if you choose to withdraw your participation. To receive your payment, you must complete the entire study.</p>
+
+    <p>There is no foreseeable risk involved by participating in this study.</p>
+
+    <p>Your data will be stored securely by the researchers in an anonymized way with password protection. When the research is completed, only data on choices and decisions will be kept; the stored data will not include any personal information.</p>
+
+    <p>If you have any questions regarding this study, please contact Mr. Feng Qin, Department of Decisions, Operations and Technology, CUHK via e-mail: qinfeng@link.cuhk.edu.hk.</p>
+
+    <p>If you have any ethical concerns regarding this study, please contact Professor Yi-Shan Lee, Department of Decisions, Operations and Technology, CUHK via e-mail: yishanlee@cuhk.edu.hk.</p>
+
+    <p>By clicking the "I consent; begin the study" button below, you confirm that you have read the above information. You acknowledge that</p>
+
+    <ul>
+        <li>You are at least 18 years of age</li>
+        <li>Your participation in the study is voluntary and anonymous</li>
+        <li>You are aware that you may choose to terminate your participation at any time for any reason</li>
+    </ul>
+
+    <br>
+
+    {% formfield player.consent label='' %}
+
+    {% next_button %}
+
+{% endblock %}
+

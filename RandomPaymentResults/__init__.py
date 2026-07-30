@@ -67,7 +67,11 @@ class Results(Page):
             # Participation fee
             'participation_fee': session.config.get('participation_fee', 0),
 
-            # Total payment (main payment + participation fee)
+            # Prediction Task payment
+            'conformity_earnings_points': participant.vars.get('part1_payoff', 0),
+            'conformity_earnings_currency': cu(participant.vars.get('part1_payoff', 0)).to_real_world_currency(session),
+
+            # Total payment (main payment + participation fee + conformity payment)
             'total_payment_now': participant.payoff_plus_participation_fee(),
         }
 

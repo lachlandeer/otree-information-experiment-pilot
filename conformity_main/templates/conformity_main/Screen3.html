@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Observing Computer Prediction
+{% endblock %}
+
+{% block content %}
+
+    <p>Computer Prediction predicts the color of the drawn ball for you with a <i>success rate</i> ranging from 50% to
+        100%.</p>
+
+    <p>Suppose that the prediction success rate is 55% and the color of the drawn ball is blue. The following
+        illustrates how Computer Prediction works.</p>
+
+    <img src="{% static 'conformity_main/figure3_computer_prediction_a.png' %}" alt="Figure 3_computer prediction_a"
+         class="center" id="figure3">
+
+    <p>In this example, with 55% chance, the actual color, blue, otherwise unknown to you, will be correctly predicted
+        by the computer and seen by you.</p>
+
+    <p>With 45% chance, the prediction fails, and you will see the incorrect red instead. Note that during the study you
+        will not be able to tell whether the predicted color is correct or not.</p>
+
+    <p>The next screen describes how you choose between the two types of references.</p>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .col-form-label {
+            font-weight: bold;
+        }
+        #figure3 {
+            width: 40rem;
+        }
+
+    </style>
+{% endblock %}

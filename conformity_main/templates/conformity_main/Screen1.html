@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Task 1: Selecting Reference and Predicting Color
+{% endblock %}
+
+{% block content %}
+
+    <p>There is a virtual urn that contains 10 balls: 5 red and 5 blue.</p>
+
+    <img src="{% static 'conformity_main/figure1_urn.png' %}" alt="Figure 1_urn"
+         class="center" id="figure1"/>
+
+    <p>The computer will randomly draw one ball. Each ball is equally likely to be drawn, so the chances of red and blue
+        are 50-50.</p>
+
+    <p>Your task is to predict the color of the drawn ball. A correct prediction will earn you 50 points; a wrong
+        prediction will earn you 5 points.</p>
+
+    <p>There are two types of reference predictions available to assist your own prediction. You will make a series of
+        choices that influences what reference you will receive.</p>
+
+    <p>The next screen describes the first type of references – peer predictions.</p>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+        #figure1 {
+            width: 13rem;
+        }
+    </style>
+{% endblock %}

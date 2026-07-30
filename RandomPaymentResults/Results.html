@@ -18,11 +18,25 @@
 
 <p><i>Note: Your Task 2 payment will be calculated later, after the decisions of the selected participants are known.</i></p>
 
+<h4>Prediction Task Payment</h4>
+<p>Your prediction in the Color Prediction Task was: 
+  {% if conformity_earnings_points == 50 %}
+    <b>Correct</b>
+  {% else %}
+    <b>Incorrect</b>
+  {% endif %}.
+</p>
+<ul>
+  <li>Your payoff in points: <b>{{ conformity_earnings_points }}</b> points</li>
+  <li>Your payment in currency: <b>{{ conformity_earnings_currency }}</b></li>
+</ul>
+
 <h4>Summary</h4>
 <ul>
   <li>Participation fee: <b>{{ participation_fee }}</b></li>
   <li>Task 1 Payment: <b>{{ main_earnings_currency }}</b></li>
   <li>Task 2 payment: <i>To be determined</i></li>
+  <li>Prediction Task Payment: <b>{{ conformity_earnings_currency }}</b></li>
   <li><b>Total payment so far: {{ total_payment_now }}</b></li>
 </ul>
 

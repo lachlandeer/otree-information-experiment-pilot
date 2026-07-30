@@ -1,0 +1,35 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Seeing Reference and Making Prediction
+{% endblock %}
+
+{% block content %}
+
+    <p>Your prediction interface will look like one of the illustrations below, depending on what you clicked, “Peer” or
+        “Computer,” in the randomly selected scenario. In the real study, the circle(s) will be filled with the
+        corresponding color prediction(s).</p>
+
+    <span>&nbsp; Clicked “Peer”</span><span>Clicked “Computer”</span>
+
+    <img src="{% static 'conformity_main/figure5_scenario2_two_cases_a.png' %}"
+         alt="Figure 5_Scenario2_two cases"
+         class="center" style="width: 100%">
+
+    <p>You indicate your prediction by clicking the corresponding button.</p>
+
+    <p>Before you begin the task, we have a brief comprehension check to make sure everything is clear.</p>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+        span {
+            width: 50%;
+            display: inline-block
+        }
+    </style>
+{% endblock %}
