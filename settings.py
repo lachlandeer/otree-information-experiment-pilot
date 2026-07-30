@@ -5,16 +5,16 @@ SESSION_CONFIGS = [dict(name='my_session',
                         num_demo_participants=3, 
                         app_sequence=[
                          'Introduction', 
-                         #'asset_indiv_no_game', 
-                         #'GroupPreferenceElicitation', 
-                         #'BonusStage01',
+                         'asset_indiv_no_game', 
+                         'GroupPreferenceElicitation', 
+                         'BonusStage01',
                          #'asset_indiv_no_game_duplicate',
                          #'BonusStage02'
-                         #'CollectivismSurvey',
-                         #'CognitiveReflectionTask',
-                         #'DemographicsSurvey',
-                         'conformity_main'#,
-                         #'RandomPaymentResults'
+                         'CollectivismSurvey',
+                         'CognitiveReflectionTask',
+                         'DemographicsSurvey',
+                         'conformity_main',
+                         'RandomPaymentResults'
                          ]
                        )
                   ]
