@@ -12,8 +12,8 @@ SESSION_CONFIGS = [dict(name='my_session',
                          #'BonusStage02'
                          'CollectivismSurvey',
                          'CognitiveReflectionTask',
-                         'DemographicsSurvey',
                          'conformity_main',
+                         'DemographicsSurvey',
                          'RandomPaymentResults'
                          ]
                        )
