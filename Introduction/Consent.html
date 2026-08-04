@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+
+{% block content %}
+    <h3>Informed Consent</h3>
+    
+    <p>
+        This study is about decision-making, and it involves questionnaires and decision problems. By selecting the option below, you agree that:
+    </p>
+    <ul>
+        <li>You are at least 18 years of age</li>
+        <li>Your decision to participate in this study is voluntary</li>
+        <li>All data and information will be kept confidential and used only for research purposes.</li>
+    </ul>
+
+    {{ formfield 'consent' }}
+
+    <p style="margin-top: 20px;">
+        If you have any questions or ethical concerns regarding this study, you may contact Professor Yi-Shan Lee, Department of Decisions, Operations and Technology, CUHK, via e-mail: <a href="mailto:informationexperimentsonline@gmail.com">informationexperimentsonline@gmail.com</a>.
+    </p>
+
+    {{ next_button }}
+{% endblock %}

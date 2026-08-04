@@ -15,9 +15,27 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    pass
+    consent = models.BooleanField(
+        choices=[
+            [True, "I give my consent to participate in this study, and I have read and acknowledge the information above."],
+            [False, "I do not give my consent to participate in this study."]
+        ],
+        label="",
+        widget=widgets.RadioSelect
+    )
+
+class Consent(Page):
+    form_model = 'player'
+    form_fields = ['consent']
+
+class NoConsent(Page):
+    @staticmethod
+    def is_displayed(player):
+        return not player.consent
 
 class Introduction(Page):
-    pass
+    @staticmethod
+    def is_displayed(player):
+        return player.consent
 
-page_sequence = [Introduction]
+page_sequence = [Consent, NoConsent, Introduction]
