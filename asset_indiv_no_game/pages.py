@@ -202,11 +202,18 @@ class Results(Page):
             3: player.weight_signal_3,
         }
 
-        # Now use the display orders to pull the correct signal and weight
+        # Build position map: Position -> (Value, Weight)
+        position_map = {
+            player.display_signal_1: (signal_values[1], weight_values[1]),
+            player.display_signal_2: (signal_values[2], weight_values[2]),
+            player.display_signal_3: (signal_values[3], weight_values[3]),
+        }
+
+        # Sort positions 1 -> 2 -> 3 visually to match the Guess page
         members = [
-            ('Signal 1', signal_values[player.display_signal_1], weight_values[player.display_signal_1]),
-            ('Signal 2', signal_values[player.display_signal_2], weight_values[player.display_signal_2]),
-            ('Signal 3', signal_values[player.display_signal_3], weight_values[player.display_signal_3]),
+            ('Signal 1', position_map[1][0], position_map[1][1]),
+            ('Signal 2', position_map[2][0], position_map[2][1]),
+            ('Signal 3', position_map[3][0], position_map[3][1]),
         ]
 
         return {
