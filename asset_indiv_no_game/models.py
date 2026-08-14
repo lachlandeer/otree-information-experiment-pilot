@@ -89,9 +89,9 @@ class Player(BasePlayer):
     signal_3 = models.FloatField()
     signal_4 = models.FloatField()
     # Save which true signal appears in each visual slot
-    display_signal_1 = models.IntegerField()
-    display_signal_2 = models.IntegerField()
-    display_signal_3 = models.IntegerField()
+    display_signal_1 = models.IntegerField(initial=0)
+    display_signal_2 = models.IntegerField(initial=0)
+    display_signal_3 = models.IntegerField(initial=0)
     # other info
     target_value = models.FloatField()
     asset_value = models.FloatField()

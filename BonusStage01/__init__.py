@@ -31,9 +31,9 @@ class Player(BasePlayer):
     signal_4 = models.FloatField()
 
     # position tracking of signals
-    display_signal_1 = models.FloatField()
-    display_signal_2 = models.FloatField()
-    display_signal_3 = models.FloatField()
+    display_signal_1 = models.FloatField(initial=0)
+    display_signal_2 = models.FloatField(initial=0)
+    display_signal_3 = models.FloatField(initial=0)
 
     # Recipient type treatment
     recipient_type = models.StringField(choices=['Individualist', 'Collectivist'])
@@ -153,19 +153,24 @@ class BonusTask(Page):
         }
 
         # Shuffle and save display order ONCE per round
-        if player.display_signal_1 is None:
+        d1 = player.field_maybe_none('display_signal_1')
+        if d1 is None or d1 == 0:
             shuffled_signal_numbers = [1, 2, 3]
             random.shuffle(shuffled_signal_numbers)
 
             player.display_signal_1 = shuffled_signal_numbers[0]
             player.display_signal_2 = shuffled_signal_numbers[1]
             player.display_signal_3 = shuffled_signal_numbers[2]
+            d1 = player.display_signal_1
+
+        d2 = player.display_signal_2
+        d3 = player.display_signal_3
 
         # Map display positions to real signal values
         position_map = {
-            player.display_signal_1: (signal_values[1], 'weight_signal_1'),
-            player.display_signal_2: (signal_values[2], 'weight_signal_2'),
-            player.display_signal_3: (signal_values[3], 'weight_signal_3'),
+            d1: (signal_values[1], 'weight_signal_1'),
+            d2: (signal_values[2], 'weight_signal_2'),
+            d3: (signal_values[3], 'weight_signal_3'),
         }
 
         # Create members list for rendering
@@ -201,18 +206,22 @@ class Results(Page):
             3: player.signal_3,
         }
 
-        # Map weights
+        # Map weights safely for timeouts
         weight_values = {
-            1: player.weight_signal_1,
-            2: player.weight_signal_2,
-            3: player.weight_signal_3,
+            1: player.field_maybe_none('weight_signal_1'),
+            2: player.field_maybe_none('weight_signal_2'),
+            3: player.field_maybe_none('weight_signal_3'),
         }
+
+        d1 = player.field_maybe_none('display_signal_1') or 1
+        d2 = player.field_maybe_none('display_signal_2') or 2
+        d3 = player.field_maybe_none('display_signal_3') or 3
 
         # Build position map: Position -> (Value, Weight)
         position_map = {
-            player.display_signal_1: (signal_values[1], weight_values[1]),
-            player.display_signal_2: (signal_values[2], weight_values[2]),
-            player.display_signal_3: (signal_values[3], weight_values[3]),
+            d1: (signal_values[1], weight_values[1]),
+            d2: (signal_values[2], weight_values[2]),
+            d3: (signal_values[3], weight_values[3]),
         }
 
         # Sort positions 1 -> 2 -> 3 visually to match the BonusTask page
@@ -226,7 +235,7 @@ class Results(Page):
             'members': members,
             'mean_asset_value': C.MEAN_ASSET_VALUE,
             'recipient_type': player.recipient_type,
-            'weight_signal_4': player.weight_signal_4,
+            'weight_signal_4': player.field_maybe_none('weight_signal_4'),
         }
     
     @staticmethod

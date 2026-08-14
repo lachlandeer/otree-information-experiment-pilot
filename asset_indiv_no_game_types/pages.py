@@ -231,13 +231,14 @@ class Guess(Page):
         if 'member_positions' not in self.participant.vars:
             self.participant.vars['member_positions'] = {}
 
-        # Shuffle positions freshly each round
-        random.shuffle(members)
-        self.participant.vars['member_order'][self.round_number] = members
-
-        # Save role-to-position mapping for export
-        positions = {m['role']: i + 1 for i, m in enumerate(members)}
-        self.participant.vars['member_positions'][self.round_number] = positions
+        # Shuffle positions ONCE per round and freeze
+        if self.round_number not in self.participant.vars['member_order']:
+            random.shuffle(members)
+            self.participant.vars['member_order'][self.round_number] = members
+            positions = {m['role']: i + 1 for i, m in enumerate(members)}
+            self.participant.vars['member_positions'][self.round_number] = positions
+        else:
+            members = self.participant.vars['member_order'][self.round_number]
 
         # Write identities to Player fields
         self.player.member_1_identity = members[0]['role']
@@ -331,11 +332,11 @@ class Results(Page):
             #     self.player.weight_signal_2,
             #     self.player.weight_signal_3
             # ],
-            'weight_values': [getattr(self.player, m['weight_field']) for m in members],
-            'weight_signal_4': self.player.weight_signal_4,
+            'weight_values': [self.player.field_maybe_none(m['weight_field']) for m in members],
+            'weight_signal_4': self.player.field_maybe_none('weight_signal_4'),
             'signal_4': self.player.signal_4,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
-            'guess': self.player.guess
+            'guess': self.player.field_maybe_none('guess')
         }
     
     def before_next_page(self):

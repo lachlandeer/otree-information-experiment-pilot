@@ -130,19 +130,24 @@ class Guess(Page):
         }
 
         # Shuffle and assign display order ONCE per round
-        if player.display_signal_1 is None:
+        d1 = player.field_maybe_none('display_signal_1')
+        if d1 is None or d1 == 0:
             display_order = [1, 2, 3]
             random.shuffle(display_order)
 
             player.display_signal_1 = display_order[0]
             player.display_signal_2 = display_order[1]
             player.display_signal_3 = display_order[2]
+            d1 = player.display_signal_1
+
+        d2 = player.display_signal_2
+        d3 = player.display_signal_3
 
         # Build a map: where each true signal appears
         position_map = {
-            player.display_signal_1: (signal_values[1], 'weight_signal_1'),
-            player.display_signal_2: (signal_values[2], 'weight_signal_2'),
-            player.display_signal_3: (signal_values[3], 'weight_signal_3'),
+            d1: (signal_values[1], 'weight_signal_1'),
+            d2: (signal_values[2], 'weight_signal_2'),
+            d3: (signal_values[3], 'weight_signal_3'),
         }
 
         # Sort positions 1 → 2 → 3 visually
@@ -220,11 +225,15 @@ class Results(Page):
             3: player.weight_signal_3,
         }
 
+        d1 = player.field_maybe_none('display_signal_1') or 1
+        d2 = player.field_maybe_none('display_signal_2') or 2
+        d3 = player.field_maybe_none('display_signal_3') or 3
+
         # Build position map: Position -> (Value, Weight)
         position_map = {
-            player.display_signal_1: (signal_values[1], weight_values[1]),
-            player.display_signal_2: (signal_values[2], weight_values[2]),
-            player.display_signal_3: (signal_values[3], weight_values[3]),
+            d1: (signal_values[1], weight_values[1]),
+            d2: (signal_values[2], weight_values[2]),
+            d3: (signal_values[3], weight_values[3]),
         }
 
         # Sort positions 1 -> 2 -> 3 visually to match the Guess page
@@ -234,7 +243,8 @@ class Results(Page):
             ('Signal 3', position_map[3][0], position_map[3][1]),
         ]
 
-        display_guess = "No estimate (Time expired)" if player.timeout_occurred or player.guess is None else f"{player.guess:.2f}"
+        guess_val = player.field_maybe_none('guess')
+        display_guess = "No estimate (Time expired)" if player.timeout_occurred or guess_val is None else f"{guess_val:.2f}"
 
         return {
             'members': members,
@@ -242,7 +252,7 @@ class Results(Page):
             'signal_4': player.signal_4,
             'weight_signal_4': player.weight_signal_4,
             'target_value': player.target_value,
-            'guess': player.guess,
+            'guess': guess_val,
             'display_guess': display_guess,
             'earnings': player.earnings,
             'timeout_occurred': player.timeout_occurred,
@@ -257,7 +267,7 @@ class Results(Page):
 
             # Save clean summary info
             participant.vars['paid_earnings'] = player.earnings
-            participant.vars['paid_guess'] = player.guess
+            participant.vars['paid_guess'] = player.field_maybe_none('guess')
             participant.vars['paid_target_value'] = player.target_value
             participant.vars['paid_round'] = player.round_number
 
