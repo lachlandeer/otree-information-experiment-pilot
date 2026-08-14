@@ -50,35 +50,8 @@ class DisqualifiedStage01Results(Page):
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        import math
         participant = player.participant
         session = player.session
-
-        # Raw values in points
-        main_points = float(participant.vars['paid_earnings'])
-        conformity_points = float(participant.vars.get('part1_payoff', 0))
-
-        # Convert to GBP (3 decimal places)
-        main_gbp = main_points * session.config.get('real_world_currency_per_point', 0.005)
-        conformity_gbp = conformity_points * session.config.get('real_world_currency_per_point', 0.005)
-        participation_fee = float(session.config.get('participation_fee', 0))
-
-        # Format itemized payments as strings with 3 decimal places
-        main_earnings_currency = f"£{main_gbp:.3f}"
-        conformity_earnings_currency = f"£{conformity_gbp:.3f}"
-        participation_fee_formatted = f"£{participation_fee:.3f}"
-
-        # Calculate raw total GBP
-        total_raw_gbp = main_gbp + conformity_gbp + participation_fee
-
-        # Round UP at the very end to 2 decimal places (e.g. 3.501 -> 3.51, 3.505 -> 3.51)
-        total_rounded_gbp = math.ceil(round(total_raw_gbp, 4) * 100) / 100
-        total_payment_now_formatted = f"£{total_rounded_gbp:.2f}"
-
-        # Adjust the player's payoff so that the database records the rounded up total
-        difference_in_gbp = total_rounded_gbp - total_raw_gbp
-        difference_in_points = difference_in_gbp / session.config.get('real_world_currency_per_point', 0.005)
-        player.payoff = difference_in_points
 
         return {
             # Main task payment
@@ -86,20 +59,20 @@ class Results(Page):
             'main_target_value': participant.vars['paid_target_value'],
             'main_guess': participant.vars['paid_guess'],
             'main_earnings_points': participant.vars['paid_earnings'],
-            'main_earnings_currency': main_earnings_currency,
+            'main_earnings_currency': cu(participant.vars['paid_earnings']).to_real_world_currency(session),
 
             # Bonus task payment (round only, no bonus payoff yet)
             'bonus_payment_round': participant.vars['bonus_payment_round'],
 
             # Participation fee
-            'participation_fee': participation_fee_formatted,
+            'participation_fee': session.config.get('participation_fee', 0),
 
             # Prediction Task payment
             'conformity_earnings_points': participant.vars.get('part1_payoff', 0),
-            'conformity_earnings_currency': conformity_earnings_currency,
+            'conformity_earnings_currency': cu(participant.vars.get('part1_payoff', 0)).to_real_world_currency(session),
 
-            # Total payment (rounded up to 2 decimal places at the end)
-            'total_payment_now': total_payment_now_formatted,
+            # Total payment (main payment + participation fee + conformity payment)
+            'total_payment_now': participant.payoff_plus_participation_fee(),
         }
 
     # def vars_for_template(player: Player):
