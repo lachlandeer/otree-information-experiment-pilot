@@ -129,13 +129,14 @@ class Guess(Page):
             3: player.signal_3,
         }
 
-        # Shuffle and assign display order
-        display_order = [1, 2, 3]
-        random.shuffle(display_order)
+        # Shuffle and assign display order ONCE per round
+        if player.display_signal_1 is None:
+            display_order = [1, 2, 3]
+            random.shuffle(display_order)
 
-        player.display_signal_1 = display_order[0]
-        player.display_signal_2 = display_order[1]
-        player.display_signal_3 = display_order[2]
+            player.display_signal_1 = display_order[0]
+            player.display_signal_2 = display_order[1]
+            player.display_signal_3 = display_order[2]
 
         # Build a map: where each true signal appears
         position_map = {

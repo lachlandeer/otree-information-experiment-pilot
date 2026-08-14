@@ -152,14 +152,14 @@ class BonusTask(Page):
             3: player.signal_3,
         }
 
-        # Shuffle the display order of signals (just 1, 2, 3, NOT values)
-        shuffled_signal_numbers = [1, 2, 3]
-        random.shuffle(shuffled_signal_numbers)
+        # Shuffle and save display order ONCE per round
+        if player.display_signal_1 is None:
+            shuffled_signal_numbers = [1, 2, 3]
+            random.shuffle(shuffled_signal_numbers)
 
-        # Save the shuffled positions
-        player.display_signal_1 = shuffled_signal_numbers[0]
-        player.display_signal_2 = shuffled_signal_numbers[1]
-        player.display_signal_3 = shuffled_signal_numbers[2]
+            player.display_signal_1 = shuffled_signal_numbers[0]
+            player.display_signal_2 = shuffled_signal_numbers[1]
+            player.display_signal_3 = shuffled_signal_numbers[2]
 
         # Map display positions to real signal values
         position_map = {

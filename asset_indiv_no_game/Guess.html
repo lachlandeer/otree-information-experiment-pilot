@@ -94,29 +94,20 @@ setTimeout(function () {
     alert("Please make your decision.");
 }, 60000);
 
-// Hide submit button until total = 100
-document.getElementById('next-button').style.visibility = "hidden";
-document.getElementById('next-question').style.visibility = "hidden";
-
 function updateValues() {
-    const w1 = parseFloat(forminputs.weight_signal_1.value) || 0;
-    const w2 = parseFloat(forminputs.weight_signal_2.value) || 0;
-    const w3 = parseFloat(forminputs.weight_signal_3.value) || 0;
-    const w4 = parseFloat(forminputs.weight_signal_4.value) || 0;
+    const w1 = parseFloat(document.getElementById("id_weight_signal_1").value) || 0;
+    const w2 = parseFloat(document.getElementById("id_weight_signal_2").value) || 0;
+    const w3 = parseFloat(document.getElementById("id_weight_signal_3").value) || 0;
+    const w4 = parseFloat(document.getElementById("id_weight_signal_4").value) || 0;
 
     const sum = w1 + w2 + w3 + w4;
     document.getElementById('summed-inputs').innerHTML = sum.toFixed(2);
     document.getElementById('remaining-inputs').innerHTML = (100 - sum).toFixed(2);
 
-    if (sum === 100) {
-        document.getElementById('summed-inputs').style.color = "green";
-        document.getElementById('next-button').style.visibility = "visible";
-        document.getElementById('next-question').style.visibility = "visible";
-    } else {
-        document.getElementById('summed-inputs').style.color = "red";
-        document.getElementById('next-button').style.visibility = "hidden";
-        document.getElementById('next-question').style.visibility = "hidden";
-    }
+    const isValid = Math.abs(sum - 100) < 0.01;
+    document.getElementById('summed-inputs').style.color = isValid ? "green" : "red";
+    document.getElementById('next-button').style.visibility = isValid ? "visible" : "hidden";
+    document.getElementById('next-question').style.visibility = isValid ? "visible" : "hidden";
 
     const estimate = (1 / 100 * (
         js_vars.signal1 * w1 +
@@ -128,10 +119,19 @@ function updateValues() {
     document.getElementById('target-price').innerHTML = estimate;
 }
 
-// Attach live update
-forminputs.weight_signal_1.oninput = updateValues;
-forminputs.weight_signal_2.oninput = updateValues;
-forminputs.weight_signal_3.oninput = updateValues;
-forminputs.weight_signal_4.oninput = updateValues;
+window.onload = function () {
+    document.getElementById('next-button').style.visibility = "hidden";
+    document.getElementById('next-question').style.visibility = "hidden";
+
+    const fields = ['id_weight_signal_1', 'id_weight_signal_2', 'id_weight_signal_3', 'id_weight_signal_4'];
+    fields.forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateValues);
+        }
+    });
+
+    updateValues();
+};
 </script>
 {{ endblock }}
