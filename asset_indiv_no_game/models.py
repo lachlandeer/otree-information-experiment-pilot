@@ -97,6 +97,7 @@ class Player(BasePlayer):
     asset_value = models.FloatField()
     earnings = models.FloatField()
     is_payment_round = models.BooleanField(initial=False)
+    timeout_occurred = models.BooleanField(initial=False)
 
 # Utility functions
 # def sample_value(mean_value=100, std_dev=10):

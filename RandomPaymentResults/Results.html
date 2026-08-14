@@ -7,7 +7,11 @@
 <p>You were randomly selected to be paid for <b>decision problem {{ main_payment_round }}</b> of Task 1.</p>
 
 <ul>
-  <li>Your estimate: <b>{{ main_guess|to2 }}</b></li>
+  {% if main_guess == None %}
+    <li>Your estimate: <b>No estimate (Time expired)</b></li>
+  {% else %}
+    <li>Your estimate: <b>{{ main_guess|to2 }}</b></li>
+  {% endif %}
   <li>Your payoff for this round in points: <b>{{ main_earnings_points|to2 }}</b></li>
   <li>Your payment for this round in currency: <b>{{ main_earnings_currency }}</b></li>
 

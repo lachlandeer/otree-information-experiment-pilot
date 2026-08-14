@@ -80,7 +80,11 @@ Decision problem <b>{{ player.round_number }}</b> of <b>{{ Constants.num_rounds 
 
 <h4>Your Earnings Information</h4>
 
+{% if timeout_occurred or guess == None %}
+<p>Your estimate was <b>No estimate (Time expired)</b>.</p>
+{% else %}
 <p>Your estimate was {{ guess|to2 }}.</p>
+{% endif %}
 
 <p>Your payoff is {{ earnings|to2 }} points.</p>
 

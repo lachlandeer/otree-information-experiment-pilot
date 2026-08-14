@@ -165,16 +165,33 @@ class Guess(Page):
             signal4=100
         )
 
-    def before_next_page(self):
+    def before_next_page(self, timeout_happened=False):
+        self.player.timeout_occurred = timeout_happened
         target_value = self.player.asset_value
-        guess = 1/100 * (self.player.signal_1 * self.player.weight_signal_1 +
-                         self.player.signal_2 * self.player.weight_signal_2 +
-                         self.player.signal_3 * self.player.weight_signal_3 +
-                         self.player.signal_4 * self.player.weight_signal_4)
-        earnings = Constants.PAYOFF_SCALER - (guess - target_value) ** 2
-        self.player.earnings = round(earnings, 2)
-        self.player.target_value = target_value
-        self.player.guess = guess
+
+        w1 = self.player.weight_signal_1 or 0
+        w2 = self.player.weight_signal_2 or 0
+        w3 = self.player.weight_signal_3 or 0
+        w4 = self.player.weight_signal_4 or 0
+        total_weight = w1 + w2 + w3 + w4
+
+        if total_weight == 0 or timeout_happened:
+            self.player.weight_signal_1 = 0
+            self.player.weight_signal_2 = 0
+            self.player.weight_signal_3 = 0
+            self.player.weight_signal_4 = 0
+            self.player.guess = None
+            self.player.earnings = 0.0
+            self.player.target_value = target_value
+        else:
+            guess = 1/100 * (self.player.signal_1 * w1 +
+                             self.player.signal_2 * w2 +
+                             self.player.signal_3 * w3 +
+                             self.player.signal_4 * w4)
+            earnings = Constants.PAYOFF_SCALER - (guess - target_value) ** 2
+            self.player.earnings = round(max(0.0, earnings), 2)
+            self.player.target_value = target_value
+            self.player.guess = round(guess, 2)
 
     def error_message(self, values):
         allocated_tokens = (values['weight_signal_1'] + values['weight_signal_2'] +
@@ -216,6 +233,8 @@ class Results(Page):
             ('Signal 3', position_map[3][0], position_map[3][1]),
         ]
 
+        display_guess = "No estimate (Time expired)" if player.timeout_occurred or player.guess is None else f"{player.guess:.2f}"
+
         return {
             'members': members,
             'mean_asset_value': Constants.MEAN_ASSET_VALUE,
@@ -223,10 +242,10 @@ class Results(Page):
             'weight_signal_4': player.weight_signal_4,
             'target_value': player.target_value,
             'guess': player.guess,
+            'display_guess': display_guess,
             'earnings': player.earnings,
+            'timeout_occurred': player.timeout_occurred,
         }
-
-
 
     def before_next_page(self):
         player = self.player
