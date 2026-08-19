@@ -21,8 +21,8 @@ class Constants(BaseConstants):
     name_in_url = 'predict_ball_color'
     players_per_group = None
     num_rounds = 1
-    payoff_correct = c(50)
-    payoff_incorrect = c(5)
+    payoff_correct = c(150)
+    payoff_incorrect = c(15)
     # Hint A (Peer Predictions) depends on true color of the ball drawn
     blue_history = ['blue', 'red', 'red', 'red', 'blue', 'red']  # group 3 in conformity_peer session
     red_history = ['blue', 'red', 'red', 'blue', 'red', 'red']  # group 6 in conformity_peer session
