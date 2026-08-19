@@ -1,26 +1,30 @@
 {% extends "global/Page.html" %}
 
 {% block content %}
-    <h3>Informed Consent</h3>
-    
-    <p>
-        This study is about decision-making, and it involves questionnaires and decision problems. By selecting the option below, you agree that:
-    </p>
-    <ul>
-        <li>You are at least 18 years of age</li>
-        <li>Your decision to participate in this study is voluntary</li>
-        <li>All data and information will be kept confidential and used only for research purposes.</li>
-    </ul>
+<h3>Informed Consent</h3>
 
-    {{ formfield 'consent' }}
+<p>
+    This study is about decision-making, and it involves questionnaires and decision problems. By selecting the option
+    below, you agree that:
+</p>
+<ul>
+    <li>You are at least 18 years of age</li>
+    <li>Your decision to participate in this study is voluntary</li>
+    <li>All data and information will be kept confidential and used only for research purposes.</li>
+</ul>
 
-    <p style="margin-top: 20px;">
-        Questions about your rights as a research participant, or about how this study is conducted, please contact the research team through the Prolific messaging system.
-    </p>
+{{ formfield 'consent' }}
 
-    <p>
-        If you have any ethical concerns regarding this study, you may contact Professor Yi-Shan Lee, Department of Decisions, Operations and Technology, CUHK, via e-mail: <a href="mailto:informationexperimentsonline@gmail.com">informationexperimentsonline@gmail.com</a>.
-    </p>
+<p style="margin-top: 20px;">
+    Questions about your rights as a research participant, or about how this study is conducted, please contact the
+    research team through the Prolific messaging system.
+</p>
 
-    {{ next_button }}
+<p>
+    If you have any ethical concerns regarding this study, you may contact Professor Yi-Shan Lee, Department of
+    Decisions, Operations and Technology, CUHK, via e-mail: <a
+        href="mailto:yishanlee@cuhk.edu.hk">yishanlee@cuhk.edu.hk</a>.
+</p>
+
+{{ next_button }}
 {% endblock %}
