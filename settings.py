@@ -27,7 +27,12 @@ PARTICIPANT_FIELDS = ['selected_app', 'selected_round', 'random_payment', 'group
                       'task_11', 'task_12',
                       'bonus_tasks']
 SESSION_FIELDS = []
-ROOMS = []
+ROOMS = [
+    dict(
+        name='prolific',
+        display_name='Prolific Study',
+    ),
+]
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
